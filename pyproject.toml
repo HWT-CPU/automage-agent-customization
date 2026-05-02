@@ -1,0 +1,9 @@
+[project]
+name = "automage-agents"
+version = "0.1.0"
+description = "AutoMage-2 Hermes/OpenClaw-ready agent skeleton"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

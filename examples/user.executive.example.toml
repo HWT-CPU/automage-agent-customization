@@ -1,0 +1,17 @@
+[user]
+node_id = "executive-node-001"
+user_id = "executive-001"
+role = "executive"
+level = "l3_executive"
+department_id = "company"
+manager_node_id = ""
+display_name = "示例老板"
+job_title = "公司负责人"
+responsibilities = ["审阅部门汇总", "确认 Dream 决策", "下发战略任务"]
+input_sources = ["Manager Agent 汇总", "Dream 机制", "经营目标"]
+output_requirements = ["A/B 决策", "战略任务", "资源配置说明"]
+permission_notes = ["重大决策需要人工确认", "不直接修改员工日报"]
+personalized_context = "关注 ROI、资源利用率、执行风险和关键客户机会。"
+
+[user.metadata]
+feishu_open_id = "executive-open-id"

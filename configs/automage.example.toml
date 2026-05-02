@@ -1,0 +1,15 @@
+[runtime]
+environment = "local"
+api_base_url = "http://localhost:8000"
+api_timeout_seconds = 10
+retry_backoff_seconds = [1, 2, 4, 8, 16]
+max_schema_correction_attempts = 2
+auth_token = ""
+openclaw_enabled = false
+feishu_enabled = false
+feishu_app_id = ""
+feishu_app_secret = ""
+
+# TODO(熊锦文): 确认真实 API base URL、鉴权 Token 或签名方式。
+# TODO(OpenClaw): 确认 OpenClaw Channel 是否单独管理飞书凭证。
+# TODO(全栈/运维): 真实凭证不得提交到仓库，后续改为环境变量或配置中心。
