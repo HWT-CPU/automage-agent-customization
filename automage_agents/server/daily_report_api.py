@@ -17,7 +17,7 @@ HTTP_404_RECORD_RESPONSE = {
         "content": {
             "application/json": {
                 "example": {
-                    "detail": "record not found",
+                    "detail": "记录不存在",
                 }
             }
         },
@@ -29,17 +29,28 @@ HTTP_422_RESPONSE = {
         "description": "请求体验证失败",
         "content": {
             "application/json": {
-                "example": {
-                    "detail": [
-                        {
-                            "type": "missing",
-                            "loc": ["body", "org_id"],
-                            "msg": "Field required",
-                            "input": {
-                                "user_id": 3,
-                            },
-                        }
-                    ]
+                "examples": {
+                    "missing_required_field": {
+                        "summary": "缺少必填字段",
+                        "value": {
+                            "detail": [
+                                {
+                                    "type": "missing",
+                                    "loc": ["body", "org_id"],
+                                    "msg": "字段不能为空",
+                                    "input": {"user_id": 3},
+                                }
+                            ]
+                        },
+                    },
+                    "missing_markdown": {
+                        "summary": "未提供 markdown 内容",
+                        "value": {"detail": "必须提供 markdown 或 markdown_base64"},
+                    },
+                    "invalid_base64": {
+                        "summary": "Base64 格式不正确",
+                        "value": {"detail": "markdown_base64 不是合法的 Base64 内容"},
+                    },
                 }
             }
         },
@@ -62,7 +73,7 @@ IMPORT_MARKDOWN_RESPONSE = {
                             "staff_report_id": 3,
                         }
                     },
-                    "msg": "staff daily report imported",
+                    "msg": "Markdown 日报导入成功",
                 }
             }
         },
@@ -101,7 +112,7 @@ GET_STAFF_REPORT_RESPONSE = {
                             ],
                         },
                     },
-                    "msg": "staff daily report loaded",
+                    "msg": "员工日报读取成功",
                 }
             }
         },
@@ -156,7 +167,7 @@ class StaffDailyReportImportRequest(BaseModel):
 @router.post(
     "/api/v1/report/staff/import-markdown",
     summary="导入 Markdown 员工日报",
-    description="解析 Markdown 员工日报并写入 form_templates、work_records、work_record_items，可选同步 staff_reports。",
+    description="解析 Markdown 员工日报并写入 form_templates、work_records、work_record_items，可选同步写入 staff_reports。",
     responses=merge_responses(IMPORT_MARKDOWN_RESPONSE, HTTP_422_RESPONSE),
 )
 def import_staff_daily_report(
@@ -165,12 +176,12 @@ def import_staff_daily_report(
     db: Session = Depends(get_db_session),
 ) -> dict[str, Any]:
     if not payload.markdown and not payload.markdown_base64:
-        raise HTTPException(status_code=422, detail="markdown or markdown_base64 is required")
+        raise HTTPException(status_code=422, detail="必须提供 markdown 或 markdown_base64")
     if payload.markdown_base64:
         try:
             base64.b64decode(payload.markdown_base64)
         except Exception as exc:
-            raise HTTPException(status_code=422, detail="markdown_base64 is not valid base64") from exc
+            raise HTTPException(status_code=422, detail="markdown_base64 不是合法的 Base64 内容") from exc
     data = import_staff_daily_report_from_markdown(
         db,
         markdown=payload.markdown,
@@ -184,7 +195,7 @@ def import_staff_daily_report(
         include_source_markdown=payload.include_source_markdown,
         request_id=getattr(request.state, "request_id", None),
     )
-    return {"code": 200, "data": {"record": data}, "msg": "staff daily report imported"}
+    return {"code": 200, "data": {"record": data}, "msg": "Markdown 日报导入成功"}
 
 
 @router.get(
@@ -195,10 +206,10 @@ def import_staff_daily_report(
 )
 def get_staff_daily_report(
     work_record_id: int,
-    format: Literal["json", "markdown"] = Query(default="json"),
+    format: Literal["json", "markdown"] = Query(default="json", description="返回格式：json 或 markdown"),
     db: Session = Depends(get_db_session),
 ) -> dict[str, Any]:
     data = read_staff_daily_report(db, work_record_id=work_record_id, output_format=format)
     if data is None:
-        raise HTTPException(status_code=404, detail="record not found")
-    return {"code": 200, "data": data, "msg": "staff daily report loaded"}
+        raise HTTPException(status_code=404, detail="记录不存在")
+    return {"code": 200, "data": data, "msg": "员工日报读取成功"}

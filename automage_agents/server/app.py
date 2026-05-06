@@ -40,7 +40,7 @@ HTTP_400_RESPONSE = {
         "content": {
             "application/json": {
                 "example": {
-                    "detail": "Unknown or immutable fields: id",
+                    "detail": "存在不可写字段或未知字段：id",
                 }
             }
         },
@@ -49,17 +49,17 @@ HTTP_400_RESPONSE = {
 
 HTTP_404_RESOURCE_RESPONSE = {
     404: {
-        "description": "资源表不存在或记录不存在",
+        "description": "资源或记录不存在",
         "content": {
             "application/json": {
                 "examples": {
                     "resource_not_found": {
-                        "summary": "资源表不存在",
-                        "value": {"detail": "resource not found"},
+                        "summary": "资源不存在",
+                        "value": {"detail": "资源不存在"},
                     },
                     "record_not_found": {
                         "summary": "记录不存在",
-                        "value": {"detail": "record not found"},
+                        "value": {"detail": "记录不存在"},
                     },
                 }
             }
@@ -73,7 +73,7 @@ HTTP_404_RECORD_RESPONSE = {
         "content": {
             "application/json": {
                 "example": {
-                    "detail": "record not found",
+                    "detail": "记录不存在",
                 }
             }
         },
@@ -90,7 +90,7 @@ HTTP_422_RESPONSE = {
                         {
                             "type": "missing",
                             "loc": ["body", "identity", "node_id"],
-                            "msg": "Field required",
+                            "msg": "字段不能为空",
                             "input": {},
                         }
                     ]
@@ -136,7 +136,7 @@ AGENT_INIT_RESPONSE = {
                             },
                         },
                     },
-                    "msg": "agent initialized",
+                    "msg": "Agent 会话初始化成功",
                 }
             }
         },
@@ -180,7 +180,7 @@ STAFF_REPORT_RESPONSE = {
                             },
                         }
                     },
-                    "msg": "staff report saved",
+                    "msg": "员工日报快照保存成功",
                 }
             }
         },
@@ -224,7 +224,7 @@ MANAGER_REPORT_RESPONSE = {
                             },
                         }
                     },
-                    "msg": "manager report saved",
+                    "msg": "经理汇总快照保存成功",
                 }
             }
         },
@@ -276,7 +276,7 @@ DECISION_COMMIT_RESPONSE = {
                             }
                         ],
                     },
-                    "msg": "decision committed",
+                    "msg": "决策结果提交成功",
                 }
             }
         },
@@ -307,7 +307,7 @@ TASKS_RESPONSE = {
                             }
                         ]
                     },
-                    "msg": "tasks fetched",
+                    "msg": "任务列表查询成功",
                 }
             }
         },
@@ -338,7 +338,7 @@ CRUD_LIST_RESPONSE = {
                             }
                         ]
                     },
-                    "msg": "ok",
+                    "msg": "查询成功",
                 }
             }
         },
@@ -367,7 +367,7 @@ CRUD_CREATE_RESPONSE = {
                             "created_at": "2026-05-06T03:15:00+00:00",
                         }
                     },
-                    "msg": "created",
+                    "msg": "创建成功",
                 }
             }
         },
@@ -396,7 +396,7 @@ CRUD_GET_RESPONSE = {
                             "created_at": "2026-05-06T03:15:00+00:00",
                         }
                     },
-                    "msg": "ok",
+                    "msg": "查询成功",
                 }
             }
         },
@@ -425,7 +425,7 @@ CRUD_UPDATE_RESPONSE = {
                             "created_at": "2026-05-06T03:15:00+00:00",
                         }
                     },
-                    "msg": "updated",
+                    "msg": "更新成功",
                 }
             }
         },
@@ -444,6 +444,13 @@ def merge_responses(*groups: dict[int, dict]) -> dict[int, dict]:
     for group in groups:
         merged.update(group)
     return merged
+
+
+def normalize_error_detail(message: str) -> str:
+    return (
+        message.replace("Unknown or immutable fields", "存在不可写字段或未知字段")
+        .replace("Missing required fields", "缺少必填字段")
+    )
 
 
 app = FastAPI(
@@ -491,7 +498,7 @@ def healthz() -> dict[str, str]:
 def agent_init(payload: AgentInitRequest, request: Request, db: Session = Depends(get_db_session)) -> ApiEnvelope:
     identity = build_identity(payload.identity)
     data = create_agent_session(db, identity, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data=data, msg="agent initialized")
+    return ApiEnvelope(code=200, data=data, msg="Agent 会话初始化成功")
 
 
 @app.post(
@@ -504,7 +511,7 @@ def agent_init(payload: AgentInitRequest, request: Request, db: Session = Depend
 def post_staff_report(payload: StaffReportRequest, request: Request, db: Session = Depends(get_db_session)) -> ApiEnvelope:
     identity = build_identity(payload.identity)
     data = create_staff_report(db, identity, payload.report, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data={"record": data}, msg="staff report saved")
+    return ApiEnvelope(code=200, data={"record": data}, msg="员工日报快照保存成功")
 
 
 @app.post(
@@ -519,7 +526,7 @@ def post_manager_report(
 ) -> ApiEnvelope:
     identity = build_identity(payload.identity)
     data = create_manager_report(db, identity, payload.report, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data={"record": data}, msg="manager report saved")
+    return ApiEnvelope(code=200, data={"record": data}, msg="经理汇总快照保存成功")
 
 
 @app.post(
@@ -534,7 +541,7 @@ def post_decision_commit(
 ) -> ApiEnvelope:
     identity = build_identity(payload.identity)
     data = commit_decision(db, identity, payload.decision, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data=data, msg="decision committed")
+    return ApiEnvelope(code=200, data=data, msg="决策结果提交成功")
 
 
 @app.get(
@@ -546,11 +553,11 @@ def post_decision_commit(
 )
 def get_tasks(
     user_id: str | None = Query(default=None, description="按任务负责人 user_id 过滤", examples=["3"]),
-    status: str | None = Query(default=None, description="按任务状态过滤", examples=["pending"]),
+    status: str | None = Query(default=None, description="按任务状态过滤，例如 pending / in_progress", examples=["pending"]),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     tasks = list_tasks(db, user_id=user_id, status=status)
-    return ApiEnvelope(code=200, data={"tasks": tasks}, msg="tasks fetched")
+    return ApiEnvelope(code=200, data={"tasks": tasks}, msg="任务列表查询成功")
 
 
 @app.get(
@@ -570,8 +577,8 @@ def crud_list(
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
-    return ApiEnvelope(code=200, data={"items": list_records(db, resource, limit=limit, offset=offset)}, msg="ok")
+        raise HTTPException(status_code=404, detail="资源不存在")
+    return ApiEnvelope(code=200, data={"items": list_records(db, resource, limit=limit, offset=offset)}, msg="查询成功")
 
 
 @app.post(
@@ -589,11 +596,11 @@ def crud_create(
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
+        raise HTTPException(status_code=404, detail="资源不存在")
     try:
         item = create_record(db, resource, payload.data)
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=normalize_error_detail(str(exc))) from exc
     _audit_crud_write(
         request=request,
         db=db,
@@ -603,7 +610,7 @@ def crud_create(
         summary=f"Created record in {resource}",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
-    return ApiEnvelope(code=201, data={"item": item}, msg="created")
+    return ApiEnvelope(code=201, data={"item": item}, msg="创建成功")
 
 
 @app.get(
@@ -615,11 +622,11 @@ def crud_create(
 )
 def crud_get(resource: str, record_id: int, db: Session = Depends(get_db_session)) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
+        raise HTTPException(status_code=404, detail="资源不存在")
     item = get_record(db, resource, record_id)
     if item is None:
-        raise HTTPException(status_code=404, detail="record not found")
-    return ApiEnvelope(code=200, data={"item": item}, msg="ok")
+        raise HTTPException(status_code=404, detail="记录不存在")
+    return ApiEnvelope(code=200, data={"item": item}, msg="查询成功")
 
 
 @app.put(
@@ -637,13 +644,13 @@ def crud_put(
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
+        raise HTTPException(status_code=404, detail="资源不存在")
     try:
         item = update_record(db, resource, record_id, payload.data, partial=False)
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=normalize_error_detail(str(exc))) from exc
     if item is None:
-        raise HTTPException(status_code=404, detail="record not found")
+        raise HTTPException(status_code=404, detail="记录不存在")
     _audit_crud_write(
         request=request,
         db=db,
@@ -653,7 +660,7 @@ def crud_put(
         summary=f"Replaced record {record_id} in {resource}",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
-    return ApiEnvelope(code=200, data={"item": item}, msg="updated")
+    return ApiEnvelope(code=200, data={"item": item}, msg="更新成功")
 
 
 @app.patch(
@@ -671,13 +678,13 @@ def crud_patch(
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
+        raise HTTPException(status_code=404, detail="资源不存在")
     try:
         item = update_record(db, resource, record_id, payload.data, partial=True)
     except ValueError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        raise HTTPException(status_code=400, detail=normalize_error_detail(str(exc))) from exc
     if item is None:
-        raise HTTPException(status_code=404, detail="record not found")
+        raise HTTPException(status_code=404, detail="记录不存在")
     _audit_crud_write(
         request=request,
         db=db,
@@ -687,7 +694,7 @@ def crud_patch(
         summary=f"Patched record {record_id} in {resource}",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
-    return ApiEnvelope(code=200, data={"item": item}, msg="updated")
+    return ApiEnvelope(code=200, data={"item": item}, msg="更新成功")
 
 
 @app.delete(
@@ -699,13 +706,13 @@ def crud_patch(
 )
 def crud_delete(resource: str, record_id: int, request: Request, db: Session = Depends(get_db_session)) -> Response:
     if resource not in MODEL_REGISTRY:
-        raise HTTPException(status_code=404, detail="resource not found")
+        raise HTTPException(status_code=404, detail="资源不存在")
     existing = get_record(db, resource, record_id)
     if existing is None:
-        raise HTTPException(status_code=404, detail="record not found")
+        raise HTTPException(status_code=404, detail="记录不存在")
     deleted = delete_record(db, resource, record_id)
     if not deleted:
-        raise HTTPException(status_code=404, detail="record not found")
+        raise HTTPException(status_code=404, detail="记录不存在")
     _audit_crud_write(
         request=request,
         db=db,
