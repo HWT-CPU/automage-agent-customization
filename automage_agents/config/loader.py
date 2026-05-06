@@ -4,7 +4,7 @@ import tomllib
 from pathlib import Path
 from typing import Any
 
-from automage_agents.config.settings import RuntimeSettings
+from automage_agents.config.settings import PostgresSettings, RuntimeSettings
 from automage_agents.core.enums import AgentLevel, AgentRole
 from automage_agents.core.exceptions import ConfigurationError, UserProfileError
 from automage_agents.core.models import AgentIdentity, UserProfile
@@ -33,9 +33,14 @@ def load_runtime_settings(path: str | Path | None = None) -> RuntimeSettings:
     if path is None:
         return settings
 
-    raw = load_toml(path).get("runtime", {})
+    parsed = load_toml(path)
+    raw = parsed.get("runtime", {})
+    postgres_raw = parsed.get("postgres", {})
     return RuntimeSettings(
         environment=raw.get("environment", settings.environment),
+        backend_mode=raw.get("backend_mode", settings.backend_mode),
+        audit_enabled=bool(raw.get("audit_enabled", settings.audit_enabled)),
+        audit_org_id=int(raw.get("audit_org_id", settings.audit_org_id)),
         api_base_url=raw.get("api_base_url", settings.api_base_url),
         api_timeout_seconds=float(raw.get("api_timeout_seconds", settings.api_timeout_seconds)),
         retry_backoff_seconds=list(raw.get("retry_backoff_seconds", settings.retry_backoff_seconds)),
@@ -47,6 +52,14 @@ def load_runtime_settings(path: str | Path | None = None) -> RuntimeSettings:
         feishu_enabled=bool(raw.get("feishu_enabled", settings.feishu_enabled)),
         feishu_app_id=raw.get("feishu_app_id", settings.feishu_app_id),
         feishu_app_secret=raw.get("feishu_app_secret", settings.feishu_app_secret),
+        postgres=PostgresSettings(
+            host=postgres_raw.get("host", settings.postgres.host),
+            port=int(postgres_raw.get("port", settings.postgres.port)),
+            database=postgres_raw.get("database", settings.postgres.database),
+            user=postgres_raw.get("user", settings.postgres.user),
+            password=postgres_raw.get("password", settings.postgres.password),
+            sslmode=postgres_raw.get("sslmode", settings.postgres.sslmode),
+        ),
     )
 
 
