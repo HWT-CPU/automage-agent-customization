@@ -1,0 +1,4 @@
+interface:
+  display_name: "数据库 API Skill"
+  short_description: "说明 AutoMage 的数据库接口链路。"
+  default_prompt: "使用 $database-api-skill 说明 AutoMage Agent 如何通过 API 接口读写 PostgreSQL。"
