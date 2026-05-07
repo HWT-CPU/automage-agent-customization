@@ -46,30 +46,48 @@ class AutoMageApiClient:
         raise ApiTransportError(f"API request failed after retries: {method} {url}") from last_error
 
     def agent_init(self, identity: AgentIdentity) -> ApiResponse:
-        # TODO(熊锦文): 确认 /api/v1/agent/init 的请求体、响应体、权限字段与错误码。
-        return self.request("POST", "/api/v1/agent/init", json_body={"identity": identity.to_dict()})
+        return self.request(
+            "POST",
+            "/api/v1/agent/init",
+            json_body={"identity": identity.to_dict()},
+            headers=self._identity_headers(identity),
+        )
 
     def post_staff_report(self, identity: AgentIdentity, report_payload: dict[str, Any]) -> ApiResponse:
-        # TODO(熊锦文): 确认 /api/v1/report/staff 最终字段是否包含 role_id、node_id、user_id。
         payload = {"identity": identity.to_dict(), "report": report_payload}
-        return self.request("POST", "/api/v1/report/staff", json_body=payload)
+        return self.request("POST", "/api/v1/report/staff", json_body=payload, headers=self._identity_headers(identity))
 
     def fetch_tasks(self, identity: AgentIdentity, status: str | None = None) -> ApiResponse:
-        # TODO(熊锦文): 确认任务查询是否按 user_id、role_id、node_id 在后端物理隔离。
         query = {"user_id": identity.user_id, "role": identity.role.value, "node_id": identity.node_id}
         if status:
             query["status"] = status
-        return self.request("GET", "/api/v1/tasks", query=query)
+        return self.request("GET", "/api/v1/tasks", query=query, headers=self._identity_headers(identity))
 
     def post_manager_report(self, identity: AgentIdentity, report_payload: dict[str, Any]) -> ApiResponse:
-        # TODO(熊锦文): 确认 Manager 是否需要独立的部门日报读取接口和部门权限字段。
         payload = {"identity": identity.to_dict(), "report": report_payload}
-        return self.request("POST", "/api/v1/report/manager", json_body=payload)
+        return self.request(
+            "POST",
+            "/api/v1/report/manager",
+            json_body=payload,
+            headers=self._identity_headers(identity),
+        )
 
     def commit_decision(self, identity: AgentIdentity, decision_payload: dict[str, Any]) -> ApiResponse:
-        # TODO(熊锦文): 确认 /api/v1/decision/commit 请求体与 task_queue 写入规则。
         payload = {"identity": identity.to_dict(), "decision": decision_payload}
-        return self.request("POST", "/api/v1/decision/commit", json_body=payload)
+        return self.request(
+            "POST",
+            "/api/v1/decision/commit",
+            json_body=payload,
+            headers=self._identity_headers(identity),
+        )
+
+    def run_dream(self, identity: AgentIdentity, summary_id: str) -> ApiResponse:
+        return self.request(
+            "POST",
+            "/internal/dream/run",
+            json_body={"summary_id": summary_id},
+            headers=self._identity_headers(identity),
+        )
 
     def _send_once(self, method: str, url: str, body: bytes | None, headers: dict[str, str]) -> ApiResponse:
         request = Request(url=url, data=body, headers=headers, method=method.upper())
@@ -128,3 +146,19 @@ class AutoMageApiClient:
         if hasattr(value, "value"):
             return value.value
         return value
+
+    def _identity_headers(self, identity: AgentIdentity) -> dict[str, str]:
+        headers = {
+            "X-User-Id": identity.user_id,
+            "X-Role": identity.role.value,
+            "X-Node-Id": identity.node_id,
+            "X-Level": identity.level.value,
+        }
+        if identity.department_id:
+            headers["X-Department-Id"] = identity.department_id
+        if identity.manager_node_id:
+            headers["X-Manager-Node-Id"] = identity.manager_node_id
+        display_name = identity.metadata.get("display_name") if isinstance(identity.metadata, dict) else None
+        if display_name:
+            headers["X-Display-Name"] = str(display_name)
+        return headers

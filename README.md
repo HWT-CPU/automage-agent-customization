@@ -48,6 +48,24 @@
 - `POST /api/v1/report/manager`
 - `POST /api/v1/decision/commit`
 
+### Runtime Additions
+
+```powershell
+python scripts/run_api.py
+python scripts/run_scheduler.py
+```
+
+New runtime config keys:
+
+- `scheduler_enabled`
+- `scheduler_timezone`
+- `scheduler_jobs`
+- `abuse_protection_enabled`
+- `rate_limit_window_seconds`
+- `rate_limit_max_requests`
+- `idempotency_ttl_seconds`
+- `write_protected_paths`
+
 ## 本地 Mock 端到端演示
 
 可运行本地 mock 流程：

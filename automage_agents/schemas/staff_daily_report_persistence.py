@@ -105,7 +105,7 @@ def persist_staff_daily_report(
         work_record.meta = {**work_record.meta, "staff_report_snapshot_id": staff_report_id}
         db.add(work_record)
 
-    db.commit()
+    db.flush()
     db.refresh(work_record)
     return PersistedStaffDailyReport(
         template_id=template.id,

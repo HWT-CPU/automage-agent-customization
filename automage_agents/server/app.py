@@ -1,10 +1,28 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from fastapi import Depends, FastAPI, HTTPException, Path, Query, Request, Response
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from automage_agents.config import load_runtime_settings
+from automage_agents.core.enums import AgentRole
 from automage_agents.server.audit import write_audit_log
+from automage_agents.server.auth import (
+    AuthenticatedActor,
+    assert_actor_has_role,
+    assert_identity_matches_actor,
+    assert_audit_log_access,
+    assert_manager_report_payload_allowed,
+    assert_task_create_payload_allowed,
+    assert_task_update_allowed,
+    filter_tasks_for_actor,
+    filter_audit_logs_for_actor,
+    filter_manager_reports_for_actor,
+    filter_staff_reports_for_actor,
+    get_current_actor,
+    require_roles,
+    resolve_task_query_scope,
+)
 from automage_agents.server.crud import (
     MODEL_REGISTRY,
     create_record,
@@ -15,33 +33,43 @@ from automage_agents.server.crud import (
 )
 from automage_agents.server.daily_report_api import router as daily_report_router
 from automage_agents.server.deps import get_db_session
-from automage_agents.server.middleware import RequestTrackingMiddleware
+from automage_agents.server.middleware import AbuseProtectionMiddleware, RequestTrackingMiddleware
 from automage_agents.server.schemas import (
     AgentInitRequest,
+    ApiConflictEnvelope,
     ApiEnvelope,
     CrudWriteRequest,
     DecisionCommitRequest,
+    DreamRunRequest,
     ManagerReportRequest,
     StaffReportRequest,
+    TaskCreateRequest,
+    TaskUpdateRequest,
 )
 from automage_agents.server.service import (
     build_identity,
     commit_decision,
+    ConflictError,
     create_agent_session,
     create_manager_report,
     create_staff_report,
+    create_tasks,
+    get_task_by_task_id,
+    list_audit_logs,
+    list_manager_reports,
+    list_staff_reports,
     list_tasks,
+    run_dream_from_summary,
+    update_task,
 )
 
 
 HTTP_400_RESPONSE = {
     400: {
-        "description": "请求参数或字段内容不符合要求",
+        "description": "请求体不合法。",
         "content": {
             "application/json": {
-                "example": {
-                    "detail": "存在不可写字段或未知字段：id",
-                }
+                "example": {"detail": "请求体不合法，缺少必要字段 id"}
             }
         },
     }
@@ -49,7 +77,7 @@ HTTP_400_RESPONSE = {
 
 HTTP_404_RESOURCE_RESPONSE = {
     404: {
-        "description": "资源或记录不存在",
+        "description": "资源不存在。",
         "content": {
             "application/json": {
                 "examples": {
@@ -69,12 +97,10 @@ HTTP_404_RESOURCE_RESPONSE = {
 
 HTTP_404_RECORD_RESPONSE = {
     404: {
-        "description": "记录不存在",
+        "description": "记录不存在。",
         "content": {
             "application/json": {
-                "example": {
-                    "detail": "记录不存在",
-                }
+                "example": {"detail": "记录不存在"}
             }
         },
     }
@@ -82,7 +108,7 @@ HTTP_404_RECORD_RESPONSE = {
 
 HTTP_422_RESPONSE = {
     422: {
-        "description": "请求体验证失败",
+        "description": "请求校验失败。",
         "content": {
             "application/json": {
                 "example": {
@@ -100,341 +126,76 @@ HTTP_422_RESPONSE = {
     }
 }
 
-HEALTH_RESPONSE = {
-    200: {
-        "description": "服务运行正常",
+HTTP_409_CONFLICT_RESPONSE = {
+    409: {
+        "description": "请求冲突，通常表示幂等键重复但请求内容不一致，或重复提交命中了已存在记录。",
+        "model": ApiConflictEnvelope,
         "content": {
             "application/json": {
-                "example": {
-                    "status": "ok",
-                }
-            }
-        },
-    }
-}
-
-AGENT_INIT_RESPONSE = {
-    200: {
-        "description": "Agent 会话初始化成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "id": 4,
-                        "auth_status": "active",
-                        "identity": {
-                            "node_id": "staff-node-swagger-001",
-                            "user_id": "3",
-                            "role": "staff",
-                            "level": "l1_staff",
-                            "department_id": "1",
-                            "manager_node_id": "manager-node-swagger-001",
-                            "metadata": {
-                                "display_name": "张三",
-                                "source": "swagger",
+                "examples": {
+                    "staff_report_conflict": {
+                        "summary": "员工日报重复提交冲突",
+                        "value": {
+                            "code": 409,
+                            "data": None,
+                            "msg": "员工日报提交冲突",
+                            "error": {
+                                "error_type": "conflict",
+                                "error_code": "staff_report_conflict",
+                                "message": "同一员工在同一日期的日报已存在，且提交内容不一致。",
+                                "conflict_target": "staff_report:org_id+user_id+record_date",
+                                "request_id": "req_staff_conflict_001",
                             },
                         },
                     },
-                    "msg": "Agent 会话初始化成功",
-                }
-            }
-        },
-    }
-}
-
-STAFF_REPORT_RESPONSE = {
-    200: {
-        "description": "员工日报快照保存成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "record": {
-                            "id": 3,
-                            "identity": {
-                                "node_id": "staff-node-swagger-001",
-                                "user_id": "3",
-                                "role": "staff",
-                                "level": "l1_staff",
-                                "department_id": "1",
-                                "manager_node_id": "manager-node-swagger-001",
-                                "metadata": {
-                                    "display_name": "张三",
-                                    "source": "swagger",
-                                },
-                            },
-                            "report": {
-                                "schema_id": "schema_v1_staff",
-                                "timestamp": "2026-05-06T15:00:00+08:00",
-                                "work_progress": "完成两位重点客户回访，并更新报价说明。",
-                                "issues_faced": "客户仍然关心交付周期是否稳定。",
-                                "solution_attempt": "已整理交付问题并同步给经理。",
-                                "need_support": True,
-                                "next_day_plan": "继续推进报价确认并补充风险说明。",
-                                "resource_usage": {
-                                    "customer_calls": 5,
-                                    "quotes_prepared": 1,
-                                },
-                            },
-                        }
-                    },
-                    "msg": "员工日报快照保存成功",
-                }
-            }
-        },
-    }
-}
-
-MANAGER_REPORT_RESPONSE = {
-    200: {
-        "description": "经理汇总快照保存成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "record": {
-                            "id": 2,
-                            "identity": {
-                                "node_id": "manager-node-swagger-001",
-                                "user_id": "2",
-                                "role": "manager",
-                                "level": "l2_manager",
-                                "department_id": "1",
-                                "manager_node_id": "executive-node-swagger-001",
-                                "metadata": {
-                                    "display_name": "李经理",
-                                    "source": "swagger",
-                                },
-                            },
-                            "report": {
-                                "schema_id": "schema_v1_manager",
-                                "dept_id": "1",
-                                "overall_health": "yellow",
-                                "aggregated_summary": "销售部今日重点围绕客户回访、续费推进和交付问题澄清展开。",
-                                "top_3_risks": [
-                                    "交付周期说明不够明确",
-                                    "价格异议仍需统一口径",
-                                    "关键客户决策周期偏长",
-                                ],
-                                "workforce_efficiency": 0.86,
-                                "pending_approvals": 1,
-                            },
-                        }
-                    },
-                    "msg": "经理汇总快照保存成功",
-                }
-            }
-        },
-    }
-}
-
-DECISION_COMMIT_RESPONSE = {
-    200: {
-        "description": "决策提交成功，并可选自动生成任务",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "decision": {
-                            "id": 2,
-                            "identity": {
-                                "node_id": "executive-node-swagger-001",
-                                "user_id": "1",
-                                "role": "executive",
-                                "level": "l3_executive",
-                                "department_id": "1",
-                                "manager_node_id": None,
-                                "metadata": {
-                                    "display_name": "陈总",
-                                    "source": "swagger",
-                                },
-                            },
-                            "decision": {
-                                "selected_option_id": "A",
-                                "decision_summary": "先统一交付说明，再推进新的客户承诺。",
-                                "task_candidates": [
-                                    {
-                                        "assignee_user_id": "3",
-                                        "title": "补充重点客户交付说明",
-                                        "description": "把交付周期、上线前提和风险提示整理成统一说明话术。",
-                                        "status": "pending",
-                                    }
-                                ],
+                    "decision_commit_conflict": {
+                        "summary": "正式决策提交冲突",
+                        "value": {
+                            "code": 409,
+                            "data": None,
+                            "msg": "正式决策提交冲突",
+                            "error": {
+                                "error_type": "conflict",
+                                "error_code": "decision_commit_conflict",
+                                "message": "正式决策提交触发了已存在任务的冲突校验，请确认任务候选是否重复。",
+                                "conflict_target": "decision_commit:task_candidates",
+                                "request_id": "req_decision_conflict_001",
                             },
                         },
-                        "task_queue": [
-                            {
-                                "task_id": "task-2-1",
-                                "assignee_user_id": "3",
-                                "title": "补充重点客户交付说明",
-                                "description": "把交付周期、上线前提和风险提示整理成统一说明话术。",
-                                "status": "pending",
-                            }
-                        ],
                     },
-                    "msg": "决策结果提交成功",
-                }
-            }
-        },
-    }
-}
-
-TASKS_RESPONSE = {
-    200: {
-        "description": "任务列表查询成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "tasks": [
-                            {
-                                "id": 1,
-                                "task_id": "queue-1",
-                                "assignee_user_id": "zhangsan",
-                                "title": "确认重点客户交付排期",
-                                "description": "用于接口联调的队列任务",
-                                "status": "pending",
-                                "task_payload": {
-                                    "task_ref": 1,
-                                    "language": "中文",
-                                },
-                                "created_at": "2026-05-06T02:30:00+00:00",
-                            }
-                        ]
-                    },
-                    "msg": "任务列表查询成功",
-                }
-            }
-        },
-    }
-}
-
-CRUD_LIST_RESPONSE = {
-    200: {
-        "description": "列表查询成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "items": [
-                            {
-                                "id": 1,
-                                "task_id": "queue-1",
-                                "assignee_user_id": "zhangsan",
-                                "title": "确认重点客户交付排期",
-                                "description": "用于接口联调的队列任务",
-                                "status": "pending",
-                                "task_payload": {
-                                    "task_ref": 1,
-                                    "language": "中文",
-                                },
-                                "created_at": "2026-05-06T02:30:00+00:00",
-                            }
-                        ]
-                    },
-                    "msg": "查询成功",
-                }
-            }
-        },
-    }
-}
-
-CRUD_CREATE_RESPONSE = {
-    201: {
-        "description": "记录创建成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 201,
-                    "data": {
-                        "item": {
-                            "id": 3,
-                            "task_id": "swagger-demo-task-001",
-                            "assignee_user_id": "3",
-                            "title": "Swagger 新建测试任务",
-                            "description": "用于验证通用 CRUD 创建能力。",
-                            "status": "pending",
-                            "task_payload": {
-                                "source": "swagger-demo",
-                                "priority": "medium",
+                    "task_create_conflict": {
+                        "summary": "任务创建冲突",
+                        "value": {
+                            "code": 409,
+                            "data": None,
+                            "msg": "任务创建冲突",
+                            "error": {
+                                "error_type": "conflict",
+                                "error_code": "task_create_conflict",
+                                "message": "任务 ID 已存在，但本次提交内容与已有任务不一致。",
+                                "conflict_target": "task_create:task_id",
+                                "request_id": "req_task_create_conflict_001",
                             },
-                            "created_at": "2026-05-06T03:15:00+00:00",
-                        }
+                        },
                     },
-                    "msg": "创建成功",
-                }
-            }
-        },
-    }
-}
-
-CRUD_GET_RESPONSE = {
-    200: {
-        "description": "记录详情查询成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "item": {
-                            "id": 3,
-                            "task_id": "swagger-demo-task-001",
-                            "assignee_user_id": "3",
-                            "title": "Swagger 新建测试任务",
-                            "description": "用于验证通用 CRUD 创建能力。",
-                            "status": "pending",
-                            "task_payload": {
-                                "source": "swagger-demo",
-                                "priority": "medium",
+                    "task_update_conflict": {
+                        "summary": "任务更新冲突",
+                        "value": {
+                            "code": 409,
+                            "data": None,
+                            "msg": "任务更新冲突",
+                            "error": {
+                                "error_type": "conflict",
+                                "error_code": "task_update_conflict",
+                                "message": "同一 request_id 已用于该任务的其他更新内容，不能重复覆盖。",
+                                "conflict_target": "task_update:task_id+request_id",
+                                "request_id": "req_task_update_conflict_001",
                             },
-                            "created_at": "2026-05-06T03:15:00+00:00",
-                        }
+                        },
                     },
-                    "msg": "查询成功",
                 }
             }
         },
-    }
-}
-
-CRUD_UPDATE_RESPONSE = {
-    200: {
-        "description": "记录更新成功",
-        "content": {
-            "application/json": {
-                "example": {
-                    "code": 200,
-                    "data": {
-                        "item": {
-                            "id": 3,
-                            "task_id": "swagger-demo-task-001",
-                            "assignee_user_id": "3",
-                            "title": "Swagger 新建测试任务（处理中）",
-                            "description": "用于验证通用 CRUD 创建能力。",
-                            "status": "in_progress",
-                            "task_payload": {
-                                "source": "swagger-demo",
-                                "priority": "medium",
-                            },
-                            "created_at": "2026-05-06T03:15:00+00:00",
-                        }
-                    },
-                    "msg": "更新成功",
-                }
-            }
-        },
-    }
-}
-
-CRUD_DELETE_RESPONSE = {
-    204: {
-        "description": "记录删除成功，无响应体",
     }
 }
 
@@ -447,43 +208,55 @@ def merge_responses(*groups: dict[int, dict]) -> dict[int, dict]:
 
 
 def normalize_error_detail(message: str) -> str:
-    return (
-        message.replace("Unknown or immutable fields", "存在不可写字段或未知字段")
-        .replace("Missing required fields", "缺少必填字段")
+    return message.replace("Unknown or immutable fields", "Unknown or immutable fields").replace(
+        "Missing required fields", "Missing required fields"
+    )
+
+
+def build_conflict_response(
+    request: Request,
+    *,
+    error_code: str,
+    message: str,
+    conflict_target: str,
+    msg: str,
+) -> JSONResponse:
+    return JSONResponse(
+        status_code=409,
+        content=ApiConflictEnvelope(
+            code=409,
+            data=None,
+            msg=msg,
+            error={
+                "error_type": "conflict",
+                "error_code": error_code,
+                "message": message,
+                "conflict_target": conflict_target,
+                "request_id": getattr(request.state, "request_id", None),
+            },
+        ).model_dump(),
     )
 
 
 app = FastAPI(
-    title="AutoMage 数据库与 CRUD 接口",
-    version="0.1.0",
+    title="AutoMage 中文版 CRUD API",
+    version="0.2.0",
     description=(
-        "这是 AutoMage 的 PostgreSQL 数据接口服务。\n\n"
-        "核心业务接口会把数据写入这些表："
-        "`agent_sessions`、`staff_reports`、`manager_reports`、"
-        "`agent_decision_logs`、`task_queue`。\n\n"
-        "## 审计与追踪说明\n"
-        "- 所有核心写接口和通用 CRUD 写接口都会写入 `audit_logs`\n"
-        "- 每次请求都会生成或透传 `X-Request-Id`，并在响应头返回\n"
-        "- 响应头 `X-Process-Time-Ms` 表示本次请求耗时\n"
-        "- 审计日志 `payload` 中会记录本次请求的 `request_id`\n"
-        "- 通用 CRUD 写接口支持通过请求头 `X-Actor-User-Id` 传入操作人\n\n"
-        "## 建议联调方式\n"
-        "1. 调用写接口时带上自定义 `X-Request-Id`\n"
-        "2. 观察响应头中的 `X-Request-Id` 和 `X-Process-Time-Ms`\n"
-        "3. 再查询 `audit_logs`，确认 `payload.request_id` 一致"
+        "AutoMage 中文联调 API 文档。\n\n"
+        "当前已统一员工日报、经理汇总、任务、审计日志与通用 CRUD 的 Swagger 中文描述。\n"
     ),
 )
 app.add_middleware(RequestTrackingMiddleware)
+app.add_middleware(AbuseProtectionMiddleware)
 app.include_router(daily_report_router)
 _settings = load_runtime_settings("configs/automage.local.toml")
 
+REPORT_READ_ROLES = require_roles(AgentRole.STAFF, AgentRole.MANAGER, AgentRole.EXECUTIVE)
+MANAGER_WRITE_ROLES = require_roles(AgentRole.MANAGER, AgentRole.EXECUTIVE)
+EXECUTIVE_ONLY = require_roles(AgentRole.EXECUTIVE)
 
-@app.get(
-    "/healthz",
-    summary="健康检查",
-    description="检查当前 API 服务是否正常运行。",
-    responses=HEALTH_RESPONSE,
-)
+
+@app.get("/healthz", summary="健康检查")
 def healthz() -> dict[str, str]:
     return {"status": "ok"}
 
@@ -492,10 +265,11 @@ def healthz() -> dict[str, str]:
     "/api/v1/agent/init",
     response_model=ApiEnvelope,
     summary="初始化 Agent 会话",
-    description="登记一个 Agent 的身份与会话信息，并写入 `agent_sessions` 表，同时记录审计日志。",
-    responses=merge_responses(AGENT_INIT_RESPONSE, HTTP_422_RESPONSE),
+    responses=merge_responses(HTTP_422_RESPONSE),
 )
 def agent_init(payload: AgentInitRequest, request: Request, db: Session = Depends(get_db_session)) -> ApiEnvelope:
+    actor = get_current_actor(request)
+    assert_identity_matches_actor(actor, payload.identity, db=db)
     identity = build_identity(payload.identity)
     data = create_agent_session(db, identity, getattr(request.state, "request_id", None))
     return ApiEnvelope(code=200, data=data, msg="Agent 会话初始化成功")
@@ -504,76 +278,280 @@ def agent_init(payload: AgentInitRequest, request: Request, db: Session = Depend
 @app.post(
     "/api/v1/report/staff",
     response_model=ApiEnvelope,
-    summary="提交员工日报快照",
-    description="提交一条员工日报快照，并写入 `staff_reports` 表，同时记录审计日志。",
-    responses=merge_responses(STAFF_REPORT_RESPONSE, HTTP_422_RESPONSE),
+    summary="提交员工日报",
+    description="写入员工日报快照，并同步关联正式日报落表数据。",
+    responses=merge_responses(HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
 )
 def post_staff_report(payload: StaffReportRequest, request: Request, db: Session = Depends(get_db_session)) -> ApiEnvelope:
+    actor = get_current_actor(request)
+    assert_actor_has_role(actor, AgentRole.STAFF, db=db)
+    assert_identity_matches_actor(actor, payload.identity, db=db)
     identity = build_identity(payload.identity)
-    data = create_staff_report(db, identity, payload.report, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data={"record": data}, msg="员工日报快照保存成功")
+    try:
+        data = create_staff_report(db, identity, payload.report, getattr(request.state, "request_id", None))
+    except ConflictError as exc:
+        return build_conflict_response(
+            request,
+            error_code="staff_report_conflict",
+            message=str(exc),
+            conflict_target="staff_report:org_id+user_id+record_date",
+            msg="员工日报提交冲突",
+        )
+    return ApiEnvelope(code=200, data={"record": data}, msg="员工日报提交成功")
+
+
+@app.get(
+    "/api/v1/report/staff",
+    response_model=ApiEnvelope,
+    summary="查询员工日报列表",
+    description="按组织、部门、日期和用户维度查询员工日报列表。",
+    responses=merge_responses(HTTP_422_RESPONSE),
+)
+def get_staff_reports(
+    org_id: str | None = Query(default=None),
+    department_id: str | None = Query(default=None),
+    record_date: str | None = Query(default=None),
+    user_id: str | None = Query(default=None),
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    reports = list_staff_reports(
+        db,
+        org_id=org_id,
+        department_id=department_id,
+        record_date=record_date,
+        user_id=user_id,
+    )
+    reports = filter_staff_reports_for_actor(actor, reports)
+    return ApiEnvelope(code=200, data={"reports": reports}, msg="员工日报列表查询成功")
 
 
 @app.post(
     "/api/v1/report/manager",
     response_model=ApiEnvelope,
-    summary="提交经理汇总快照",
-    description="提交一条经理汇总快照，并写入 `manager_reports` 表，同时记录审计日志。",
-    responses=merge_responses(MANAGER_REPORT_RESPONSE, HTTP_422_RESPONSE),
+    summary="提交经理汇总",
+    description="写入经理汇总快照，供后续决策与任务拆分使用。",
+    responses=merge_responses(HTTP_422_RESPONSE),
 )
 def post_manager_report(
-    payload: ManagerReportRequest, request: Request, db: Session = Depends(get_db_session)
+    payload: ManagerReportRequest,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(MANAGER_WRITE_ROLES),
+    db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
+    assert_manager_report_payload_allowed(actor, payload.report, db=db)
+    assert_identity_matches_actor(actor, payload.identity, db=db)
     identity = build_identity(payload.identity)
     data = create_manager_report(db, identity, payload.report, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data={"record": data}, msg="经理汇总快照保存成功")
+    return ApiEnvelope(code=200, data={"record": data}, msg="经理汇总提交成功")
+
+
+@app.get(
+    "/api/v1/report/manager",
+    response_model=ApiEnvelope,
+    summary="查询经理汇总列表",
+    description="按组织、日期、部门和经理用户查询经理汇总列表。",
+    responses=merge_responses(HTTP_422_RESPONSE),
+)
+def get_manager_reports(
+    org_id: str | None = Query(default=None),
+    summary_date: str | None = Query(default=None),
+    dept_id: str | None = Query(default=None),
+    manager_user_id: str | None = Query(default=None),
+    actor: AuthenticatedActor | None = Depends(MANAGER_WRITE_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    reports = list_manager_reports(
+        db,
+        org_id=org_id,
+        summary_date=summary_date,
+        dept_id=dept_id,
+        manager_user_id=manager_user_id,
+    )
+    reports = filter_manager_reports_for_actor(actor, reports)
+    return ApiEnvelope(code=200, data={"reports": reports}, msg="经理汇总列表查询成功")
+
+
+@app.post(
+    "/internal/dream/run",
+    response_model=ApiEnvelope,
+    summary="生成 Dream 决策草稿",
+    description="基于经理汇总摘要生成 Dream 决策草稿，供高层确认。",
+    responses=merge_responses(HTTP_422_RESPONSE, HTTP_404_RECORD_RESPONSE),
+)
+def post_dream_run(
+    payload: DreamRunRequest,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    if actor is None:
+        raise HTTPException(status_code=403, detail="仅 executive 角色可调用")
+    data = run_dream_from_summary(
+        db,
+        summary_id=payload.summary_id,
+        actor_identity=actor.identity,
+        request_id=getattr(request.state, "request_id", None),
+    )
+    return ApiEnvelope(code=200, data=data, msg="Dream 决策草稿生成成功")
 
 
 @app.post(
     "/api/v1/decision/commit",
     response_model=ApiEnvelope,
-    summary="提交决策结果",
-    description="提交一条最终决策结果，写入 `agent_decision_logs`；如果带有 `task_candidates`，还会自动写入 `task_queue`。",
-    responses=merge_responses(DECISION_COMMIT_RESPONSE, HTTP_422_RESPONSE),
+    summary="提交正式决策",
+    description="提交高层正式决策，并沉淀可下发的任务候选。",
+    responses=merge_responses(HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
 )
 def post_decision_commit(
-    payload: DecisionCommitRequest, request: Request, db: Session = Depends(get_db_session)
+    payload: DecisionCommitRequest,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
+    db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
+    assert_identity_matches_actor(actor, payload.identity, db=db)
     identity = build_identity(payload.identity)
-    data = commit_decision(db, identity, payload.decision, getattr(request.state, "request_id", None))
-    return ApiEnvelope(code=200, data=data, msg="决策结果提交成功")
+    try:
+        data = commit_decision(db, identity, payload.decision, getattr(request.state, "request_id", None))
+    except ConflictError as exc:
+        return build_conflict_response(
+            request,
+            error_code="decision_commit_conflict",
+            message=str(exc),
+            conflict_target="decision_commit:task_candidates",
+            msg="正式决策提交冲突",
+        )
+    return ApiEnvelope(code=200, data=data, msg="正式决策提交成功")
+
+
+@app.post(
+    "/api/v1/tasks",
+    response_model=ApiEnvelope,
+    summary="创建正式任务",
+    description="创建正式任务，并同步写入兼容镜像 task_queue。",
+    responses=merge_responses(HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
+)
+def post_tasks(
+    payload: TaskCreateRequest,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(MANAGER_WRITE_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    assert_task_create_payload_allowed(actor, payload.tasks, db=db)
+    try:
+        tasks = create_tasks(db, tasks=payload.tasks, request_id=getattr(request.state, "request_id", None))
+    except ConflictError as exc:
+        return build_conflict_response(
+            request,
+            error_code="task_create_conflict",
+            message=str(exc),
+            conflict_target="task_create:task_id",
+            msg="任务创建冲突",
+        )
+    return ApiEnvelope(code=200, data={"tasks": tasks}, msg="任务创建成功")
 
 
 @app.get(
     "/api/v1/tasks",
     response_model=ApiEnvelope,
     summary="查询任务列表",
-    description="从 `task_queue` 表查询任务，可按 `user_id` 和 `status` 过滤。",
-    responses=merge_responses(TASKS_RESPONSE, HTTP_422_RESPONSE),
+    description="基于 tasks 与 task_assignments 查询任务列表，并按角色与节点做隔离。",
+    responses=merge_responses(HTTP_422_RESPONSE),
 )
 def get_tasks(
-    user_id: str | None = Query(default=None, description="按任务负责人 user_id 过滤", examples=["3"]),
-    status: str | None = Query(default=None, description="按任务状态过滤，例如 pending / in_progress", examples=["pending"]),
+    user_id: str | None = Query(default=None, description="任务所属用户 ID 别名参数"),
+    assignee_user_id: str | None = Query(default=None, description="任务执行人用户 ID，和 user_id 口径兼容"),
+    status: str | None = Query(default=None, description="任务状态过滤条件"),
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
-    tasks = list_tasks(db, user_id=user_id, status=status)
+    user_id, assignee_user_id = resolve_task_query_scope(actor, user_id=user_id, assignee_user_id=assignee_user_id)
+    tasks = list_tasks(db, user_id=user_id, assignee_user_id=assignee_user_id, status=status)
+    tasks = filter_tasks_for_actor(actor, tasks)
     return ApiEnvelope(code=200, data={"tasks": tasks}, msg="任务列表查询成功")
+
+
+@app.patch(
+    "/api/v1/tasks/{task_id}",
+    response_model=ApiEnvelope,
+    summary="更新任务",
+    description="更新正式任务状态、标题、说明或附加任务载荷，并记录 task update。",
+    responses=merge_responses(HTTP_404_RECORD_RESPONSE, HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
+)
+def patch_task(
+    task_id: str,
+    payload: TaskUpdateRequest,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    existing_task = get_task_by_task_id(db, task_id)
+    if existing_task is None:
+        raise HTTPException(status_code=404, detail="记录不存在")
+    assert_task_update_allowed(actor, existing_task, db=db)
+    try:
+        task = update_task(
+            db,
+            task_id=task_id,
+            status=payload.status,
+            title=payload.title,
+            description=payload.description,
+            task_payload=payload.task_payload,
+            request_id=getattr(request.state, "request_id", None),
+            actor_user_id=actor.identity.user_id if actor is not None else None,
+        )
+    except ConflictError as exc:
+        return build_conflict_response(
+            request,
+            error_code="task_update_conflict",
+            message=str(exc),
+            conflict_target="task_update:task_id+request_id",
+            msg="任务更新冲突",
+        )
+    return ApiEnvelope(code=200, data={"task": task}, msg="任务更新成功")
+
+
+@app.get(
+    "/api/v1/audit-logs",
+    response_model=ApiEnvelope,
+    summary="查询审计日志",
+    description="按对象类型、操作人和时间范围查询审计日志。",
+    responses=merge_responses(HTTP_422_RESPONSE),
+)
+def get_audit_logs(
+    target_type: str | None = Query(default=None),
+    actor_user_id: str | None = Query(default=None),
+    started_at: str | None = Query(default=None),
+    ended_at: str | None = Query(default=None),
+    limit: int = Query(default=50, ge=1, le=200),
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    assert_audit_log_access(actor, target_type=target_type, actor_user_id=actor_user_id, db=db)
+    logs = list_audit_logs(
+        db,
+        target_type=target_type,
+        actor_user_id=actor_user_id,
+        started_at=started_at,
+        ended_at=ended_at,
+        limit=limit,
+    )
+    logs = filter_audit_logs_for_actor(actor, logs)
+    return ApiEnvelope(code=200, data={"items": logs}, msg="审计日志列表查询成功")
 
 
 @app.get(
     "/api/v1/crud/{resource}",
     response_model=ApiEnvelope,
     summary="通用列表查询",
-    description=(
-        "通用 CRUD 列表接口。当前支持的资源表有："
-        "`agent_sessions`、`staff_reports`、`manager_reports`、`agent_decision_logs`、`task_queue`。"
-    ),
-    responses=merge_responses(CRUD_LIST_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    description="按资源名查询通用表数据列表。",
+    responses=merge_responses(HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
 def crud_list(
-    resource: str = Path(description="资源表名，例如 task_queue 或 staff_reports"),
-    limit: int = Query(default=50, ge=1, le=200, description="最多返回多少条记录", examples=[20]),
-    offset: int = Query(default=0, ge=0, description="分页偏移量", examples=[0]),
+    resource: str = Path(description="资源名，例如 tasks、task_assignments、task_updates、staff_reports"),
+    limit: int = Query(default=50, ge=1, le=200),
+    offset: int = Query(default=0, ge=0),
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
@@ -586,13 +564,14 @@ def crud_list(
     response_model=ApiEnvelope,
     status_code=201,
     summary="通用创建记录",
-    description="通用 CRUD 创建接口，会直接往指定资源表写入一条记录，同时记录审计日志。",
-    responses=merge_responses(CRUD_CREATE_RESPONSE, HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    description="按资源名创建一条新记录，并写入审计日志。",
+    responses=merge_responses(HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
 def crud_create(
     resource: str,
     payload: CrudWriteRequest,
     request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
@@ -607,7 +586,7 @@ def crud_create(
         action="crud_create",
         target_type=resource,
         target_id=int(item["id"]),
-        summary=f"Created record in {resource}",
+        summary=f"创建 {resource} 资源记录",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
     return ApiEnvelope(code=201, data={"item": item}, msg="创建成功")
@@ -617,10 +596,15 @@ def crud_create(
     "/api/v1/crud/{resource}/{record_id}",
     response_model=ApiEnvelope,
     summary="通用单条查询",
-    description="通用 CRUD 详情接口，按主键 ID 读取指定资源表中的一条记录。",
-    responses=merge_responses(CRUD_GET_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    description="按资源名和记录 ID 查询单条记录。",
+    responses=merge_responses(HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
-def crud_get(resource: str, record_id: int, db: Session = Depends(get_db_session)) -> ApiEnvelope:
+def crud_get(
+    resource: str,
+    record_id: int,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
         raise HTTPException(status_code=404, detail="资源不存在")
     item = get_record(db, resource, record_id)
@@ -632,15 +616,16 @@ def crud_get(resource: str, record_id: int, db: Session = Depends(get_db_session
 @app.put(
     "/api/v1/crud/{resource}/{record_id}",
     response_model=ApiEnvelope,
-    summary="通用整条更新",
-    description="通用 CRUD 全量更新接口，会整体更新该记录可写字段，同时记录审计日志。",
-    responses=merge_responses(CRUD_UPDATE_RESPONSE, HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    summary="通用整条替换",
+    description="按资源名和记录 ID 整条替换记录，并写入审计日志。",
+    responses=merge_responses(HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
 def crud_put(
     resource: str,
     record_id: int,
     payload: CrudWriteRequest,
     request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
@@ -657,7 +642,7 @@ def crud_put(
         action="crud_put",
         target_type=resource,
         target_id=record_id,
-        summary=f"Replaced record {record_id} in {resource}",
+        summary=f"整条替换 {resource} 资源记录 {record_id}",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
     return ApiEnvelope(code=200, data={"item": item}, msg="更新成功")
@@ -667,14 +652,15 @@ def crud_put(
     "/api/v1/crud/{resource}/{record_id}",
     response_model=ApiEnvelope,
     summary="通用局部更新",
-    description="通用 CRUD 局部更新接口，只更新你传入的字段，同时记录审计日志。",
-    responses=merge_responses(CRUD_UPDATE_RESPONSE, HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    description="按资源名和记录 ID 局部更新记录，并写入审计日志。",
+    responses=merge_responses(HTTP_400_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
 def crud_patch(
     resource: str,
     record_id: int,
     payload: CrudWriteRequest,
     request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
     db: Session = Depends(get_db_session),
 ) -> ApiEnvelope:
     if resource not in MODEL_REGISTRY:
@@ -691,7 +677,7 @@ def crud_patch(
         action="crud_patch",
         target_type=resource,
         target_id=record_id,
-        summary=f"Patched record {record_id} in {resource}",
+        summary=f"局部更新 {resource} 资源记录 {record_id}",
         payload={"resource": resource, "data": payload.data, "result": item},
     )
     return ApiEnvelope(code=200, data={"item": item}, msg="更新成功")
@@ -701,10 +687,16 @@ def crud_patch(
     "/api/v1/crud/{resource}/{record_id}",
     status_code=204,
     summary="通用删除记录",
-    description="通用 CRUD 删除接口，按主键 ID 删除指定资源表中的一条记录，同时记录审计日志。",
-    responses=merge_responses(CRUD_DELETE_RESPONSE, HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
+    description="按资源名和记录 ID 删除记录，并写入审计日志。",
+    responses=merge_responses(HTTP_404_RESOURCE_RESPONSE, HTTP_422_RESPONSE),
 )
-def crud_delete(resource: str, record_id: int, request: Request, db: Session = Depends(get_db_session)) -> Response:
+def crud_delete(
+    resource: str,
+    record_id: int,
+    request: Request,
+    actor: AuthenticatedActor | None = Depends(EXECUTIVE_ONLY),
+    db: Session = Depends(get_db_session),
+) -> Response:
     if resource not in MODEL_REGISTRY:
         raise HTTPException(status_code=404, detail="资源不存在")
     existing = get_record(db, resource, record_id)
@@ -719,7 +711,7 @@ def crud_delete(resource: str, record_id: int, request: Request, db: Session = D
         action="crud_delete",
         target_type=resource,
         target_id=record_id,
-        summary=f"Deleted record {record_id} from {resource}",
+        summary=f"删除 {resource} 资源记录 {record_id}",
         payload={"resource": resource, "deleted_record": existing},
     )
     return Response(status_code=204)
@@ -757,3 +749,4 @@ def _safe_int(value: str | None) -> int | None:
         return int(value)
     except ValueError:
         return None
+

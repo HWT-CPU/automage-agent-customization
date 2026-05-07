@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import base64
 from typing import Any, Literal
@@ -7,13 +7,15 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.orm import Session
 
+from automage_agents.core.enums import AgentRole
+from automage_agents.server.auth import AuthenticatedActor, assert_staff_report_visible, require_roles
 from automage_agents.server.deps import get_db_session
 from automage_agents.server.service import import_staff_daily_report_from_markdown, read_staff_daily_report
 
 
 HTTP_404_RECORD_RESPONSE = {
     404: {
-        "description": "指定日报记录不存在",
+        "description": "指定日报记录不存在。",
         "content": {
             "application/json": {
                 "example": {
@@ -26,7 +28,7 @@ HTTP_404_RECORD_RESPONSE = {
 
 HTTP_422_RESPONSE = {
     422: {
-        "description": "请求体验证失败",
+        "description": "请求校验失败。",
         "content": {
             "application/json": {
                 "examples": {
@@ -44,11 +46,11 @@ HTTP_422_RESPONSE = {
                         },
                     },
                     "missing_markdown": {
-                        "summary": "未提供 markdown 内容",
+                        "summary": "未提供 Markdown 内容",
                         "value": {"detail": "必须提供 markdown 或 markdown_base64"},
                     },
                     "invalid_base64": {
-                        "summary": "Base64 格式不正确",
+                        "summary": "Base64 格式不合法",
                         "value": {"detail": "markdown_base64 不是合法的 Base64 内容"},
                     },
                 }
@@ -96,18 +98,18 @@ GET_STAFF_REPORT_RESPONSE = {
                             "quotes": 2,
                         },
                         "report": {
-                            "title": "张三 5月6日日报",
+                            "title": "张三 5 月 6 日日报",
                             "record_date": "2026-05-06",
                             "items": [
                                 {
                                     "field_key": "completed_work",
                                     "field_label": "今日完成",
-                                    "value_text": "今日完成3位重点客户跟进，整理2份报价方案。",
+                                    "value_text": "今日完成 3 位重点客户跟进，整理 2 份报价方案。",
                                 },
                                 {
                                     "field_key": "issues",
                                     "field_label": "遇到问题",
-                                    "value_text": "客户关注交付周期，需要确认排期。",
+                                    "value_text": "客户关注交付周期，需要继续确认排期。",
                                 },
                             ],
                         },
@@ -128,6 +130,7 @@ def merge_responses(*groups: dict[int, dict]) -> dict[int, dict]:
 
 
 router = APIRouter()
+REPORT_READ_ROLES = require_roles(AgentRole.STAFF, AgentRole.MANAGER, AgentRole.EXECUTIVE)
 
 
 class StaffDailyReportImportRequest(BaseModel):
@@ -141,12 +144,12 @@ class StaffDailyReportImportRequest(BaseModel):
                 "created_by": 3,
                 "include_staff_report_snapshot": True,
                 "snapshot_identity": {
-                    "node_id": "staff-node-import-001",
-                    "user_id": "3",
+                    "node_id": "staff_agent_mvp_001",
+                    "user_id": "user_agent_001",
                     "role": "staff",
                     "level": "l1_staff",
-                    "department_id": "1",
-                    "manager_node_id": "manager-node-swagger-001",
+                    "department_id": "dept_mvp_core",
+                    "manager_node_id": "manager_agent_mvp_001",
                 },
                 "include_source_markdown": True,
             }
@@ -154,7 +157,7 @@ class StaffDailyReportImportRequest(BaseModel):
     )
 
     markdown: str | None = Field(default=None, description="原始 Markdown 日报内容")
-    markdown_base64: str | None = Field(default=None, description="Base64 编码的原始 Markdown 字节流")
+    markdown_base64: str | None = Field(default=None, description="Base64 编码后的原始 Markdown 字节流")
     org_id: int = Field(description="正式业务表 work_records.org_id")
     user_id: int = Field(description="正式业务表 work_records.user_id")
     department_id: int | None = Field(default=None, description="正式业务表 work_records.department_id")
@@ -173,8 +176,10 @@ class StaffDailyReportImportRequest(BaseModel):
 def import_staff_daily_report(
     payload: StaffDailyReportImportRequest,
     request: Request,
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
     db: Session = Depends(get_db_session),
 ) -> dict[str, Any]:
+    _ = actor
     if not payload.markdown and not payload.markdown_base64:
         raise HTTPException(status_code=422, detail="必须提供 markdown 或 markdown_base64")
     if payload.markdown_base64:
@@ -207,9 +212,13 @@ def import_staff_daily_report(
 def get_staff_daily_report(
     work_record_id: int,
     format: Literal["json", "markdown"] = Query(default="json", description="返回格式：json 或 markdown"),
+    actor: AuthenticatedActor | None = Depends(REPORT_READ_ROLES),
     db: Session = Depends(get_db_session),
 ) -> dict[str, Any]:
+    _ = actor
     data = read_staff_daily_report(db, work_record_id=work_record_id, output_format=format)
     if data is None:
         raise HTTPException(status_code=404, detail="记录不存在")
+    assert_staff_report_visible(actor, data, db=db)
     return {"code": 200, "data": data, "msg": "员工日报读取成功"}
+
