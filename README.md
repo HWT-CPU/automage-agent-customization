@@ -16,6 +16,39 @@
 - `configs/automage.example.toml`：本地运行配置示例。
 - `examples/user.staff.example.toml`：可被加载器读取的员工配置示例。
 
+## Docker 部署
+
+本项目支持两种 Docker 启动方式：
+
+### 1. 本地自部署
+
+适合团队成员在自己电脑上直接测试和启动，默认会一起拉起 Postgres 容器。
+
+```powershell
+copy .env.example .env
+docker compose up -d --build
+```
+
+启动后访问：
+
+- Swagger：`http://localhost:8000/docs`
+- 健康检查：`http://localhost:8000/healthz`
+
+### 2. 远程数据库 / 生产模式
+
+适合连接公司已有远程数据库，不启用本地 Postgres 容器。
+
+```powershell
+copy .env.example .env
+docker compose -f docker-compose.yml up -d --build
+```
+
+### 3. 配置切换规则
+
+- 本地模式：使用 `docker-compose.override.yml`，自动切到 `configs/automage.docker.toml`
+- 远程模式：只使用 `docker-compose.yml`，默认读取 `configs/automage.local.toml`
+- 如果要手动覆盖配置文件路径，可以设置 `AUTOMAGE_CONFIG_PATH`
+
 ## 设计原则
 
 - 不写死 Hermes Runtime。

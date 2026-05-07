@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import tomllib
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,9 @@ def load_toml(path: str | Path) -> dict[str, Any]:
 
 
 def load_runtime_settings(path: str | Path | None = None) -> RuntimeSettings:
+    config_override = os.getenv("AUTOMAGE_CONFIG_PATH", "").strip()
+    if config_override:
+        path = config_override
     settings = RuntimeSettings.from_env()
     if path is None:
         return settings

@@ -1,0 +1,26 @@
+services:
+  api:
+    environment:
+      AUTOMAGE_CONFIG_PATH: /app/configs/automage.docker.toml
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: automage
+      POSTGRES_USER: automage
+      POSTGRES_PASSWORD: automage
+    ports:
+      - "5432:5432"
+    volumes:
+      - automage_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U automage -d automage"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  automage_postgres_data:
