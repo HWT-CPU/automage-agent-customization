@@ -6,10 +6,21 @@ from sqlalchemy.orm import Session
 
 from automage_agents.db.models import (
     AgentSessionModel,
+    DecisionRecordModel,
     DecisionLogModel,
+    FormalDecisionLogModel,
+    IncidentModel,
+    IncidentUpdateModel,
     ManagerReportModel,
     StaffReportModel,
+    SummaryModel,
+    SummarySourceLinkModel,
+    TaskAssignmentModel,
+    TaskModel,
     TaskQueueModel,
+    TaskUpdateModel,
+    WorkRecordItemModel,
+    WorkRecordModel,
 )
 
 
@@ -18,6 +29,17 @@ MODEL_REGISTRY = {
     "staff_reports": StaffReportModel,
     "manager_reports": ManagerReportModel,
     "agent_decision_logs": DecisionLogModel,
+    "work_records": WorkRecordModel,
+    "work_record_items": WorkRecordItemModel,
+    "summaries": SummaryModel,
+    "summary_source_links": SummarySourceLinkModel,
+    "decision_records": DecisionRecordModel,
+    "decision_logs": FormalDecisionLogModel,
+    "incidents": IncidentModel,
+    "incident_updates": IncidentUpdateModel,
+    "tasks": TaskModel,
+    "task_assignments": TaskAssignmentModel,
+    "task_updates": TaskUpdateModel,
     "task_queue": TaskQueueModel,
 }
 

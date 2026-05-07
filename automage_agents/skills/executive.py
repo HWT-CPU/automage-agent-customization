@@ -10,7 +10,11 @@ from automage_agents.skills.result import api_response_to_skill_result
 
 def dream_decision_engine(context: SkillContext, dream_input: DreamDecisionDraft | dict[str, Any]) -> SkillResult:
     payload = _to_payload(dream_input)
-    # TODO(徐少洋): 替换为真实 Dream 机制输入输出，当前只返回可联调的 A/B 决策草案结构。
+    summary_id = payload.get("summary_id") or payload.get("source_summary_id")
+    if summary_id:
+        response = context.api_client.run_dream(context.identity, str(summary_id))
+        return api_response_to_skill_result(response, "dream decision draft generated")
+
     return SkillResult(
         ok=True,
         data={
@@ -42,7 +46,6 @@ def commit_decision(context: SkillContext, decision_payload: dict[str, Any]) -> 
 
 
 def broadcast_strategy(context: SkillContext, decision_payload: dict[str, Any]) -> SkillResult:
-    # TODO(OpenClaw): 老板确认后的飞书群内广播应由 OpenClaw / Feishu 适配层发送。
     return commit_decision(context, decision_payload)
 
 
