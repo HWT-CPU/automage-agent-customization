@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from automage_agents.api import create_api_client
 from automage_agents.api.mock_client import MockBackendState
 from automage_agents.config.loader import load_runtime_settings, load_user_profile_toml
+from automage_agents.core.models import RuntimeContextV0
 from automage_agents.skills.context import SkillContext
 
 
@@ -27,21 +28,24 @@ def build_demo_contexts(
     client = create_api_client(settings, mock_state=state)
 
     staff = SkillContext.from_user_profile(
-        settings,
-        load_user_profile_toml(staff_user_path),
-        mock_state=state,
+        settings=settings,
+        user_profile=load_user_profile_toml(staff_user_path),
         api_client=client,
+        mock_state=state,
+        runtime=RuntimeContextV0(workflow_stage="staff_daily_report"),
     )
     manager = SkillContext.from_user_profile(
-        settings,
-        load_user_profile_toml(manager_user_path),
-        mock_state=state,
+        settings=settings,
+        user_profile=load_user_profile_toml(manager_user_path),
         api_client=client,
+        mock_state=state,
+        runtime=RuntimeContextV0(workflow_stage="manager_summary"),
     )
     executive = SkillContext.from_user_profile(
-        settings,
-        load_user_profile_toml(executive_user_path),
-        mock_state=state,
+        settings=settings,
+        user_profile=load_user_profile_toml(executive_user_path),
         api_client=client,
+        mock_state=state,
+        runtime=RuntimeContextV0(workflow_stage="executive_decision"),
     )
     return DemoContexts(state=state, staff=staff, manager=manager, executive=executive)

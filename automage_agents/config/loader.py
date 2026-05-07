@@ -37,21 +37,33 @@ def load_runtime_settings(path: str | Path | None = None) -> RuntimeSettings:
     if path is None:
         return settings
 
-    parsed = load_toml(path)
-    raw = parsed.get("runtime", {})
-    postgres_raw = parsed.get("postgres", {})
+    config_path = Path(path)
+    if not config_path.exists():
+        return settings
+    config = load_toml(config_path)
+    raw = config.get("runtime", {})
+    database = config.get("database", {})
+    postgres_raw = config.get("postgres", {})
+    postgres = PostgresSettings(
+        host=postgres_raw.get("host") or database.get("host") or settings.postgres.host,
+        port=int(postgres_raw.get("port", database.get("port", settings.postgres.port))),
+        database=postgres_raw.get("database") or database.get("name") or settings.postgres.database,
+        user=postgres_raw.get("user") or database.get("user") or settings.postgres.user,
+        password=postgres_raw.get("password") or database.get("password") or settings.postgres.password,
+        sslmode=postgres_raw.get("sslmode", settings.postgres.sslmode),
+    )
     return RuntimeSettings(
         environment=raw.get("environment", settings.environment),
         backend_mode=raw.get("backend_mode", settings.backend_mode),
-        audit_enabled=bool(raw.get("audit_enabled", settings.audit_enabled)),
+        audit_enabled=_bool(raw.get("audit_enabled", settings.audit_enabled)),
         audit_org_id=int(raw.get("audit_org_id", settings.audit_org_id)),
-        auth_enabled=bool(raw.get("auth_enabled", settings.auth_enabled)),
-        scheduler_enabled=bool(raw.get("scheduler_enabled", settings.scheduler_enabled)),
-        scheduler_timezone=str(raw.get("scheduler_timezone", settings.scheduler_timezone)),
+        auth_enabled=_bool(raw.get("auth_enabled", settings.auth_enabled)),
+        scheduler_enabled=_bool(raw.get("scheduler_enabled", settings.scheduler_enabled)),
+        scheduler_timezone=raw.get("scheduler_timezone", settings.scheduler_timezone),
         scheduler_jobs=list(raw.get("scheduler_jobs", settings.scheduler_jobs)),
         scheduler_task_record_limit=int(raw.get("scheduler_task_record_limit", settings.scheduler_task_record_limit)),
-        abuse_protection_enabled=bool(raw.get("abuse_protection_enabled", settings.abuse_protection_enabled)),
-        rbac_enabled=bool(raw.get("rbac_enabled", settings.rbac_enabled)),
+        rbac_enabled=_bool(raw.get("rbac_enabled", settings.rbac_enabled)),
+        abuse_protection_enabled=_bool(raw.get("abuse_protection_enabled", settings.abuse_protection_enabled)),
         rate_limit_window_seconds=int(raw.get("rate_limit_window_seconds", settings.rate_limit_window_seconds)),
         rate_limit_max_requests=int(raw.get("rate_limit_max_requests", settings.rate_limit_max_requests)),
         idempotency_ttl_seconds=int(raw.get("idempotency_ttl_seconds", settings.idempotency_ttl_seconds)),
@@ -65,17 +77,25 @@ def load_runtime_settings(path: str | Path | None = None) -> RuntimeSettings:
         auth_token=raw.get("auth_token", settings.auth_token),
         openclaw_enabled=bool(raw.get("openclaw_enabled", settings.openclaw_enabled)),
         feishu_enabled=bool(raw.get("feishu_enabled", settings.feishu_enabled)),
-        feishu_app_id=raw.get("feishu_app_id", settings.feishu_app_id),
-        feishu_app_secret=raw.get("feishu_app_secret", settings.feishu_app_secret),
-        postgres=PostgresSettings(
-            host=postgres_raw.get("host", settings.postgres.host),
-            port=int(postgres_raw.get("port", settings.postgres.port)),
-            database=postgres_raw.get("database", settings.postgres.database),
-            user=postgres_raw.get("user", settings.postgres.user),
-            password=postgres_raw.get("password", settings.postgres.password),
-            sslmode=postgres_raw.get("sslmode", settings.postgres.sslmode),
-        ),
+        feishu_app_id=raw.get("feishu_app_id") or settings.feishu_app_id,
+        feishu_app_secret=raw.get("feishu_app_secret") or settings.feishu_app_secret,
+        feishu_event_mode=raw.get("feishu_event_mode") or settings.feishu_event_mode,
+        database_driver=database.get("driver") or settings.database_driver,
+        database_host=database.get("host") or postgres_raw.get("host") or settings.database_host,
+        database_port=int(database.get("port", postgres_raw.get("port", settings.database_port))),
+        database_name=database.get("name") or postgres_raw.get("database") or settings.database_name,
+        database_user=database.get("user") or postgres_raw.get("user") or settings.database_user,
+        database_password=database.get("password") or postgres_raw.get("password") or settings.database_password,
+        postgres=postgres,
     )
+
+
+def _bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return False
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
 
 
 def build_user_profile(raw: dict[str, Any]) -> UserProfile:

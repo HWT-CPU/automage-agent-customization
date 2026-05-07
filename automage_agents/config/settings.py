@@ -2,7 +2,26 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
+
+
+def _load_env_file(path: Path) -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key:
+            os.environ.setdefault(key, value)
+
+
+def _env(name: str, default: str | None = None, prefix: str = "AUTOMAGE_") -> str | None:
+    return os.getenv(f"{prefix}{name}") or os.getenv(name) or default
 
 
 @dataclass(slots=True)
@@ -15,22 +34,19 @@ class PostgresSettings:
     sslmode: str = "prefer"
 
     @classmethod
-    def from_env(cls, prefix: str = "AUTOMAGE_DB_") -> "PostgresSettings":
+    def from_env(cls) -> "PostgresSettings":
         return cls(
-            host=os.getenv(f"{prefix}HOST", "localhost"),
-            port=int(os.getenv(f"{prefix}PORT", "5432")),
-            database=os.getenv(f"{prefix}NAME", "automage"),
-            user=os.getenv(f"{prefix}USER", "automage"),
-            password=os.getenv(f"{prefix}PASSWORD"),
-            sslmode=os.getenv(f"{prefix}SSLMODE", "prefer"),
+            host=os.getenv("AUTOMAGE_DB_HOST") or os.getenv("AUTOMAGE_DATABASE_HOST") or "localhost",
+            port=int(os.getenv("AUTOMAGE_DB_PORT") or os.getenv("AUTOMAGE_DATABASE_PORT") or "5432"),
+            database=os.getenv("AUTOMAGE_DB_NAME") or os.getenv("AUTOMAGE_DATABASE_NAME") or "automage",
+            user=os.getenv("AUTOMAGE_DB_USER") or os.getenv("AUTOMAGE_DATABASE_USER") or "automage",
+            password=os.getenv("AUTOMAGE_DB_PASSWORD") or os.getenv("AUTOMAGE_DATABASE_PASSWORD"),
+            sslmode=os.getenv("AUTOMAGE_DB_SSLMODE") or "prefer",
         )
 
     def dsn(self) -> str:
         password = self.password or ""
-        return (
-            f"postgresql://{self.user}:{password}@{self.host}:{self.port}/"
-            f"{self.database}?sslmode={self.sslmode}"
-        )
+        return f"postgresql://{self.user}:{password}@{self.host}:{self.port}/{self.database}?sslmode={self.sslmode}"
 
 
 @dataclass(slots=True)
@@ -44,16 +60,8 @@ class RuntimeSettings:
     scheduler_timezone: str = "Asia/Shanghai"
     scheduler_jobs: list[dict[str, Any]] = field(
         default_factory=lambda: [
-            {
-                "name": "staff_daily_reminder_job",
-                "interval_seconds": 300,
-                "enabled": True,
-            },
-            {
-                "name": "manager_summary_reminder_job",
-                "interval_seconds": 600,
-                "enabled": True,
-            },
+            {"name": "staff_daily_reminder_job", "interval_seconds": 300, "enabled": True},
+            {"name": "manager_summary_reminder_job", "interval_seconds": 600, "enabled": True},
         ]
     )
     scheduler_task_record_limit: int = 100
@@ -79,58 +87,71 @@ class RuntimeSettings:
     feishu_enabled: bool = False
     feishu_app_id: str | None = None
     feishu_app_secret: str | None = None
+    feishu_event_mode: str = "mock"
+    database_driver: str = "postgresql"
+    database_host: str | None = None
+    database_port: int = 5432
+    database_name: str | None = None
+    database_user: str | None = None
+    database_password: str | None = None
     postgres: PostgresSettings = field(default_factory=PostgresSettings)
 
     @classmethod
     def from_env(cls, prefix: str = "AUTOMAGE_") -> "RuntimeSettings":
-        scheduler_jobs_raw = os.getenv(f"{prefix}SCHEDULER_JOBS", "").strip()
-        write_paths_raw = os.getenv(f"{prefix}WRITE_PROTECTED_PATHS", "").strip()
+        _load_env_file(Path(__file__).resolve().parents[2] / ".env")
+        scheduler_jobs_raw = _env("SCHEDULER_JOBS", "", prefix) or ""
+        write_paths_raw = _env("WRITE_PROTECTED_PATHS", "", prefix) or ""
         return cls(
-            environment=os.getenv(f"{prefix}ENV", "local"),
-            backend_mode=os.getenv(f"{prefix}BACKEND_MODE", "http"),
-            audit_enabled=os.getenv(f"{prefix}AUDIT_ENABLED", "true").lower() == "true",
-            audit_org_id=int(os.getenv(f"{prefix}AUDIT_ORG_ID", "0")),
-            auth_enabled=os.getenv(f"{prefix}AUTH_ENABLED", "false").lower() == "true",
-            scheduler_enabled=os.getenv(f"{prefix}SCHEDULER_ENABLED", "false").lower() == "true",
-            scheduler_timezone=os.getenv(f"{prefix}SCHEDULER_TIMEZONE", "Asia/Shanghai"),
+            environment=_env("ENV", "local", prefix) or "local",
+            backend_mode=_env("BACKEND_MODE", "http", prefix) or "http",
+            audit_enabled=(_env("AUDIT_ENABLED", "true", prefix) or "true").lower() == "true",
+            audit_org_id=int(_env("AUDIT_ORG_ID", "0", prefix) or "0"),
+            auth_enabled=(_env("AUTH_ENABLED", "false", prefix) or "false").lower() == "true",
+            scheduler_enabled=(_env("SCHEDULER_ENABLED", "false", prefix) or "false").lower() == "true",
+            scheduler_timezone=_env("SCHEDULER_TIMEZONE", "Asia/Shanghai", prefix) or "Asia/Shanghai",
             scheduler_jobs=_parse_scheduler_jobs(scheduler_jobs_raw),
-            scheduler_task_record_limit=int(os.getenv(f"{prefix}SCHEDULER_TASK_RECORD_LIMIT", "100")),
-            abuse_protection_enabled=os.getenv(f"{prefix}ABUSE_PROTECTION_ENABLED", "false").lower() == "true",
-            rbac_enabled=os.getenv(f"{prefix}RBAC_ENABLED", "true").lower() == "true",
-            rate_limit_window_seconds=int(os.getenv(f"{prefix}RATE_LIMIT_WINDOW_SECONDS", "60")),
-            rate_limit_max_requests=int(os.getenv(f"{prefix}RATE_LIMIT_MAX_REQUESTS", "60")),
-            idempotency_ttl_seconds=int(os.getenv(f"{prefix}IDEMPOTENCY_TTL_SECONDS", "300")),
+            scheduler_task_record_limit=int(_env("SCHEDULER_TASK_RECORD_LIMIT", "100", prefix) or "100"),
+            rbac_enabled=(_env("RBAC_ENABLED", "true", prefix) or "true").lower() == "true",
+            abuse_protection_enabled=(_env("ABUSE_PROTECTION_ENABLED", "false", prefix) or "false").lower() == "true",
+            rate_limit_window_seconds=int(_env("RATE_LIMIT_WINDOW_SECONDS", "60", prefix) or "60"),
+            rate_limit_max_requests=int(_env("RATE_LIMIT_MAX_REQUESTS", "60", prefix) or "60"),
+            idempotency_ttl_seconds=int(_env("IDEMPOTENCY_TTL_SECONDS", "300", prefix) or "300"),
             write_protected_paths=_parse_write_protected_paths(write_paths_raw),
-            api_base_url=os.getenv(f"{prefix}API_BASE_URL", "http://localhost:8000"),
-            api_timeout_seconds=float(os.getenv(f"{prefix}API_TIMEOUT_SECONDS", "10")),
-            max_schema_correction_attempts=int(os.getenv(f"{prefix}MAX_SCHEMA_CORRECTION_ATTEMPTS", "2")),
-            auth_token=os.getenv(f"{prefix}AUTH_TOKEN"),
-            openclaw_enabled=os.getenv(f"{prefix}OPENCLAW_ENABLED", "false").lower() == "true",
-            feishu_enabled=os.getenv(f"{prefix}FEISHU_ENABLED", "false").lower() == "true",
-            feishu_app_id=os.getenv(f"{prefix}FEISHU_APP_ID"),
-            feishu_app_secret=os.getenv(f"{prefix}FEISHU_APP_SECRET"),
+            api_base_url=_env("API_BASE_URL", "http://localhost:8000", prefix) or "http://localhost:8000",
+            api_timeout_seconds=float(_env("API_TIMEOUT_SECONDS", "10", prefix) or "10"),
+            max_schema_correction_attempts=int(_env("MAX_SCHEMA_CORRECTION_ATTEMPTS", "2", prefix) or "2"),
+            auth_token=_env("AUTH_TOKEN", prefix=prefix),
+            openclaw_enabled=(_env("OPENCLAW_ENABLED", "false", prefix) or "false").lower() == "true",
+            feishu_enabled=(_env("FEISHU_ENABLED", "false", prefix) or "false").lower() == "true",
+            feishu_app_id=_env("FEISHU_APP_ID", prefix=prefix),
+            feishu_app_secret=_env("FEISHU_APP_SECRET", prefix=prefix),
+            feishu_event_mode=_env("FEISHU_EVENT_MODE", "mock", prefix) or "mock",
+            database_driver=_env("DATABASE_DRIVER", "postgresql", prefix) or "postgresql",
+            database_host=_env("DATABASE_HOST", prefix=prefix),
+            database_port=int(_env("DATABASE_PORT", "5432", prefix) or "5432"),
+            database_name=_env("DATABASE_NAME", prefix=prefix),
+            database_user=_env("DATABASE_USER", prefix=prefix),
+            database_password=_env("DATABASE_PASSWORD", prefix=prefix),
             postgres=PostgresSettings.from_env(),
         )
 
     def auth_headers(self) -> dict[str, str]:
+        # TODO(熊锦文): 确认最终鉴权方式，是 Bearer Token、API Key、签名，还是 role_id 物理隔离。
         if not self.auth_token:
             return {}
         return {"Authorization": f"Bearer {self.auth_token}"}
+
+    def database_configured(self) -> bool:
+        legacy_configured = bool(self.database_host and self.database_name and self.database_user and self.database_password)
+        postgres_configured = bool(self.postgres.host and self.postgres.database and self.postgres.user and self.postgres.password)
+        return legacy_configured or postgres_configured
 
 
 def _parse_scheduler_jobs(raw: str) -> list[dict[str, Any]]:
     if not raw:
         return [
-            {
-                "name": "staff_daily_reminder_job",
-                "interval_seconds": 300,
-                "enabled": True,
-            },
-            {
-                "name": "manager_summary_reminder_job",
-                "interval_seconds": 600,
-                "enabled": True,
-            },
+            {"name": "staff_daily_reminder_job", "interval_seconds": 300, "enabled": True},
+            {"name": "manager_summary_reminder_job", "interval_seconds": 600, "enabled": True},
         ]
     jobs: list[dict[str, Any]] = []
     for chunk in raw.split(","):

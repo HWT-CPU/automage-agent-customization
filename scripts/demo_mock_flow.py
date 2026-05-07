@@ -15,7 +15,7 @@ from automage_agents.integrations.feishu.messages import FeishuMessageAdapter
 from automage_agents.integrations.openclaw.adapter import OpenClawAdapter
 from automage_agents.integrations.router import InternalEventRouter
 from automage_agents.skills.common import agent_init
-from automage_agents.skills.manager import generate_manager_report
+from automage_agents.skills.manager import analyze_team_reports, generate_manager_report
 
 
 def main() -> None:
@@ -54,6 +54,17 @@ def main() -> None:
     )
     staff_result = openclaw.handle_event(feishu_events.to_internal_event(staff_event))
     output["steps"].append({"step": "staff_daily_report_submitted", "ok": staff_result.ok, "message": staff_result.message})
+
+    team_reports_result = analyze_team_reports(contexts.manager, date="2026-05-02")
+    team_report_count = len(team_reports_result.data.get("items", []))
+    output["steps"].append(
+        {
+            "step": "manager_fetch_team_reports",
+            "ok": team_reports_result.ok,
+            "message": team_reports_result.message,
+            "report_count": team_report_count,
+        }
+    )
 
     manager_result = generate_manager_report(
         contexts.manager,
@@ -107,10 +118,17 @@ def main() -> None:
     output["steps"].append({"step": "staff_fetch_tasks", "ok": task_result.ok, "message": task_result.message, "data": task_result.data})
 
     output["state"] = {
+        "agent_sessions": len(contexts.state.agent_sessions),
         "staff_reports": len(contexts.state.staff_reports),
+        "form_templates": len(contexts.state.form_templates),
+        "work_records": len(contexts.state.work_records),
+        "work_record_items": len(contexts.state.work_record_items),
         "manager_reports": len(contexts.state.manager_reports),
+        "agent_decision_logs": len(contexts.state.agent_decision_logs),
         "decision_logs": len(contexts.state.decision_logs),
         "task_queue": len(contexts.state.task_queue),
+        "audit_logs": len(contexts.state.audit_logs),
+        "runtime_contexts": [item["context"] for item in contexts.state.initialized_agents],
     }
     print(json.dumps(output, ensure_ascii=False, indent=2))
 

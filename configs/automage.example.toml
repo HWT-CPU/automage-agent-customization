@@ -1,6 +1,6 @@
 [runtime]
 environment = "local"
-backend_mode = "http"
+backend_mode = "mock"
 audit_enabled = true
 audit_org_id = 0
 auth_enabled = false
@@ -11,8 +11,8 @@ scheduler_jobs = [
   { name = "manager_summary_reminder_job", interval_seconds = 600, enabled = true },
 ]
 scheduler_task_record_limit = 100
-abuse_protection_enabled = false
 rbac_enabled = true
+abuse_protection_enabled = false
 rate_limit_window_seconds = 60
 rate_limit_max_requests = 60
 idempotency_ttl_seconds = 300
@@ -32,6 +32,14 @@ feishu_enabled = false
 feishu_app_id = ""
 feishu_app_secret = ""
 
+[database]
+driver = "postgresql"
+host = ""
+port = 5432
+name = ""
+user = ""
+password = ""
+
 [postgres]
 host = "localhost"
 port = 5432
@@ -40,5 +48,7 @@ user = "automage"
 password = ""
 sslmode = "prefer"
 
-# TODO: replace with the real backend API base URL and auth settings.
-# TODO: keep production credentials out of version control.
+# TODO(熊锦文): 确认真实 API base URL、鉴权 Token 或签名方式。
+# TODO(熊锦文): 真实数据库密码只允许放在本地 .env 或密钥管理器，不得提交到仓库。
+# TODO(OpenClaw): 确认 OpenClaw Channel 是否单独管理飞书凭证。
+# TODO(全栈/运维): 真实凭证不得提交到仓库，后续改为环境变量或配置中心。

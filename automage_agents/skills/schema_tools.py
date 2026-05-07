@@ -4,6 +4,7 @@ from typing import Any
 
 from automage_agents.core.models import SkillResult
 from automage_agents.schemas.placeholders import MANAGER_REPORT_SCHEMA_ID, STAFF_REPORT_SCHEMA_ID
+from automage_agents.schemas.registry import load_schema, schema_available
 
 
 STAFF_REQUIRED_FIELDS = {
@@ -40,12 +41,48 @@ def validate_required_fields(payload: dict[str, Any], required_fields: set[str])
 
 def validate_staff_report_payload(payload: dict[str, Any]) -> SkillResult:
     # TODO(杨卓): Replace required-field check with final schema_v1_staff validation rules.
+    if payload.get("schema_id") == STAFF_REPORT_SCHEMA_ID and payload.get("schema_version") == "1.0.0":
+        return validate_json_schema(payload, STAFF_REPORT_SCHEMA_ID)
     return validate_required_fields(payload, STAFF_REQUIRED_FIELDS)
 
 
 def validate_manager_report_payload(payload: dict[str, Any]) -> SkillResult:
     # TODO(杨卓): Replace required-field check with final schema_v1_manager validation rules.
+    if payload.get("schema_id") == MANAGER_REPORT_SCHEMA_ID and payload.get("schema_version") == "1.0.0":
+        return validate_json_schema(payload, MANAGER_REPORT_SCHEMA_ID)
     return validate_required_fields(payload, MANAGER_REQUIRED_FIELDS)
+
+
+def validate_json_schema(payload: dict[str, Any], schema_id: str) -> SkillResult:
+    if not schema_available(schema_id):
+        return SkillResult(
+            ok=False,
+            data={"schema_id": schema_id, "payload": payload},
+            message="JSON schema file is unavailable.",
+            error_code="schema_file_unavailable",
+        )
+    try:
+        from jsonschema import Draft202012Validator
+    except ImportError:
+        return validate_required_fields(payload, STAFF_REQUIRED_FIELDS if schema_id == STAFF_REPORT_SCHEMA_ID else MANAGER_REQUIRED_FIELDS)
+
+    schema = load_schema(schema_id)
+    errors = sorted(Draft202012Validator(schema).iter_errors(payload), key=lambda error: list(error.path))
+    if errors:
+        return SkillResult(
+            ok=False,
+            data={
+                "schema_id": schema_id,
+                "errors": [
+                    {"path": ".".join(str(item) for item in error.path), "message": error.message}
+                    for error in errors
+                ],
+                "payload": payload,
+            },
+            message="JSON schema validation failed.",
+            error_code="local_json_schema_validation_failed",
+        )
+    return SkillResult(ok=True, data={"payload": payload, "schema_id": schema_id}, message="json schema validation passed")
 
 
 def schema_self_correct(

@@ -1,0 +1,115 @@
+{
+  "schema_id": "schema_v1_manager",
+  "schema_version": "1.0.0",
+  "timestamp": "2026-05-06T21:00:00+08:00",
+  "org_id": "org_automage_mvp",
+  "dept_id": "dept_mvp_core",
+  "manager_user_id": "user_manager_001",
+  "manager_node_id": "manager_agent_m2_core_001",
+  "summary_date": "2026-05-06",
+  "staff_report_count": 1,
+  "missing_report_count": 0,
+  "missing_staff_ids": [],
+  "overall_health": "green",
+  "aggregated_summary": "Agent 侧本地 Mock 链路进展正常，Staff 日报模板解析、Context v0、三级 Agent prompt 和本地 Mock Workflow 已形成可联调基础。当前主要工作可继续按 5.7 计划推进，将 mock 调用逐步替换为数据库 Skill。",
+  "top_3_risks": [
+    {
+      "risk_id": "RISK-MGR-NORMAL-001",
+      "risk_title": "Mock 与真实库字段仍需对齐",
+      "description": "不影响本地 Mock 闭环，但进入真实 API 联调前需要冻结字段映射。",
+      "severity": "medium",
+      "source_type": "staff_report",
+      "source_id": "WR-20260506-STAFF-NORMAL-001",
+      "owner_user_id": "user_agent_001",
+      "suggested_action": "由数据库 Agent 生成真实库字段映射报告后回修 Mock 包。",
+      "need_escalation": false
+    }
+  ],
+  "workforce_efficiency": {
+    "score": 86,
+    "level": "high",
+    "explanation": "Agent prompt、Context、Mock Demo 已形成闭环，后续重点是替换真实 API。"
+  },
+  "pending_approvals": 0,
+  "highlight_staff": [
+    {
+      "user_id": "user_agent_001",
+      "display_name": "胡文涛",
+      "reason": "完成三级 Agent prompt、Context v0 和本地 Mock Demo 链路，为里程碑二提供可运行基础。",
+      "evidence_record_ids": [
+        "WR-20260506-STAFF-NORMAL-001"
+      ]
+    }
+  ],
+  "blocked_items": [],
+  "manager_decisions": [
+    {
+      "decision_id": "MDEC-20260506-001",
+      "decision_title": "继续用本地 Mock 数据推进 Agent 编排验证",
+      "decision_level": "L2",
+      "background": "当前 Mock 链路不依赖真实数据库，可先验证 Staff → Manager → Executive → Task 的结构正确性。",
+      "handled_by": "user_manager_001",
+      "result": "同意 5.7 上午继续使用 Mock 数据推进，下午视数据库 Skill 状态替换真实 API。",
+      "status": "confirmed",
+      "source_record_ids": [
+        "WR-20260506-STAFF-NORMAL-001"
+      ]
+    }
+  ],
+  "need_executive_decision": [],
+  "next_day_adjustment": [
+    {
+      "adjustment_id": "ADJ-MGR-NORMAL-001",
+      "title": "优先替换 Staff 写入和任务查询两个 API",
+      "description": "Manager 汇总可暂时基于已落库 Staff 数据或 Mock 数据生成，避免全链路一次性替换导致定位困难。",
+      "target_user_id": "user_agent_001",
+      "target_role": "Agent 客制化",
+      "priority": "high",
+      "expected_output": "Staff 写入验证和 Task 查询验证。"
+    }
+  ],
+  "source_record_ids": [
+    "WR-20260506-STAFF-NORMAL-001"
+  ],
+  "source_task_ids": [
+    "TASK-20260506-AGENT-001",
+    "TASK-20260506-AGENT-002"
+  ],
+  "source_incident_ids": [],
+  "signature": {
+    "confirm_status": "confirmed",
+    "signed_by": "user_manager_001",
+    "signed_by_role": "manager",
+    "signed_at": "2026-05-06T21:00:00+08:00",
+    "signature_method": "manual_confirm",
+    "payload_hash": "sha256:ef34ad57b0b32834369555bbbb580b421a034d0c59fab3de040f9248882200b9",
+    "signature_value": "mock_signature_6b53491dee3c",
+    "comment": "MVP Mock 数据确认"
+  },
+  "meta": {
+    "mock_case": "normal",
+    "milestone": "M2",
+    "api_endpoint": "POST /api/v1/report/manager",
+    "recommended_write_tables": [
+      "manager_reports",
+      "summaries",
+      "summary_source_links",
+      "audit_logs"
+    ],
+    "compatible_design_tables": [
+      "summaries",
+      "summary_source_links",
+      "audit_logs"
+    ],
+    "read_tables": [
+      "staff_reports",
+      "work_records",
+      "work_record_items",
+      "incidents",
+      "tasks"
+    ],
+    "summary_type": "department_daily",
+    "scope_type": "department",
+    "db_mapping_strategy": "Manager 汇总主落 manager_reports；跨层汇总索引和兼容读取落 summaries；来源关系落 summary_source_links。"
+  }
+}

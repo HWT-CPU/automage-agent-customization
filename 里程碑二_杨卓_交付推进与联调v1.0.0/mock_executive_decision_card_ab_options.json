@@ -1,0 +1,222 @@
+{
+  "schema_id": "schema_v1_executive",
+  "schema_version": "1.0.0",
+  "timestamp": "2026-05-06T21:30:00+08:00",
+  "org_id": "org_automage_mvp",
+  "executive_user_id": "user_executive_001",
+  "executive_node_id": "executive_agent_boss_001",
+  "summary_date": "2026-05-06",
+  "business_summary": "AutoMage-2 MVP 里程碑二本地 Mock 闭环已具备交付基础，但真实数据库 API / Skill 最小链路尚未验证。当前关键不是继续扩展功能，而是保证 Staff 写入、Manager 查询、Task 查询三段链路可以被 Agent 稳定调用。",
+  "key_risks": [
+    {
+      "risk_id": "RISK-EXEC-001",
+      "risk_title": "真实 API / 数据库 Skill 未通过端到端验证",
+      "description": "若 5.7 不优先修通，5.8 的真实联调会反复卡在字段、鉴权、连接和返回格式问题上。",
+      "severity": "high",
+      "source_type": "manager_summary",
+      "source_id": "MSUM-20260506-NEED-EXEC-001",
+      "owner_user_id": "user_backend_001",
+      "suggested_action": "确认 5.7 最高优先级为三条最小链路 API / Skill 验证。",
+      "need_escalation": true
+    },
+    {
+      "risk_id": "RISK-EXEC-002",
+      "risk_title": "数据库新增表与契约主落点需要冻结",
+      "description": "真实库中出现 staff_reports、manager_reports、decision_records、task_queue 等表，需明确与里程碑一设计表的关系。",
+      "severity": "medium",
+      "source_type": "manager_summary",
+      "source_id": "MSUM-20260506-NEED-EXEC-001",
+      "owner_user_id": "user_manager_001",
+      "suggested_action": "由数据库 Agent 输出对齐报告，杨卓负责回修 Mock 字段映射。",
+      "need_escalation": false
+    }
+  ],
+  "decision_required": true,
+  "decision_items": [
+    {
+      "decision_id": "DEC-20260506-001",
+      "decision_title": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+      "background": "本地 Mock 闭环已可推进，但真实联调入口依赖后端 API 和数据库 Skill。当前需要明确 5.7 工作优先级，避免支线需求抢占主链路。",
+      "decision_level": "L3",
+      "risk_level": "high",
+      "options": [
+        {
+          "option_id": "A",
+          "title": "主链路优先",
+          "description": "5.7 上午优先修通 Staff 写入、Manager 查询、Task 查询三个 API / Skill 最小链路，Landing Page 和新员工注册作为并行但不抢占主链路的支线。",
+          "pros": [
+            "最大化降低 5.8 联调失败风险",
+            "符合 DAG 主链路优先原则",
+            "便于快速定位字段和鉴权问题"
+          ],
+          "cons": [
+            "部分非主链路功能可能延后"
+          ],
+          "estimated_cost": 1.0,
+          "estimated_duration": "0.5-1 天",
+          "risk_level": "low"
+        },
+        {
+          "option_id": "B",
+          "title": "继续多线并行",
+          "description": "API、数据库 Skill、Landing Page、新员工注册继续并行推进，不调整优先级。",
+          "pros": [
+            "整体面推进较快",
+            "支线产物不会等待主链路"
+          ],
+          "cons": [
+            "主链路未修通时 5.8 联调风险高",
+            "问题定位成本增加",
+            "容易出现文档和实现再次偏移"
+          ],
+          "estimated_cost": 1.5,
+          "estimated_duration": "1-2 天",
+          "risk_level": "high"
+        }
+      ],
+      "recommended_option": "A",
+      "reasoning_summary": "里程碑二验收核心是 Staff → Manager → Executive → Task 闭环，主链路 API / Skill 未通过会直接影响 5.8 和 5.9；因此应优先保证最小链路闭合。",
+      "expected_impact": {
+        "summary": "选择 A 后，后端和 Agent 侧会围绕三条最小链路集中联调，Mock 包继续作为本地兜底，数据库对齐报告用于回修字段映射。",
+        "impact_level": "high",
+        "target_date": "2026-05-07"
+      },
+      "source_summary_ids": [
+        "MSUM-20260506-NEED-EXEC-001"
+      ],
+      "source_incident_ids": [
+        "INC-20260506-API-SKILL-001"
+      ]
+    }
+  ],
+  "option_a": {
+    "option_id": "A",
+    "title": "主链路优先：先修通三条 API / Skill 最小链路",
+    "description": "5.7 上午集中完成 Staff 写入、Manager 查询、Task 查询三个最小链路；下午 Agent 侧替换 mock 调用并输出真实 API 接入版 demo。",
+    "pros": [
+      "直接服务里程碑二和里程碑三入口",
+      "降低字段不匹配风险",
+      "问题边界清楚"
+    ],
+    "cons": [
+      "Landing Page P0 和新员工注册支线会暂时降优先级"
+    ],
+    "estimated_cost": 1.0,
+    "estimated_duration": "0.5-1 天",
+    "risk_level": "low"
+  },
+  "option_b": {
+    "option_id": "B",
+    "title": "多线并行：维持原计划同步推进",
+    "description": "后端 API、数据库 Skill、Agent 编排、Landing Page、新员工注册继续并行推进，不调整优先级。",
+    "pros": [
+      "短期产物数量更多",
+      "支线进度不受影响"
+    ],
+    "cons": [
+      "主链路联调失败风险较高",
+      "真实 API 迟迟不通会影响里程碑三",
+      "团队容易在非核心问题上分散"
+    ],
+    "estimated_cost": 1.5,
+    "estimated_duration": "1-2 天",
+    "risk_level": "high"
+  },
+  "recommended_option": "A",
+  "reasoning_summary": "按 Workflow First 原则，里程碑二必须先保证可运行主链路；数据库可连接已经解决底层前提，下一步应集中验证 API / Skill 的真实读写。",
+  "expected_impact": {
+    "positive": [
+      "5.8 前主链路更可能完成真实联调",
+      "Mock 数据字段能更快回修到真实库映射",
+      "后端和 Agent 的接口争议减少"
+    ],
+    "negative": [
+      "新员工注册和老板侧 Landing Page 的部分细节可能顺延"
+    ],
+    "acceptance_change": "里程碑二本地 Mock 闭环按原计划验收；真实 API / Skill 最小链路作为 5.8 联调入口验收。"
+  },
+  "generated_tasks": [
+    {
+      "task_title": "提供 Staff 写入 / Manager 查询 / Task 查询三条最小 API 调用样例",
+      "task_description": "后端提供可复现请求、响应、错误码、审计字段和对应数据库表，供 Agent 侧替换 mock 调用。",
+      "assignee_user_id": "user_backend_001",
+      "assignee_role": "后端 / 数据库 Skill",
+      "department_id": "dept_mvp_core",
+      "priority": "critical",
+      "due_at": "2026-05-07T12:00:00+08:00",
+      "source_decision_id": "DEC-20260506-001",
+      "confirm_required": false
+    },
+    {
+      "task_title": "将本地 Mock Demo 替换为真实 API / Skill 调用",
+      "task_description": "Agent 侧在后端给出最小链路样例后，完成 Staff 写入与 Task 查询的真实调用验证，并保留 Mock fallback。",
+      "assignee_user_id": "user_agent_001",
+      "assignee_role": "Agent 客制化",
+      "department_id": "dept_mvp_core",
+      "priority": "high",
+      "due_at": "2026-05-07T20:00:00+08:00",
+      "source_decision_id": "DEC-20260506-001",
+      "confirm_required": false
+    },
+    {
+      "task_title": "输出真实数据库与 Mock 字段映射差异清单",
+      "task_description": "基于真实数据库结构，确认 staff_reports/work_records、manager_reports/summaries、decision_records/summaries.meta、task_queue/tasks 的使用关系。",
+      "assignee_user_id": "user_architect_001",
+      "assignee_role": "Schema / DAG / 联调协调",
+      "department_id": "dept_mvp_core",
+      "priority": "high",
+      "due_at": "2026-05-07T18:00:00+08:00",
+      "source_decision_id": "DEC-20260506-001",
+      "confirm_required": false
+    }
+  ],
+  "source_summary_ids": [
+    "MSUM-20260506-NEED-EXEC-001"
+  ],
+  "source_decision_ids": [],
+  "source_incident_ids": [
+    "INC-20260506-API-SKILL-001"
+  ],
+  "human_confirm_status": "pending",
+  "confirmed_by": "user_executive_001",
+  "confirmed_at": "2026-05-06T21:40:00+08:00",
+  "confirmed_option": "A",
+  "signature": {
+    "confirm_status": "confirmed",
+    "signed_by": "user_executive_001",
+    "signed_by_role": "executive",
+    "signed_at": "2026-05-06T21:40:00+08:00",
+    "signature_method": "manual_confirm",
+    "payload_hash": "sha256:0e4c921ce61d768afe4db9c780f1c3580da16fa9e18b4147bfc8985d4d022d2a",
+    "signature_value": "mock_signature_11ac836a16f0",
+    "comment": "Mock 中默认老板选择推荐方案 A，用于验证任务生成。"
+  },
+  "meta": {
+    "mock_case": "ab_options",
+    "milestone": "M2",
+    "api_endpoint": "POST /api/v1/decision/commit",
+    "recommended_write_tables": [
+      "decision_records",
+      "decision_logs",
+      "agent_decision_logs",
+      "tasks",
+      "task_queue",
+      "task_assignments",
+      "audit_logs"
+    ],
+    "compatible_design_tables": [
+      "summaries",
+      "tasks",
+      "task_assignments",
+      "audit_logs"
+    ],
+    "read_tables": [
+      "manager_reports",
+      "summaries",
+      "summary_source_links",
+      "incidents"
+    ],
+    "decision_card_type": "executive_ab_options",
+    "db_mapping_strategy": "Executive 决策卡片主落 decision_records；操作过程落 decision_logs / agent_decision_logs；老板确认后任务草案进入 task_queue，正式任务进入 tasks。"
+  }
+}

@@ -33,7 +33,9 @@ class InternalEventRouter:
     def run_dream_decision(self, payload: dict[str, Any]) -> SkillResult:
         return dream_decision_engine(self.executive_context, payload)
 
-    def _build_staff_report(self, payload: dict[str, Any]) -> StaffReportDraft:
+    def _build_staff_report(self, payload: dict[str, Any]) -> StaffReportDraft | dict[str, Any]:
+        if payload.get("schema_id") == "schema_v1_staff":
+            return dict(payload)
         return StaffReportDraft(
             timestamp=str(payload["timestamp"]),
             work_progress=str(payload["work_progress"]),

@@ -45,41 +45,92 @@ class AutoMageApiClient:
 
         raise ApiTransportError(f"API request failed after retries: {method} {url}") from last_error
 
-    def agent_init(self, identity: AgentIdentity) -> ApiResponse:
-        return self.request(
-            "POST",
-            "/api/v1/agent/init",
-            json_body={"identity": identity.to_dict()},
-            headers=self._identity_headers(identity),
-        )
+    def agent_init(self, identity: AgentIdentity, runtime_context: dict[str, Any] | None = None) -> ApiResponse:
+        payload = {"identity": identity.to_dict(), "context": runtime_context or {}}
+        return self.request("POST", "/api/v1/agent/init", json_body=payload, headers=self._identity_headers(identity))
 
-    def post_staff_report(self, identity: AgentIdentity, report_payload: dict[str, Any]) -> ApiResponse:
+    def post_staff_report(
+        self,
+        identity: AgentIdentity,
+        report_payload: dict[str, Any],
+        runtime_context: dict[str, Any] | None = None,
+    ) -> ApiResponse:
         payload = {"identity": identity.to_dict(), "report": report_payload}
         return self.request("POST", "/api/v1/report/staff", json_body=payload, headers=self._identity_headers(identity))
 
+    def import_staff_daily_report_from_markdown(
+        self,
+        identity: AgentIdentity,
+        import_payload: dict[str, Any],
+        runtime_context: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        return self.request(
+            "POST",
+            "/api/v1/report/staff/import-markdown",
+            json_body=import_payload,
+            headers=self._identity_headers(identity),
+        )
+
+    def read_staff_daily_report(
+        self,
+        work_record_id: str,
+        output_format: str = "json",
+        identity: AgentIdentity | None = None,
+    ) -> ApiResponse:
+        headers = self._identity_headers(identity) if identity is not None else None
+        return self.request("GET", f"/api/v1/report/staff/{work_record_id}", query={"format": output_format}, headers=headers)
+
+    def fetch_work_records(
+        self,
+        identity: AgentIdentity,
+        *,
+        department_id: str | None = None,
+        record_date_from: str | None = None,
+        record_date_to: str | None = None,
+        status: str | None = "submitted",
+        limit: int = 20,
+        cursor: str | None = None,
+    ) -> ApiResponse:
+        query = {
+            "org_id": identity.metadata.get("org_id") or "org-001",
+            "department_id": department_id or identity.department_id,
+            "record_date": record_date_from or record_date_to,
+            "user_id": identity.user_id if identity.role.value == "staff" else None,
+        }
+        return self.request("GET", "/api/v1/report/staff", query=query, headers=self._identity_headers(identity))
+
     def fetch_tasks(self, identity: AgentIdentity, status: str | None = None) -> ApiResponse:
-        query = {"user_id": identity.user_id, "role": identity.role.value, "node_id": identity.node_id}
+        query = {"org_id": identity.metadata.get("org_id") or "org-001", "assignee_user_id": identity.user_id}
         if status:
             query["status"] = status
         return self.request("GET", "/api/v1/tasks", query=query, headers=self._identity_headers(identity))
 
-    def post_manager_report(self, identity: AgentIdentity, report_payload: dict[str, Any]) -> ApiResponse:
-        payload = {"identity": identity.to_dict(), "report": report_payload}
-        return self.request(
-            "POST",
-            "/api/v1/report/manager",
-            json_body=payload,
-            headers=self._identity_headers(identity),
-        )
+    def create_task(
+        self,
+        identity: AgentIdentity,
+        task_payload: dict[str, Any],
+        runtime_context: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        payload = {"tasks": [task_payload]}
+        return self.request("POST", "/api/v1/tasks", json_body=payload, headers=self._identity_headers(identity))
 
-    def commit_decision(self, identity: AgentIdentity, decision_payload: dict[str, Any]) -> ApiResponse:
+    def post_manager_report(
+        self,
+        identity: AgentIdentity,
+        report_payload: dict[str, Any],
+        runtime_context: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        payload = {"identity": identity.to_dict(), "report": report_payload}
+        return self.request("POST", "/api/v1/report/manager", json_body=payload, headers=self._identity_headers(identity))
+
+    def commit_decision(
+        self,
+        identity: AgentIdentity,
+        decision_payload: dict[str, Any],
+        runtime_context: dict[str, Any] | None = None,
+    ) -> ApiResponse:
         payload = {"identity": identity.to_dict(), "decision": decision_payload}
-        return self.request(
-            "POST",
-            "/api/v1/decision/commit",
-            json_body=payload,
-            headers=self._identity_headers(identity),
-        )
+        return self.request("POST", "/api/v1/decision/commit", json_body=payload, headers=self._identity_headers(identity))
 
     def run_dream(self, identity: AgentIdentity, summary_id: str) -> ApiResponse:
         return self.request(
@@ -158,7 +209,4 @@ class AutoMageApiClient:
             headers["X-Department-Id"] = identity.department_id
         if identity.manager_node_id:
             headers["X-Manager-Node-Id"] = identity.manager_node_id
-        display_name = identity.metadata.get("display_name") if isinstance(identity.metadata, dict) else None
-        if display_name:
-            headers["X-Display-Name"] = str(display_name)
         return headers

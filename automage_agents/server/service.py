@@ -1456,7 +1456,10 @@ def _load_staff_report_snapshot(db: Session, work_record: WorkRecordModel) -> di
         snapshot = db.get(StaffReportModel, snapshot_id)
         if snapshot is not None:
             return dict(snapshot.report_json or {})
-    hydrated = load_staff_daily_report(db, work_record.id)
+    try:
+        hydrated = load_staff_daily_report(db, work_record.id)
+    except (KeyError, TypeError, ValueError):
+        return None
     if hydrated is None:
         return None
     legacy = dict(hydrated.report.get("legacy_projection") or {})

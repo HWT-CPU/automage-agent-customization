@@ -208,24 +208,25 @@ def _append_table_section(lines: list[str], index: int, title: str, headers: lis
 
 
 def _basic_info_rows(basic_info: dict[str, Any]) -> list[list[Any]]:
+    work_types = basic_info.get("work_types") or []
     return [
-        ["日报日期", basic_info["report_date"]],
-        ["提交人", basic_info["submitted_by"]],
-        ["所属项目", basic_info["project_name"]],
-        ["所属角色", basic_info["role_name"]],
-        ["负责模块", basic_info["responsibility_module"]],
-        ["今日工作类型", " / ".join(basic_info["work_types"])],
-        ["日报状态", basic_info["report_status"]],
-        ["提交时间", basic_info["submitted_at"] or ""],
-        ["本人确认", _bool_text(basic_info["self_confirmed"])],
-        ["Schema ID", basic_info["schema_id_ref"]],
-        ["Schema版本", basic_info["schema_version_ref"]],
-        ["组织ID", basic_info["org_id"]],
-        ["部门/项目组", basic_info["department_or_project_group"]],
-        ["用户ID", basic_info["user_id"]],
-        ["Agent节点ID", basic_info["agent_node_id"]],
-        ["填报渠道", basic_info["submission_channel"]],
-        ["关联日报模板", basic_info["related_template_name"]],
+        ["日报日期", basic_info.get("report_date", "")],
+        ["提交人", basic_info.get("submitted_by", "")],
+        ["所属项目", basic_info.get("project_name", "")],
+        ["所属角色", basic_info.get("role_name", "")],
+        ["负责模块", basic_info.get("responsibility_module", "")],
+        ["今日工作类型", " / ".join(str(item) for item in work_types)],
+        ["日报状态", basic_info.get("report_status", "")],
+        ["提交时间", basic_info.get("submitted_at") or ""],
+        ["本人确认", _bool_text(bool(basic_info.get("self_confirmed")))],
+        ["Schema ID", basic_info.get("schema_id_ref", "")],
+        ["Schema版本", basic_info.get("schema_version_ref", "")],
+        ["组织ID", basic_info.get("org_id", "")],
+        ["部门/项目组", basic_info.get("department_or_project_group", "")],
+        ["用户ID", basic_info.get("user_id", "")],
+        ["Agent节点ID", basic_info.get("agent_node_id", "")],
+        ["填报渠道", basic_info.get("submission_channel", "")],
+        ["关联日报模板", basic_info.get("related_template_name", "")],
     ]
 
 

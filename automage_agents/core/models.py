@@ -41,6 +41,25 @@ class UserProfile:
 
 
 @dataclass(slots=True)
+class RuntimeContextV0:
+    context_version: str = "context_v0"
+    org_id: str = "org-001"
+    run_date: str = ""
+    workflow_name: str = "automage_mvp_dag"
+    workflow_stage: str = ""
+    source_channel: RuntimeChannel = RuntimeChannel.MOCK
+    input_refs: dict[str, Any] = field(default_factory=dict)
+    output_refs: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self, identity: AgentIdentity | None = None) -> dict[str, Any]:
+        data = asdict(self)
+        data["source_channel"] = self.source_channel.value
+        if identity is not None:
+            data["identity"] = identity.to_dict()
+        return data
+
+
+@dataclass(slots=True)
 class CronEntry:
     name: str
     schedule: str
