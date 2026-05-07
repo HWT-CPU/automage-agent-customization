@@ -1,0 +1,10 @@
+services:
+  api:
+    build:
+      context: .
+    env_file:
+      - .env
+    command: ["sh", "-c", "python scripts/init_db.py && python scripts/run_api.py"]
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
