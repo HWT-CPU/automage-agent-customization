@@ -8,7 +8,7 @@ from automage_agents.skills.executive import broadcast_strategy, commit_decision
 from automage_agents.skills.knowledge import search_feishu_knowledge
 from automage_agents.skills.manager import analyze_team_reports, delegate_task, generate_manager_report, generate_manager_schema
 from automage_agents.skills.schema_tools import schema_self_correct
-from automage_agents.skills.staff import fetch_my_tasks, import_staff_daily_report_from_markdown, post_daily_report, read_staff_daily_report
+from automage_agents.skills.staff import fetch_my_tasks, import_staff_daily_report_from_markdown, post_daily_report, read_staff_daily_report, update_my_task
 
 SkillCallable = Callable[..., Any]
 
@@ -20,6 +20,7 @@ SKILL_REGISTRY: dict[str, SkillCallable] = {
     "search_feishu_knowledge": search_feishu_knowledge,
     "post_daily_report": post_daily_report,
     "fetch_my_tasks": fetch_my_tasks,
+    "update_my_task": update_my_task,
     "import_staff_daily_report_from_markdown": import_staff_daily_report_from_markdown,
     "read_staff_daily_report": read_staff_daily_report,
     "analyze_team_reports": analyze_team_reports,

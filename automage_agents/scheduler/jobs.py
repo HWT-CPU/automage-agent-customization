@@ -11,6 +11,7 @@ from automage_agents.scheduler.services import (
     collect_missing_staff_daily_reports,
     collect_overdue_tasks,
     collect_pending_manager_summaries,
+    generate_pending_manager_summaries,
 )
 
 logger = logging.getLogger("automage.scheduler")
@@ -66,6 +67,30 @@ def build_manager_summary_reminder_job(
                 summary_result.pending_manager_user_ids,
                 len(overdue_tasks),
                 overdue_tasks,
+            )
+        finally:
+            session.close()
+
+    return handler
+
+
+def build_manager_summary_auto_generate_job(
+    session_factory: Callable[[], Session],
+    *,
+    limit: int,
+) -> Callable[[], None]:
+    def handler() -> None:
+        session = session_factory()
+        try:
+            result = generate_pending_manager_summaries(session, summary_date=date.today(), limit=limit)
+            logger.info(
+                "scheduler_job=manager_summary_auto_generate_job summary_date=%s generated_count=%s generated_departments=%s skipped_departments=%s source_record_count=%s errors=%s",
+                result.summary_date,
+                len(result.generated_summary_ids),
+                result.generated_department_ids,
+                result.skipped_department_ids,
+                result.source_record_count,
+                result.errors,
             )
         finally:
             session.close()

@@ -13,6 +13,10 @@ def api_response_to_skill_result(response: ApiResponse, success_message: str = "
         return SkillResult(ok=False, data={"response": response.raw}, message=response.msg, error_code="auth_failed")
     if response.status_code == 403:
         return SkillResult(ok=False, data={"response": response.raw}, message=response.msg, error_code="permission_denied")
+    if response.status_code == 409:
+        return SkillResult(ok=False, data={"response": response.raw}, message=response.msg, error_code="conflict")
+    if response.status_code == 429:
+        return SkillResult(ok=False, data={"response": response.raw}, message=response.msg, error_code="rate_limited")
     if response.status_code == 422:
         return SkillResult(ok=False, data={"response": response.raw}, message=response.msg, error_code="schema_validation_failed")
     if response.status_code >= 500:

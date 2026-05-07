@@ -115,9 +115,12 @@ class HermesOpenClawRuntime:
     def run_dream_decision(self, payload: dict[str, Any]) -> SkillResult:
         return self.router.run_dream_decision(payload)
 
-    def state_summary(self) -> dict[str, int]:
+    def state_summary(self) -> dict[str, int | bool]:
         state = self.contexts.state
+        if state is None:
+            return {"mock_state": False}
         return {
+            "mock_state": True,
             "agent_sessions": len(state.agent_sessions),
             "staff_reports": len(state.staff_reports),
             "form_templates": len(state.form_templates),

@@ -17,6 +17,7 @@ YANG_MOCK_DIR = PROJECT_ROOT / "里程碑二_杨卓_交付推进与联调v1.0.0"
 REPORT_PATH = PROJECT_ROOT / "references" / "yang_mock_skill_field_alignment.md"
 
 from automage_agents.demo.factory import build_demo_contexts
+from automage_agents.schemas.executive_v1 import coerce_task_v1_payload
 from automage_agents.schemas.manager_v1 import coerce_manager_report_v1_payload
 from automage_agents.schemas.staff_v1 import coerce_staff_report_v1_payload
 from automage_agents.skills.common import agent_init
@@ -109,18 +110,7 @@ def _run_current_skills(contexts: Any, yang: dict[str, Any]) -> dict[str, Any]:
     manager_result = generate_manager_report(contexts.manager, yang["manager_need_executive"])
     dream_result = dream_decision_engine(contexts.executive, yang["executive_decision"])
     task_candidates = [
-        {
-            "assignee_user_id": task.get("assignee_user_id"),
-            "title": task.get("task_title"),
-            "description": task.get("task_description"),
-            "priority": task.get("priority"),
-            "due_at": task.get("due_at"),
-            "meta": {
-                "source_yang_task_id": task.get("task_id"),
-                "source_decision_id": task.get("source_decision_id"),
-                "schema_id": task.get("schema_id"),
-            },
-        }
+        coerce_task_v1_payload(task, contexts.executive.identity, contexts.executive.runtime_payload())
         for task in yang["generated_tasks"].get("tasks", [])
     ]
     decision_result = commit_decision(
@@ -173,7 +163,7 @@ def _known_drifts(comparisons: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for comparison in comparisons:
         name = comparison["name"]
         missing = set(comparison["missing_in_actual"])
-        if name.startswith("executive_dream_output"):
+        if name.startswith("executive_dream_output") and missing:
             drifts.append(
                 {
                     "area": name,
@@ -209,9 +199,10 @@ def _known_drifts(comparisons: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def _recommendations(known_drifts: list[dict[str, Any]]) -> list[str]:
     recommendations = [
         "Keep Staff and Manager adapter compatibility checks in regression because they should preserve Yang Zhuo top-level contract fields.",
-        "Treat Executive and Task differences as known placeholder gaps until formal `schema_v1_executive` and `schema_v1_task` adapters are implemented.",
         "After the database alignment report is added, map each drift field to its real database table and API endpoint.",
     ]
+    if not known_drifts:
+        recommendations.append("Keep `python scripts/check_yang_skill_field_alignment.py --strict` in regression; current Staff, Manager, Executive, and Task field alignment has no known drift.")
     if any(drift["type"] == "placeholder_contract" for drift in known_drifts):
         recommendations.append("Add a formal Executive decision card adapter or update `dream_decision_engine` to emit Yang Zhuo `schema_v1_executive` fields.")
     if any(drift["type"] == "task_payload_adapter_gap" for drift in known_drifts):

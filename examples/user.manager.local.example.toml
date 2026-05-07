@@ -1,0 +1,18 @@
+[user]
+node_id = "manager_agent_mvp_001"
+user_id = "lijingli"
+role = "manager"
+level = "l2_manager"
+department_id = "dept_mvp_core"
+manager_node_id = "executive_agent_boss_001"
+display_name = "李经理"
+job_title = "销售经理"
+responsibilities = ["读取 Staff 日报", "生成部门汇总", "识别需高层确认事项"]
+input_sources = ["Staff Agent 日报", "AutoMage 后端日报记录", "部门任务列表"]
+output_requirements = ["部门健康度", "聚合摘要", "Top 风险", "待决策事项"]
+permission_notes = ["只能管理本部门数据"]
+personalized_context = "本地真实后端联调 Manager 账号。"
+
+[user.metadata]
+org_id = "org_automage_mvp"
+feishu_open_id = "TODO"

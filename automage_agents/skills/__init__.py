@@ -7,7 +7,7 @@ from automage_agents.skills.knowledge import search_feishu_knowledge
 from automage_agents.skills.manager import analyze_team_reports, delegate_task, generate_manager_report, generate_manager_schema
 from automage_agents.skills.registry import SKILL_REGISTRY, get_skill
 from automage_agents.skills.schema_tools import schema_self_correct
-from automage_agents.skills.staff import fetch_my_tasks, import_staff_daily_report_from_markdown, post_daily_report, read_staff_daily_report
+from automage_agents.skills.staff import fetch_my_tasks, import_staff_daily_report_from_markdown, post_daily_report, read_staff_daily_report, update_my_task
 
 __all__ = [
     "SKILL_REGISTRY",
@@ -29,4 +29,5 @@ __all__ = [
     "read_staff_daily_report",
     "schema_self_correct",
     "search_feishu_knowledge",
+    "update_my_task",
 ]

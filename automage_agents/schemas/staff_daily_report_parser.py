@@ -6,7 +6,23 @@ from pathlib import Path
 from typing import Any
 
 
-SECTION_HEADER_RE = re.compile(r"^##\s*(\d+)\.")
+SECTION_HEADER_RE = re.compile(r"^##\s*(?:(\d+)\.)?\s*(.*)$")
+
+SECTION_TITLE_ALIASES = {
+    0: {"basicinfo", "基础信息", "基本信息"},
+    1: {"todaytaskprogress", "今日任务进展", "今日任务进度", "任务进展"},
+    2: {"todaycompleteditems", "今日完成事项", "今日完成项", "完成事项"},
+    3: {"todayartifacts", "今日产出物", "今日交付物", "产出物"},
+    4: {"todayblockers", "今日阻塞", "今日问题", "问题阻塞", "阻塞问题"},
+    5: {"supportrequests", "支持请求", "需要支持", "支持事项"},
+    6: {"decisionrequests", "决策请求", "需要决策", "决策事项"},
+    7: {"tomorrowplans", "明日计划", "明天计划", "下一步计划"},
+    8: {"crossmodulerequests", "跨模块请求", "跨部门请求", "协作请求"},
+    9: {"riskassessment", "风险评估", "今日风险", "风险判断"},
+    10: {"contextpromptworkflownotes", "上下文提示工作流备注", "工作流备注", "上下文备注"},
+    11: {"dailysummary", "日报总结", "每日总结", "今日总结"},
+    12: {"signoff", "签署确认", "确认签字", "提交确认"},
+}
 
 
 BASIC_INFO_ALIASES = {
@@ -460,12 +476,28 @@ def _split_sections(markdown: str) -> dict[int, list[str]]:
         line = raw_line.rstrip("\n")
         match = SECTION_HEADER_RE.match(line.strip())
         if match:
-            current_section = int(match.group(1))
+            current_section = _section_number(match.group(1), match.group(2))
+            if current_section is None:
+                continue
             sections[current_section] = []
             continue
         if current_section is not None:
             sections[current_section].append(line)
     return sections
+
+
+def _section_number(raw_number: str | None, raw_title: str) -> int | None:
+    if raw_number:
+        return int(raw_number)
+    normalized = _normalize_section_title(raw_title)
+    for section_number, aliases in SECTION_TITLE_ALIASES.items():
+        if normalized in {_normalize_section_title(alias) for alias in aliases}:
+            return section_number
+    return None
+
+
+def _normalize_section_title(value: str) -> str:
+    return re.sub(r"[\s/_\-:：/]+", "", value.strip().lower())
 
 
 def _extract_tables(lines: list[str]) -> list[list[list[str]]]:

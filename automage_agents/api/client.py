@@ -105,6 +105,25 @@ class AutoMageApiClient:
             query["status"] = status
         return self.request("GET", "/api/v1/tasks", query=query, headers=self._identity_headers(identity))
 
+    def update_task(
+        self,
+        identity: AgentIdentity,
+        task_id: str,
+        *,
+        status: str | None = None,
+        title: str | None = None,
+        description: str | None = None,
+        task_payload: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        payload = {
+            "status": status,
+            "title": title,
+            "description": description,
+            "task_payload": task_payload,
+        }
+        payload = {key: value for key, value in payload.items() if value is not None}
+        return self.request("PATCH", f"/api/v1/tasks/{task_id}", json_body=payload, headers=self._identity_headers(identity))
+
     def create_task(
         self,
         identity: AgentIdentity,

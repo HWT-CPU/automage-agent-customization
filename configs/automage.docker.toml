@@ -9,6 +9,7 @@ scheduler_timezone = "Asia/Shanghai"
 scheduler_jobs = [
   { name = "staff_daily_reminder_job", interval_seconds = 300, enabled = true },
   { name = "manager_summary_reminder_job", interval_seconds = 600, enabled = true },
+  { name = "manager_summary_auto_generate_job", interval_seconds = 600, enabled = true },
 ]
 scheduler_task_record_limit = 100
 abuse_protection_enabled = false

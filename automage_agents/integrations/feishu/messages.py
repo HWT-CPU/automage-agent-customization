@@ -85,14 +85,15 @@ class FeishuMessageAdapter:
 
     def _result_body(self, event_type: str, result: SkillResult) -> str:
         if not result.ok:
-            return f"AutoMage 处理失败：{result.message}\n错误码：{result.error_code or 'unknown'}"
+            return self._failure_body(event_type, result)
         if event_type == InternalEventType.DAILY_REPORT_SUBMITTED.value:
             work_record_id = result.data.get("work_record_id") or result.data.get("record", {}).get("work_record_id")
+            work_record_public_id = result.data.get("work_record_public_id") or result.data.get("record", {}).get("work_record_public_id")
             lines = [
                 "日报已收到。",
                 "已按 schema_v1_staff v1.0.0 记录。",
-                f"记录 ID：{work_record_id or 'mock-pending'}",
-                "当前写入 mock backend，后续可切换真实后端。",
+                f"记录 ID：{work_record_id or work_record_public_id or 'pending'}",
+                "已写入 AutoMage 后端。",
             ]
             return "\n".join(lines)
         if event_type == InternalEventType.TASK_QUERY_REQUESTED.value:
@@ -103,6 +104,88 @@ class FeishuMessageAdapter:
             for index, task in enumerate(tasks[:5], start=1):
                 title = task.get("title", "未命名任务")
                 status = task.get("status", "unknown")
-                lines.append(f"{index}. {title}（{status}）")
+                task_id = task.get("task_id") or task.get("public_id") or ""
+                prefix = f"{task_id}：" if task_id else ""
+                lines.append(f"{index}. {prefix}{title}（{status}）")
             return "\n".join(lines)
+        if event_type == InternalEventType.DREAM_DECISION_REQUESTED.value:
+            options = result.data.get("decision_options") or []
+            summary_id = result.data.get("summary_public_id") or result.data.get("summary_id") or "pending"
+            lines = [f"Dream 决策草案已生成。", f"汇总 ID：{summary_id}", "可选方案："]
+            for option in options:
+                option_id = option.get("option_id") or option.get("key") or "?"
+                title = option.get("title") or option.get("label") or "未命名方案"
+                summary = option.get("summary") or ""
+                task_count = len(option.get("task_candidates") or [])
+                lines.append(f"- 方案 {option_id}：{title}；候选任务 {task_count} 个。{summary}")
+            lines.append(f"如确认执行，请回复：确认方案B {summary_id}")
+            return "\n".join(lines)
+        if event_type == InternalEventType.EXECUTIVE_DECISION_SELECTED.value:
+            task_ids = result.data.get("task_ids") or result.data.get("generated_task_ids") or []
+            if not task_ids and isinstance(result.data.get("task_queue"), list):
+                task_ids = [task.get("task_id") for task in result.data["task_queue"] if isinstance(task, dict) and task.get("task_id")]
+            lines = ["决策已提交。"]
+            if task_ids:
+                lines.append("已生成任务：")
+                lines.extend(f"- {task_id}" for task_id in task_ids)
+            else:
+                lines.append("本次没有生成任务。")
+            return "\n".join(lines)
+        if event_type in {InternalEventType.TASK_UPDATE_REQUESTED.value, InternalEventType.TASK_COMPLETED.value}:
+            task = result.data.get("task") or {}
+            task_id = task.get("task_id") or task.get("public_id") or "pending"
+            status = task.get("status") or "updated"
+            return f"任务已更新。\n任务 ID：{task_id}\n当前状态：{status}"
         return result.message or "AutoMage 已处理该事件。"
+
+    def _failure_body(self, event_type: str, result: SkillResult) -> str:
+        backend_error_code = self._backend_error_code(result)
+        backend_message = self._backend_message(result)
+        error_code = backend_error_code or result.error_code or "unknown"
+        if result.error_code == "conflict":
+            if event_type == InternalEventType.DAILY_REPORT_SUBMITTED.value:
+                lines = [
+                    "今天的日报已存在，且这次内容与已提交内容不一致。",
+                    "为避免覆盖正式记录，后端已拦截本次重复提交。",
+                    "如需修改，请使用更新/修订入口，或在 Web 端编辑当天日报。",
+                    f"错误码：{error_code}",
+                ]
+                if backend_message:
+                    lines.append(f"后端说明：{backend_message}")
+                return "\n".join(lines)
+            return self._generic_failure("请求与已有正式记录冲突，后端已阻止重复写入。", error_code, backend_message)
+        if result.error_code == "permission_denied":
+            return self._generic_failure("当前账号没有权限执行这个操作，请确认 open_id 映射、角色、部门和 node_id 是否正确。", error_code, backend_message)
+        if result.error_code == "rate_limited":
+            return self._generic_failure("请求过于频繁，请稍后再试。", error_code, backend_message)
+        if result.error_code == "auth_failed":
+            return self._generic_failure("后端认证失败，请检查 AutoMage 访问令牌或请求头配置。", error_code, backend_message)
+        if result.error_code == "schema_validation_failed":
+            return self._generic_failure("日报内容未通过 schema 校验，请补充今日进展、问题、处理方式和明日计划。", error_code, backend_message)
+        if result.error_code == "server_error":
+            return self._generic_failure("后端服务暂时异常，请稍后重试或联系运维查看 API 日志。", error_code, backend_message)
+        return self._generic_failure(result.message or "AutoMage 处理失败。", error_code, backend_message)
+
+    def _generic_failure(self, headline: str, error_code: str, backend_message: str) -> str:
+        lines = [headline, f"错误码：{error_code}"]
+        if backend_message:
+            lines.append(f"后端说明：{backend_message}")
+        return "\n".join(lines)
+
+    def _backend_error_code(self, result: SkillResult) -> str:
+        response = result.data.get("response")
+        if isinstance(response, dict):
+            error = response.get("error")
+            if isinstance(error, dict):
+                return str(error.get("error_code") or "").strip()
+            return str(response.get("detail") or response.get("code") or "").strip()
+        return ""
+
+    def _backend_message(self, result: SkillResult) -> str:
+        response = result.data.get("response")
+        if isinstance(response, dict):
+            error = response.get("error")
+            if isinstance(error, dict):
+                return str(error.get("message") or response.get("msg") or result.message or "").strip()
+            return str(response.get("detail") or response.get("msg") or result.message or "").strip()
+        return str(result.message or "").strip()

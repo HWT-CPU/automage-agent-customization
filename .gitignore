@@ -1,4 +1,6 @@
 configs/automage.local.toml
+configs/*.local.json
+automage.local.toml
 
 # Python cache
 __pycache__/

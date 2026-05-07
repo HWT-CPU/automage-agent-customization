@@ -177,6 +177,37 @@ class StaffDailyReportParserTests(unittest.TestCase):
         self.assertTrue(report["support_requests"][0]["need_support"])
         self.assertEqual(report["risk_assessment"]["overall_risk_level"], "medium")
 
+    def test_parse_markdown_with_unnumbered_chinese_section_titles(self) -> None:
+        markdown = """# 示例
+
+## 基础信息
+
+| 字段 | 值 |
+| --- | --- |
+| 日报日期 | 2026-05-07 |
+| 提交人 | 胡文涛 |
+| 日报状态 | 已确认 |
+| 本人确认 | 是 |
+
+## 今日任务进展
+
+| No | Related Task ID | Task Name | Today Result | Previous Status | Current Status | Completion | Need Follow Up | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | TASK-1 | Agent 联调 | 已完成 IM 闭环验收 | 进行中 | 已完成 | 100% | 否 | 可进入下一步 |
+
+## 明日计划
+
+| No | Plan | Expected Artifact | Priority | Expected Completion At | Dependencies | Need Collaboration |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 补齐生产权限 | 权限测试 | 高 | 2026-05-08T18:00:00+08:00 | open_id | 是 |
+"""
+        report = parse_staff_daily_report_markdown(markdown)
+
+        self.assertEqual(report["basic_info"]["submitted_by"], "胡文涛")
+        self.assertEqual(report["basic_info"]["report_date"], "2026-05-07")
+        self.assertEqual(report["today_task_progress"][0]["current_status"], "done")
+        self.assertIn("补齐生产权限", report["legacy_projection"]["next_day_plan"])
+
 
 if __name__ == "__main__":
     unittest.main()

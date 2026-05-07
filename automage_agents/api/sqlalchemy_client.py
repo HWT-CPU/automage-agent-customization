@@ -84,6 +84,44 @@ class SqlAlchemyAutoMageApiClient:
             ]
         return ApiResponse(status_code=200, code=200, data={"tasks": tasks}, msg="tasks fetched")
 
+    def update_task(
+        self,
+        identity: AgentIdentity,
+        task_id: str,
+        *,
+        status: str | None = None,
+        title: str | None = None,
+        description: str | None = None,
+        task_payload: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        _ = identity
+        with self.session_factory.begin() as session:
+            row = session.query(TaskQueueModel).filter(TaskQueueModel.task_id == task_id).one_or_none()
+            if row is None:
+                return ApiResponse(status_code=404, code=404, data={"task_id": task_id}, msg="task not found")
+            if status is not None:
+                row.status = status
+            if title is not None:
+                row.title = title
+            if description is not None:
+                row.description = description
+            if task_payload is not None:
+                payload = dict(row.task_payload or {})
+                payload.update(task_payload)
+                row.task_payload = payload
+            session.add(row)
+            data = {
+                "task": {
+                    "task_id": row.task_id,
+                    "assignee_user_id": row.assignee_user_id,
+                    "title": row.title,
+                    "description": row.description,
+                    "status": row.status,
+                    **dict(row.task_payload or {}),
+                }
+            }
+        return ApiResponse(status_code=200, code=200, data=data, msg="task updated")
+
     def fetch_work_records(
         self,
         identity: AgentIdentity,

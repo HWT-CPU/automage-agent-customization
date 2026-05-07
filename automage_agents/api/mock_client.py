@@ -225,6 +225,31 @@ class MockAutoMageApiClient:
             msg="mock tasks fetched",
         )
 
+    def update_task(
+        self,
+        identity: AgentIdentity,
+        task_id: str,
+        *,
+        status: str | None = None,
+        title: str | None = None,
+        description: str | None = None,
+        task_payload: dict[str, Any] | None = None,
+    ) -> ApiResponse:
+        for task in self.state.task_queue:
+            if str(task.get("task_id") or task.get("task_queue_id")) != str(task_id):
+                continue
+            if status is not None:
+                task["status"] = status
+            if title is not None:
+                task["title"] = title
+            if description is not None:
+                task["description"] = description
+            if task_payload is not None:
+                task.update(task_payload)
+            audit_log_id = self._append_audit_log("update_task", "task_queue", str(task_id), task)
+            return ApiResponse(status_code=200, code=200, data={"task": task, "audit_log_id": audit_log_id}, msg="mock task updated")
+        return ApiResponse(status_code=404, code=404, data={"task_id": task_id}, msg="mock task not found")
+
     def create_task(
         self,
         identity: AgentIdentity,
@@ -292,9 +317,11 @@ class MockAutoMageApiClient:
         self.state.decision_logs.append(decision_record)
         generated_task_ids: list[str] = []
         for task in decision_payload.get("task_candidates", []):
-            task_id = f"mock-task-{len(self.state.task_queue) + 1}"
+            task_id = str(task.get("task_id") or f"mock-task-{len(self.state.task_queue) + 1}")
             generated_task_ids.append(task_id)
-            self.state.task_queue.append({"task_queue_id": task_id, "task_id": task_id, "storage_table": "task_queue", "status": "pending", **task})
+            task_record = {"task_queue_id": task_id, "storage_table": "task_queue", "status": "pending", **task}
+            task_record["task_id"] = task_id
+            self.state.task_queue.append(task_record)
         audit_log_id = self._append_audit_log("commit_decision", "agent_decision_logs", agent_decision_log_id, decision_record)
         return ApiResponse(
             status_code=200,
@@ -323,13 +350,31 @@ class MockAutoMageApiClient:
                         "option_id": "A",
                         "title": "Conservative execution plan",
                         "summary": "Prioritize confirmed tasks and reduce execution risk.",
-                        "task_candidates": [],
+                        "task_candidates": [
+                            {
+                                "task_id": f"mock-dream-{summary_id}-A-1",
+                                "title": "Review summary risks",
+                                "description": "Validate top risks before scaling execution.",
+                                "status": "pending",
+                                "priority": "high",
+                                "source_summary_id": summary_id,
+                            }
+                        ],
                     },
                     {
                         "option_id": "B",
                         "title": "Aggressive execution plan",
                         "summary": "Prioritize high-impact opportunities and resource reallocation.",
-                        "task_candidates": [],
+                        "task_candidates": [
+                            {
+                                "task_id": f"mock-dream-{summary_id}-B-1",
+                                "title": "Accelerate summary actions",
+                                "description": "Push follow-up actions while monitoring execution risk.",
+                                "status": "pending",
+                                "priority": "medium",
+                                "source_summary_id": summary_id,
+                            }
+                        ],
                     },
                 ],
                 "contract_status": "mock_dream_generated",

@@ -48,7 +48,7 @@ class LocalHermesClient:
         )
 
     def _context_for_skill(self, skill_name: str, actor_user_id: str) -> SkillContext:
-        if skill_name in {"post_daily_report", "fetch_my_tasks", "import_staff_daily_report_from_markdown", "read_staff_daily_report", "search_feishu_knowledge"}:
+        if skill_name in {"post_daily_report", "fetch_my_tasks", "update_my_task", "import_staff_daily_report_from_markdown", "read_staff_daily_report", "search_feishu_knowledge"}:
             return self.staff_context
         if skill_name in {"analyze_team_reports", "generate_manager_report", "generate_manager_schema", "delegate_task"}:
             return self.manager_context

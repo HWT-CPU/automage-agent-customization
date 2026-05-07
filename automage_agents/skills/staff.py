@@ -34,6 +34,26 @@ def fetch_my_tasks(context: SkillContext, status: str | None = None) -> SkillRes
     return api_response_to_skill_result(response, "tasks fetched")
 
 
+def update_my_task(
+    context: SkillContext,
+    task_id: str,
+    *,
+    status: str | None = None,
+    title: str | None = None,
+    description: str | None = None,
+    task_payload: dict[str, Any] | None = None,
+) -> SkillResult:
+    response = context.api_client.update_task(
+        context.identity,
+        task_id,
+        status=status,
+        title=title,
+        description=description,
+        task_payload=task_payload,
+    )
+    return api_response_to_skill_result(response, "task updated")
+
+
 def import_staff_daily_report_from_markdown(context: SkillContext, report: str | dict[str, Any]) -> SkillResult:
     payload = _to_markdown_import_payload(report, context)
     response = context.api_client.import_staff_daily_report_from_markdown(context.identity, payload, context.runtime_payload())

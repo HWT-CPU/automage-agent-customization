@@ -9,6 +9,7 @@ from automage_agents.config import RuntimeSettings, load_runtime_settings
 from automage_agents.db import create_session_factory
 from automage_agents.scheduler.jobs import (
     SchedulerJob,
+    build_manager_summary_auto_generate_job,
     build_manager_summary_reminder_job,
     build_staff_daily_reminder_job,
     health_check_job,
@@ -75,6 +76,10 @@ def build_scheduler_runtime(settings: RuntimeSettings | None = None) -> Schedule
             limit=runtime_settings.scheduler_task_record_limit,
         ),
         "manager_summary_reminder_job": build_manager_summary_reminder_job(
+            session_factory,
+            limit=runtime_settings.scheduler_task_record_limit,
+        ),
+        "manager_summary_auto_generate_job": build_manager_summary_auto_generate_job(
             session_factory,
             limit=runtime_settings.scheduler_task_record_limit,
         ),

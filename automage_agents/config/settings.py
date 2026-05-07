@@ -62,6 +62,7 @@ class RuntimeSettings:
         default_factory=lambda: [
             {"name": "staff_daily_reminder_job", "interval_seconds": 300, "enabled": True},
             {"name": "manager_summary_reminder_job", "interval_seconds": 600, "enabled": True},
+            {"name": "manager_summary_auto_generate_job", "interval_seconds": 600, "enabled": True},
         ]
     )
     scheduler_task_record_limit: int = 100
@@ -152,6 +153,7 @@ def _parse_scheduler_jobs(raw: str) -> list[dict[str, Any]]:
         return [
             {"name": "staff_daily_reminder_job", "interval_seconds": 300, "enabled": True},
             {"name": "manager_summary_reminder_job", "interval_seconds": 600, "enabled": True},
+            {"name": "manager_summary_auto_generate_job", "interval_seconds": 600, "enabled": True},
         ]
     jobs: list[dict[str, Any]] = []
     for chunk in raw.split(","):

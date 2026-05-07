@@ -2,17 +2,19 @@ from __future__ import annotations
 
 import unittest
 from datetime import date
+from typing import Any
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from automage_agents.db.base import Base
-from automage_agents.db.models import DepartmentModel, OrganizationModel, SummaryModel, TaskModel, UserModel, WorkRecordModel
+from automage_agents.db.models import DepartmentModel, ManagerReportModel, OrganizationModel, SummaryModel, SummarySourceLinkModel, TaskModel, UserModel, WorkRecordModel
 from automage_agents.scheduler.services import (
     collect_missing_staff_daily_reports,
     collect_overdue_tasks,
     collect_pending_manager_summaries,
+    generate_pending_manager_summaries,
 )
 
 
@@ -24,7 +26,24 @@ class SchedulerJobServiceTests(unittest.TestCase):
             connect_args={"check_same_thread": False},
             poolclass=StaticPool,
         )
-        self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, autocommit=False, future=True, class_=Session)
+
+        class TestSession(Session):
+            pass
+
+        self._id_counters: dict[str, int] = {}
+
+        @event.listens_for(TestSession, "before_flush")
+        def assign_sqlite_ids(session: Session, flush_context: Any, instances: Any) -> None:
+            del flush_context, instances
+            for obj in session.new:
+                if not hasattr(obj, "id") or getattr(obj, "id") is not None:
+                    continue
+                table_name = getattr(obj, "__tablename__", obj.__class__.__name__)
+                next_id = self._id_counters.get(table_name, 0) + 1
+                self._id_counters[table_name] = next_id
+                setattr(obj, "id", next_id)
+
+        self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, autocommit=False, future=True, class_=TestSession)
         Base.metadata.create_all(self.engine)
         self._seed()
 
@@ -58,6 +77,21 @@ class SchedulerJobServiceTests(unittest.TestCase):
                         created_by=30,
                         updated_by=30,
                         meta={},
+                    ),
+                    WorkRecordModel(
+                        id=1001,
+                        public_id="WR_OPS_1",
+                        org_id=1,
+                        department_id=101,
+                        template_id=1,
+                        user_id=32,
+                        record_date=date(2026, 5, 7),
+                        title="ops submitted",
+                        status=1,
+                        source_type=1,
+                        created_by=32,
+                        updated_by=32,
+                        meta={"risk_level": "low", "need_support": False},
                     ),
                     SummaryModel(
                         id=2000,
@@ -100,7 +134,7 @@ class SchedulerJobServiceTests(unittest.TestCase):
     def test_collect_missing_staff_daily_reports(self) -> None:
         with self.SessionLocal() as session:
             result = collect_missing_staff_daily_reports(session, record_date=date(2026, 5, 7), limit=100)
-        self.assertEqual(sorted(result.missing_user_ids), ["user_ops_001", "user_other_001"])
+        self.assertEqual(sorted(result.missing_user_ids), ["user_other_001"])
 
     def test_collect_pending_manager_summaries(self) -> None:
         with self.SessionLocal() as session:
@@ -111,3 +145,22 @@ class SchedulerJobServiceTests(unittest.TestCase):
         with self.SessionLocal() as session:
             result = collect_overdue_tasks(session, limit=100)
         self.assertEqual(result, ["TASK1"])
+
+    def test_generate_pending_manager_summaries(self) -> None:
+        with self.SessionLocal() as session:
+            result = generate_pending_manager_summaries(session, summary_date=date(2026, 5, 7), limit=100)
+            self.assertEqual(result.generated_department_ids, ["dept_mvp_ops"])
+            self.assertIn("dept_mvp_core", result.skipped_department_ids)
+            self.assertEqual(result.source_record_count, 1)
+            self.assertEqual(result.errors, [])
+            summary = session.query(SummaryModel).filter(SummaryModel.department_id == 101).one()
+            self.assertEqual(summary.source_count, 1)
+            self.assertIn("ops submitted", summary.content)
+            self.assertEqual(session.query(ManagerReportModel).count(), 1)
+            link = session.query(SummarySourceLinkModel).filter(SummarySourceLinkModel.summary_id == summary.id).one()
+            self.assertEqual(link.source_id, 1001)
+
+            second_result = generate_pending_manager_summaries(session, summary_date=date(2026, 5, 7), limit=100)
+            self.assertEqual(second_result.generated_department_ids, [])
+            self.assertIn("dept_mvp_ops", second_result.skipped_department_ids)
+            self.assertEqual(session.query(SummaryModel).filter(SummaryModel.department_id == 101).count(), 1)
