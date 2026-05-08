@@ -3,8 +3,6 @@ from __future__ import annotations
 import hashlib
 import logging
 import time
-from dataclasses import dataclass
-from threading import Lock
 from uuid import uuid4
 
 from fastapi.responses import JSONResponse
@@ -12,85 +10,14 @@ from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from automage_agents.config import load_runtime_settings
+from automage_agents.server.abuse_store import build_abuse_protection_store
 from automage_agents.server.request_context import request_id_var
 
 
 logger = logging.getLogger("automage.api")
 _settings = load_runtime_settings("configs/automage.local.toml")
-
-
-@dataclass(slots=True)
-class IdempotencyRecord:
-    request_fingerprint: str
-    status_code: int
-    response_body: dict
-    expires_at: float
-
-
-class _WindowRateLimiter:
-    def __init__(self) -> None:
-        self._events: dict[str, list[float]] = {}
-        self._lock = Lock()
-
-    def allow(self, key: str, *, limit: int, window_seconds: int) -> bool:
-        now = time.time()
-        threshold = now - window_seconds
-        with self._lock:
-            events = [event for event in self._events.get(key, []) if event >= threshold]
-            if len(events) >= limit:
-                self._events[key] = events
-                return False
-            events.append(now)
-            self._events[key] = events
-            return True
-
-
-class _IdempotencyStore:
-    def __init__(self) -> None:
-        self._records: dict[str, IdempotencyRecord] = {}
-        self._lock = Lock()
-
-    def get(self, key: str, *, fingerprint: str) -> IdempotencyRecord | None:
-        now = time.time()
-        with self._lock:
-            self._cleanup_locked(now)
-            record = self._records.get(key)
-            if record is None or record.request_fingerprint != fingerprint:
-                return None
-            return record
-
-    def set(self, key: str, *, fingerprint: str, status_code: int, response_body: dict, ttl_seconds: int) -> None:
-        with self._lock:
-            self._cleanup_locked(time.time())
-            self._records[key] = IdempotencyRecord(
-                request_fingerprint=fingerprint,
-                status_code=status_code,
-                response_body=response_body,
-                expires_at=time.time() + ttl_seconds,
-            )
-
-    def reserve(self, key: str, *, fingerprint: str, ttl_seconds: int) -> bool:
-        with self._lock:
-            self._cleanup_locked(time.time())
-            existing = self._records.get(key)
-            if existing is not None and existing.request_fingerprint == fingerprint:
-                return False
-            self._records[key] = IdempotencyRecord(
-                request_fingerprint=fingerprint,
-                status_code=0,
-                response_body={"detail": "request_in_progress"},
-                expires_at=time.time() + ttl_seconds,
-            )
-            return True
-
-    def _cleanup_locked(self, now: float) -> None:
-        expired_keys = [key for key, record in self._records.items() if record.expires_at <= now]
-        for key in expired_keys:
-            self._records.pop(key, None)
-
-
-_rate_limiter = _WindowRateLimiter()
-_idempotency_store = _IdempotencyStore()
+_abuse_store = None
+_abuse_store_signature: tuple[str, str | None, str] | None = None
 
 
 class RequestTrackingMiddleware(BaseHTTPMiddleware):
@@ -126,6 +53,7 @@ class AbuseProtectionMiddleware(BaseHTTPMiddleware):
         if not _settings.abuse_protection_enabled:
             return await call_next(request)
 
+        abuse_store = _get_abuse_store()
         request_id = getattr(request.state, "request_id", None) or request.headers.get("X-Request-Id") or str(uuid4())
         client_key = request.headers.get("X-User-Id") or (request.client.host if request.client else "anonymous")
         path = request.url.path
@@ -135,7 +63,7 @@ class AbuseProtectionMiddleware(BaseHTTPMiddleware):
             limit = max(1, min(limit, 20))
 
         rate_limit_key = f"{client_key}:{request.method}:{path}"
-        if not _rate_limiter.allow(rate_limit_key, limit=limit, window_seconds=window):
+        if not await abuse_store.allow(rate_limit_key, limit=limit, window_seconds=window):
             return JSONResponse(
                 status_code=429,
                 content={"detail": "rate_limit_exceeded", "request_id": request_id},
@@ -149,29 +77,33 @@ class AbuseProtectionMiddleware(BaseHTTPMiddleware):
             if idempotency_key:
                 fingerprint = _fingerprint_request(request, client_key, body_bytes)
                 store_key = f"{client_key}:{request.method}:{path}:{idempotency_key}"
-                existing = _idempotency_store.get(store_key, fingerprint=fingerprint)
-                if existing is not None and existing.status_code != 0:
-                    return JSONResponse(
-                        status_code=409,
-                        content={**existing.response_body, "request_id": request_id, "idempotency_replayed": True},
-                        headers={"X-Request-Id": request_id},
-                    )
-                if not _idempotency_store.reserve(
+                existing = await abuse_store.get_idempotency(store_key)
+                conflict = _build_idempotency_conflict_response(
+                    existing,
+                    fingerprint=fingerprint,
+                    request_id=request_id,
+                    idempotency_key=idempotency_key,
+                )
+                if conflict is not None:
+                    return conflict
+                if not await abuse_store.reserve_idempotency(
                     store_key,
                     fingerprint=fingerprint,
                     ttl_seconds=_settings.idempotency_ttl_seconds,
                 ):
-                    existing = _idempotency_store.get(store_key, fingerprint=fingerprint)
-                    if existing is not None and existing.status_code != 0:
-                        return JSONResponse(
-                            status_code=409,
-                            content={**existing.response_body, "request_id": request_id, "idempotency_replayed": True},
-                            headers={"X-Request-Id": request_id},
-                        )
+                    existing = await abuse_store.get_idempotency(store_key)
+                    conflict = _build_idempotency_conflict_response(
+                        existing,
+                        fingerprint=fingerprint,
+                        request_id=request_id,
+                        idempotency_key=idempotency_key,
+                    )
+                    if conflict is not None:
+                        return conflict
                 response = await call_next(request)
                 if response.status_code < 500:
                     payload = await _extract_json_response(response)
-                    _idempotency_store.set(
+                    await abuse_store.save_idempotency(
                         store_key,
                         fingerprint=fingerprint,
                         status_code=response.status_code,
@@ -217,3 +149,47 @@ async def _extract_json_response(response) -> dict:
 
 async def _single_chunk_iter(body: bytes):
     yield body
+
+
+def _get_abuse_store():
+    global _abuse_store, _abuse_store_signature
+    signature = (
+        _settings.abuse_protection_backend,
+        _settings.redis_url,
+        _settings.redis_key_prefix,
+    )
+    if _abuse_store is None or _abuse_store_signature != signature:
+        _abuse_store = build_abuse_protection_store(_settings)
+        _abuse_store_signature = signature
+    return _abuse_store
+
+
+def _build_idempotency_conflict_response(existing, *, fingerprint: str, request_id: str, idempotency_key: str):
+    if existing is None:
+        return None
+    headers = {"X-Request-Id": request_id, "X-Idempotency-Key": idempotency_key}
+    if existing.request_fingerprint != fingerprint:
+        return JSONResponse(
+            status_code=409,
+            content={
+                "detail": "idempotency_key_conflict",
+                "request_id": request_id,
+                "idempotency_conflict": True,
+            },
+            headers=headers,
+        )
+    if existing.status_code == 0:
+        return JSONResponse(
+            status_code=409,
+            content={
+                "detail": "request_in_progress",
+                "request_id": request_id,
+                "idempotency_in_progress": True,
+            },
+            headers=headers,
+        )
+    return JSONResponse(
+        status_code=409,
+        content={**existing.response_body, "request_id": request_id, "idempotency_replayed": True},
+        headers=headers,
+    )

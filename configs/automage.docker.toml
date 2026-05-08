@@ -12,11 +12,14 @@ scheduler_jobs = [
   { name = "manager_summary_auto_generate_job", interval_seconds = 600, enabled = true },
 ]
 scheduler_task_record_limit = 100
-abuse_protection_enabled = false
+abuse_protection_enabled = true
+abuse_protection_backend = "redis"
 rbac_enabled = true
 rate_limit_window_seconds = 60
 rate_limit_max_requests = 60
 idempotency_ttl_seconds = 300
+redis_url = "redis://:automage@redis:6379/0"
+redis_key_prefix = "automage"
 write_protected_paths = [
   "/api/v1/report/staff",
   "/api/v1/report/manager",

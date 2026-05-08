@@ -68,9 +68,12 @@ class RuntimeSettings:
     scheduler_task_record_limit: int = 100
     rbac_enabled: bool = True
     abuse_protection_enabled: bool = False
+    abuse_protection_backend: str = "memory"
     rate_limit_window_seconds: int = 60
     rate_limit_max_requests: int = 60
     idempotency_ttl_seconds: int = 300
+    redis_url: str | None = None
+    redis_key_prefix: str = "automage"
     write_protected_paths: list[str] = field(
         default_factory=lambda: [
             "/api/v1/report/staff",
@@ -114,9 +117,12 @@ class RuntimeSettings:
             scheduler_task_record_limit=int(_env("SCHEDULER_TASK_RECORD_LIMIT", "100", prefix) or "100"),
             rbac_enabled=(_env("RBAC_ENABLED", "true", prefix) or "true").lower() == "true",
             abuse_protection_enabled=(_env("ABUSE_PROTECTION_ENABLED", "false", prefix) or "false").lower() == "true",
+            abuse_protection_backend=(_env("ABUSE_PROTECTION_BACKEND", "memory", prefix) or "memory").lower(),
             rate_limit_window_seconds=int(_env("RATE_LIMIT_WINDOW_SECONDS", "60", prefix) or "60"),
             rate_limit_max_requests=int(_env("RATE_LIMIT_MAX_REQUESTS", "60", prefix) or "60"),
             idempotency_ttl_seconds=int(_env("IDEMPOTENCY_TTL_SECONDS", "300", prefix) or "300"),
+            redis_url=_env("REDIS_URL", prefix=prefix),
+            redis_key_prefix=_env("REDIS_KEY_PREFIX", "automage", prefix) or "automage",
             write_protected_paths=_parse_write_protected_paths(write_paths_raw),
             api_base_url=_env("API_BASE_URL", "http://localhost:8000", prefix) or "http://localhost:8000",
             api_timeout_seconds=float(_env("API_TIMEOUT_SECONDS", "10", prefix) or "10"),

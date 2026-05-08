@@ -724,6 +724,47 @@ class ManagerDecisionTaskFlowTests(unittest.TestCase):
 
         self.assertGreaterEqual(len(denied_logs), 2)
 
+    def test_manager_identity_department_mismatch_is_rejected_before_cross_department_submit(self) -> None:
+        manager_identity = self._identity_payload(
+            user_id="user_manager_001",
+            role="manager",
+            node_id="manager_agent_mvp_001",
+            level="l2_manager",
+            department_id="dept_other",
+            manager_node_id="executive_agent_boss_001",
+        )
+
+        report_response = self.client.post(
+            "/api/v1/report/manager",
+            json={
+                "identity": manager_identity,
+                "report": {
+                    "schema_id": "schema_v1_manager",
+                    "org_id": "org_automage_mvp",
+                    "dept_id": "dept_other",
+                    "manager_user_id": "user_manager_001",
+                    "manager_node_id": "manager_agent_mvp_001",
+                    "summary_date": "2026-05-06",
+                    "aggregated_summary": "Attempt submit with forged department identity",
+                },
+            },
+            headers=self._auth_headers(
+                user_id="user_manager_001",
+                role="manager",
+                node_id="manager_agent_mvp_001",
+                level="l2_manager",
+                department_id="dept_mvp_core",
+                manager_node_id="executive_agent_boss_001",
+            ),
+        )
+        self.assertEqual(report_response.status_code, 403)
+        self.assertIn("outside your RBAC scope", report_response.json()["detail"])
+
+        with self.SessionLocal() as session:
+            denied_logs = session.query(AuditLogModel).filter(AuditLogModel.action == "permission_denied").all()
+
+        self.assertGreaterEqual(len(denied_logs), 1)
+
     def test_manager_report_visibility_is_limited_to_actor_department(self) -> None:
         core_report = self._create_manager_report(
             user_id="user_manager_001",
