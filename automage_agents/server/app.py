@@ -199,6 +199,30 @@ HTTP_409_CONFLICT_RESPONSE = {
     }
 }
 
+HTTP_403_RESPONSE = {
+    403: {
+        "description": "无权访问或操作该资源，包含角色不允许和超出 RBAC 范围两类场景。",
+        "content": {
+            "application/json": {
+                "examples": {
+                    "role_forbidden": {
+                        "summary": "角色不允许",
+                        "value": {"detail": "Role manager is not allowed to access this resource"},
+                    },
+                    "rbac_scope_forbidden": {
+                        "summary": "超出 RBAC 范围",
+                        "value": {"detail": "Manager report is outside your RBAC scope"},
+                    },
+                    "task_update_forbidden": {
+                        "summary": "任务更新越权",
+                        "value": {"detail": "You are not allowed to update this task"},
+                    },
+                }
+            }
+        },
+    }
+}
+
 
 def merge_responses(*groups: dict[int, dict]) -> dict[int, dict]:
     merged: dict[int, dict] = {}
@@ -331,7 +355,7 @@ def get_staff_reports(
     response_model=ApiEnvelope,
     summary="提交经理汇总",
     description="写入经理汇总快照，供后续决策与任务拆分使用。",
-    responses=merge_responses(HTTP_422_RESPONSE),
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_422_RESPONSE),
 )
 def post_manager_report(
     payload: ManagerReportRequest,
@@ -377,7 +401,7 @@ def get_manager_reports(
     response_model=ApiEnvelope,
     summary="生成 Dream 决策草稿",
     description="基于经理汇总摘要生成 Dream 决策草稿，供高层确认。",
-    responses=merge_responses(HTTP_422_RESPONSE, HTTP_404_RECORD_RESPONSE),
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_422_RESPONSE, HTTP_404_RECORD_RESPONSE),
 )
 def post_dream_run(
     payload: DreamRunRequest,
@@ -401,7 +425,7 @@ def post_dream_run(
     response_model=ApiEnvelope,
     summary="提交正式决策",
     description="提交高层正式决策，并沉淀可下发的任务候选。",
-    responses=merge_responses(HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
 )
 def post_decision_commit(
     payload: DecisionCommitRequest,
@@ -429,7 +453,7 @@ def post_decision_commit(
     response_model=ApiEnvelope,
     summary="创建正式任务",
     description="创建正式任务，并同步写入兼容镜像 task_queue。",
-    responses=merge_responses(HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
 )
 def post_tasks(
     payload: TaskCreateRequest,
@@ -476,7 +500,7 @@ def get_tasks(
     response_model=ApiEnvelope,
     summary="更新任务",
     description="更新正式任务状态、标题、说明或附加任务载荷，并记录 task update。",
-    responses=merge_responses(HTTP_404_RECORD_RESPONSE, HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_404_RECORD_RESPONSE, HTTP_409_CONFLICT_RESPONSE, HTTP_422_RESPONSE),
 )
 def patch_task(
     task_id: str,

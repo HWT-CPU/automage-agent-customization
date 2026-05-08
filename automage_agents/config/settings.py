@@ -59,9 +59,12 @@ class RuntimeSettings:
     scheduler_task_record_limit: int = 100
     rbac_enabled: bool = True
     abuse_protection_enabled: bool = False
+    abuse_protection_backend: str = "memory"
     rate_limit_window_seconds: int = 60
     rate_limit_max_requests: int = 60
     idempotency_ttl_seconds: int = 300
+    redis_url: str | None = None
+    redis_key_prefix: str = "automage"
     write_protected_paths: list[str] = field(
         default_factory=lambda: [
             "/api/v1/report/staff",
@@ -96,10 +99,13 @@ class RuntimeSettings:
             scheduler_jobs=_parse_scheduler_jobs(scheduler_jobs_raw),
             scheduler_task_record_limit=int(os.getenv(f"{prefix}SCHEDULER_TASK_RECORD_LIMIT", "100")),
             abuse_protection_enabled=os.getenv(f"{prefix}ABUSE_PROTECTION_ENABLED", "false").lower() == "true",
+            abuse_protection_backend=os.getenv(f"{prefix}ABUSE_PROTECTION_BACKEND", "memory").lower(),
             rbac_enabled=os.getenv(f"{prefix}RBAC_ENABLED", "true").lower() == "true",
             rate_limit_window_seconds=int(os.getenv(f"{prefix}RATE_LIMIT_WINDOW_SECONDS", "60")),
             rate_limit_max_requests=int(os.getenv(f"{prefix}RATE_LIMIT_MAX_REQUESTS", "60")),
             idempotency_ttl_seconds=int(os.getenv(f"{prefix}IDEMPOTENCY_TTL_SECONDS", "300")),
+            redis_url=os.getenv(f"{prefix}REDIS_URL"),
+            redis_key_prefix=os.getenv(f"{prefix}REDIS_KEY_PREFIX", "automage"),
             write_protected_paths=_parse_write_protected_paths(write_paths_raw),
             api_base_url=os.getenv(f"{prefix}API_BASE_URL", "http://localhost:8000"),
             api_timeout_seconds=float(os.getenv(f"{prefix}API_TIMEOUT_SECONDS", "10")),

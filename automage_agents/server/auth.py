@@ -186,12 +186,15 @@ def assert_manager_report_payload_allowed(
 ) -> None:
     if actor is None or actor.identity.role == AgentRole.EXECUTIVE:
         return
+    requested_department_id = str(payload.get("dept_id") or payload.get("department_id") or "") or None
+    if actor.identity.department_id and requested_department_id and requested_department_id != actor.identity.department_id:
+        _raise_forbidden(actor, "Manager report is outside your RBAC scope", db=db)
     allowed = is_allowed(
         actor.identity,
         AccessRequest(
             resource="manager_reports",
             action="create",
-            department_id=str(payload.get("dept_id") or payload.get("department_id") or "") or None,
+            department_id=requested_department_id,
             manager_user_id=str(payload.get("manager_user_id") or "") or None,
             manager_node_id=str(payload.get("manager_node_id") or "") or None,
             payload=payload,
