@@ -43,7 +43,7 @@ This document converts Yang Zhuo's real backend integration acceptance package a
 
 | Priority | Item | Owner | Next action |
 | -------- | ---- | ----- | ----------- |
-| P0 | Real API smoke against current merged `main` | Hu Wentao / backend runtime owner | Start API with real env, then run `python scripts/smoke_real_api.py --base-url http://localhost:8000`. |
+| P0 | Real API smoke against current merged `main` | Hu Wentao / backend runtime owner | Start API with real env, then run `python scripts/smoke_real_api.py --base-url http://localhost:8000 --summary-only --output-json _cache/smoke_real_api_latest.json`. |
 | P0 | IM event to API request identity strategy | Hu Wentao | Map Feishu event/message IDs to stable `X-Request-Id` and `Idempotency-Key` before production bot use. |
 | P1 | Error-code user-facing handling | Hu Wentao / frontend | Map `403`, `404`, and `409` to IM/Landing Page messages without blind retry. |
 | P1 | Field workbook regression | Hu Wentao / Yang Zhuo | Keep `check_yang_skill_field_alignment.py --strict` and compare field workbook changes before M3. |
@@ -61,6 +61,7 @@ Agent/IM/Skill schema conversion and mock orchestration are closed locally, and 
 
 ```powershell
 python scripts/smoke_real_api.py --dry-run
+python scripts/smoke_real_api.py --base-url http://localhost:8000 --summary-only --output-json _cache/smoke_real_api_latest.json
 python -m pytest tests\test_smoke_real_api_plan.py tests\test_feishu_im_flow.py tests\test_scheduler_jobs.py tests\test_manager_decision_task_flow.py tests\test_idempotency_flow.py tests\test_redis_abuse_store.py tests\test_staff_daily_report_parser.py tests\test_skill_result.py -q
 python scripts\check_yang_skill_field_alignment.py --strict
 ```

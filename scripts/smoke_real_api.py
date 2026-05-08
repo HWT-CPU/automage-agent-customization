@@ -38,7 +38,9 @@ def main() -> None:
             "would_run": [_public_check(check) for check in checks],
             "note": "Backend API is not called in dry-run mode.",
         }
-        print(json.dumps(output, ensure_ascii=False, indent=2))
+        if args.output_json:
+            _write_json(Path(args.output_json), output)
+        print(_json_dumps(output))
         return
 
     results = []
@@ -57,7 +59,16 @@ def main() -> None:
         "auth_header_configured": bool(settings.auth_token),
         "results": results,
     }
-    print(json.dumps(output, ensure_ascii=False, indent=2))
+    if args.output_json:
+        _write_json(Path(args.output_json), output)
+    print_output = output
+    if args.summary_only:
+        print_output = {
+            **{key: value for key, value in output.items() if key != "results"},
+            "results": [_result_summary(result) for result in results],
+            "output_json": args.output_json,
+        }
+    print(_json_dumps(print_output))
     if failed:
         raise SystemExit(2 if blocked else 1)
 
@@ -69,6 +80,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--pause-seconds", type=float, default=0.1)
     parser.add_argument("--dry-run", action="store_true", help="Print planned requests without calling the backend.")
     parser.add_argument("--run-id", help="Stable ASCII run id used for idempotency keys and generated task ids.")
+    parser.add_argument("--summary-only", action="store_true", help="Print only per-step status summaries for real API runs.")
+    parser.add_argument("--output-json", help="Write the full JSON result to this path without printing secrets.")
     return parser.parse_args()
 
 
@@ -354,6 +367,37 @@ def _read_payload(raw: bytes) -> Any:
         return raw.decode("utf-8", errors="replace")
 
 
+def _result_summary(result: dict[str, Any]) -> dict[str, Any]:
+    response = result.get("response")
+    detail = None
+    msg = None
+    error_code = None
+    conflict_target = None
+    request_id = None
+    if isinstance(response, dict):
+        detail = response.get("detail")
+        msg = response.get("msg")
+        error = response.get("error")
+        if isinstance(error, dict):
+            error_code = error.get("error_code")
+            conflict_target = error.get("conflict_target")
+            request_id = error.get("request_id")
+        request_id = request_id or response.get("request_id")
+    return {
+        "name": result.get("name"),
+        "ok": result.get("ok"),
+        "blocked": result.get("blocked"),
+        "status_code": result.get("status_code"),
+        "path": result.get("path"),
+        "detail": detail,
+        "msg": msg,
+        "error_code": error_code,
+        "conflict_target": conflict_target,
+        "request_id": request_id,
+        "error": result.get("error"),
+    }
+
+
 def _public_check(check: dict[str, Any]) -> dict[str, Any]:
     headers = check.get("headers", {})
     return {
@@ -397,6 +441,15 @@ def _record_date_from_run_id(run_id: str) -> str:
     digits = "".join(char for char in run_id if char.isdigit())
     offset_seed = int(digits[-6:] or str(int(time.time()) % 100000))
     return (date(2026, 5, 7) + timedelta(days=offset_seed % 3650)).isoformat()
+
+
+def _write_json(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(_json_dumps(data), encoding="utf-8")
+
+
+def _json_dumps(data: dict[str, Any]) -> str:
+    return json.dumps(data, ensure_ascii=True, indent=2)
 
 
 if __name__ == "__main__":

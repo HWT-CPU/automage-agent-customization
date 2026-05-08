@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from scripts.smoke_real_api import _build_checks, _public_check
+from scripts.smoke_real_api import _build_checks, _json_dumps, _public_check, _result_summary
 
 
 class SmokeRealApiPlanTests(unittest.TestCase):
@@ -31,6 +31,38 @@ class SmokeRealApiPlanTests(unittest.TestCase):
         self.assertEqual(post_tasks["path"], "/api/v1/tasks")
         self.assertEqual(post_tasks["idempotency_key_configured"], True)
         self.assertNotIn("Idempotency-Key", post_tasks["identity_headers"])
+
+    def test_result_summary_keeps_error_contract_without_full_response_payload(self) -> None:
+        summary = _result_summary(
+            {
+                "name": "post_tasks",
+                "ok": False,
+                "blocked": False,
+                "status_code": 409,
+                "path": "/api/v1/tasks",
+                "response": {
+                    "msg": "任务创建冲突",
+                    "error": {
+                        "error_code": "task_create_conflict",
+                        "conflict_target": "task_create:task_id",
+                        "request_id": "req-001",
+                    },
+                    "data": {"large_payload": True},
+                },
+            }
+        )
+
+        self.assertEqual(summary["status_code"], 409)
+        self.assertEqual(summary["error_code"], "task_create_conflict")
+        self.assertEqual(summary["conflict_target"], "task_create:task_id")
+        self.assertEqual(summary["request_id"], "req-001")
+        self.assertNotIn("response", summary)
+
+    def test_json_output_is_ascii_safe_for_powershell_redirection(self) -> None:
+        output = _json_dumps({"msg": "任务更新成功"})
+
+        self.assertIn("\\u4efb\\u52a1", output)
+        output.encode("ascii")
 
 
 if __name__ == "__main__":
