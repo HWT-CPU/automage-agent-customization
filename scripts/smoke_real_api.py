@@ -75,7 +75,9 @@ def _parse_args() -> argparse.Namespace:
 def _build_checks(run_id: str) -> list[dict[str, Any]]:
     run_token = _safe_token(run_id)
     smoke_date = _record_date_from_run_id(run_token)
-    task_id = f"TASK-SMOKE-{run_token[-14:]}"
+    task_suffix = _task_suffix(run_token)
+    task_id = f"TASK-SMOKE-{task_suffix[-14:]}"
+    direct_task_id = f"TASK-SMOKE-DIRECT-{task_suffix[-8:]}"
     runtime_context = {
         "org_id": "org_automage_mvp",
         "run_date": smoke_date,
@@ -122,7 +124,11 @@ def _build_checks(run_id: str) -> list[dict[str, Any]]:
             "name": "post_staff_report",
             "method": "POST",
             "path": "/api/v1/report/staff",
-            "headers": _identity_headers(staff_identity, f"smoke-staff-report-{run_token}"),
+            "headers": _identity_headers(
+                staff_identity,
+                f"smoke-staff-report-{run_token}",
+                idempotency_key=f"smoke-staff-report-{run_token}",
+            ),
             "body": {
                 "identity": staff_identity,
                 "report": {
@@ -149,7 +155,11 @@ def _build_checks(run_id: str) -> list[dict[str, Any]]:
             "name": "post_manager_report",
             "method": "POST",
             "path": "/api/v1/report/manager",
-            "headers": _identity_headers(manager_identity, f"smoke-manager-report-{run_token}"),
+            "headers": _identity_headers(
+                manager_identity,
+                f"smoke-manager-report-{run_token}",
+                idempotency_key=f"smoke-manager-report-{run_token}",
+            ),
             "body": {
                 "identity": manager_identity,
                 "report": {
@@ -175,7 +185,11 @@ def _build_checks(run_id: str) -> list[dict[str, Any]]:
             "name": "commit_decision",
             "method": "POST",
             "path": "/api/v1/decision/commit",
-            "headers": _identity_headers(executive_identity, f"smoke-decision-commit-{run_token}"),
+            "headers": _identity_headers(
+                executive_identity,
+                f"smoke-decision-commit-{run_token}",
+                idempotency_key=f"smoke-decision-commit-{run_token}",
+            ),
             "body": {
                 "identity": executive_identity,
                 "decision": {
@@ -209,11 +223,61 @@ def _build_checks(run_id: str) -> list[dict[str, Any]]:
             },
         },
         {
+            "name": "post_tasks",
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": _identity_headers(
+                manager_identity,
+                f"smoke-post-tasks-{run_token}",
+                idempotency_key=f"smoke-post-tasks-{run_token}",
+            ),
+            "body": {
+                "tasks": [
+                    {
+                        "schema_id": "schema_v1_task",
+                        "schema_version": "1.0.0",
+                        "task_id": direct_task_id,
+                        "org_id": "org_automage_mvp",
+                        "department_id": "dept_mvp_core",
+                        "task_title": "Verify direct task API from smoke",
+                        "task_description": "Direct task creation aligned with M2 real API acceptance.",
+                        "source_type": "real_api_smoke",
+                        "source_id": run_token,
+                        "creator_user_id": manager_identity["user_id"],
+                        "created_by_node_id": manager_identity["node_id"],
+                        "manager_user_id": manager_identity["user_id"],
+                        "manager_node_id": manager_identity["node_id"],
+                        "assignee_user_id": staff_identity["user_id"],
+                        "assignee_node_id": staff_identity["node_id"],
+                        "priority": "medium",
+                        "status": "pending",
+                        "meta": {"context": runtime_context},
+                    }
+                ]
+            },
+        },
+        {
             "name": "fetch_tasks",
             "method": "GET",
             "path": "/api/v1/tasks",
             "headers": _identity_headers(staff_identity, f"smoke-fetch-tasks-{run_token}"),
             "query": {"org_id": "org_automage_mvp", "assignee_user_id": staff_identity["user_id"]},
+        },
+        {
+            "name": "patch_task",
+            "method": "PATCH",
+            "path": f"/api/v1/tasks/{direct_task_id}",
+            "headers": _identity_headers(
+                staff_identity,
+                f"smoke-patch-task-{run_token}",
+                idempotency_key=f"smoke-patch-task-{run_token}",
+            ),
+            "body": {
+                "status": "in_progress",
+                "title": "Verify direct task API from smoke",
+                "description": "Staff started the direct smoke task.",
+                "task_payload": {"run_id": run_token, "source_channel": "script"},
+            },
         },
     ]
 
@@ -299,10 +363,11 @@ def _public_check(check: dict[str, Any]) -> dict[str, Any]:
         "query": check.get("query", {}),
         "has_body": bool(check.get("body")),
         "identity_headers": sorted(key for key in headers if key.startswith("X-")),
+        "idempotency_key_configured": "Idempotency-Key" in headers,
     }
 
 
-def _identity_headers(identity: dict[str, Any], request_id: str) -> dict[str, str]:
+def _identity_headers(identity: dict[str, Any], request_id: str, *, idempotency_key: str | None = None) -> dict[str, str]:
     headers = {
         "X-Request-Id": request_id,
         "X-User-Id": str(identity["user_id"]),
@@ -314,12 +379,18 @@ def _identity_headers(identity: dict[str, Any], request_id: str) -> dict[str, st
         headers["X-Department-Id"] = str(identity["department_id"])
     if identity.get("manager_node_id"):
         headers["X-Manager-Node-Id"] = str(identity["manager_node_id"])
+    if idempotency_key:
+        headers["Idempotency-Key"] = idempotency_key
     return headers
 
 
 def _safe_token(value: str) -> str:
     token = "".join(char if char.isalnum() or char in {"-", "_"} else "-" for char in value)
     return token.strip("-_") or datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+
+
+def _task_suffix(run_token: str) -> str:
+    return "".join(char for char in run_token if char.isalnum()) or datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
 
 
 def _record_date_from_run_id(run_id: str) -> str:
