@@ -508,6 +508,79 @@ class IdempotencyFlowTests(unittest.TestCase):
                 self.assertEqual(session.query(TaskUpdateModel).count(), 1)
                 self.assertEqual(session.query(AuditLogModel).count(), 1)
 
+    def test_write_middleware_rejects_same_idempotency_key_with_different_body(self) -> None:
+        with patch("automage_agents.server.middleware._settings.abuse_protection_enabled", True), patch(
+            "automage_agents.server.middleware._abuse_store", None
+        ), patch("automage_agents.server.middleware._abuse_store_signature", None):
+            headers = self._auth_headers(
+                user_id="user_manager_001",
+                role="manager",
+                node_id="manager_agent_mvp_001",
+                level="l2_manager",
+                request_id="task-create-006",
+                manager_node_id="executive_agent_boss_001",
+                idempotency_key="idem-task-create-conflict-001",
+            )
+            first_payload = self._task_create_payload()
+            second_payload = self._task_create_payload()
+            second_payload["tasks"][0]["task_description"] = "Changed body for the same idempotency key."
+
+            first = self.client.post("/api/v1/tasks", json=first_payload, headers=headers)
+            second = self.client.post("/api/v1/tasks", json=second_payload, headers=headers)
+
+            self.assertEqual(first.status_code, 200)
+            self.assertEqual(second.status_code, 409)
+            self.assertEqual(second.json().get("detail"), "idempotency_key_conflict")
+            self.assertEqual(second.json().get("idempotency_conflict"), True)
+            self.assertEqual(second.headers.get("X-Idempotency-Key"), "idem-task-create-conflict-001")
+
+            with self.SessionLocal() as session:
+                self.assertEqual(session.query(TaskModel).count(), 1)
+                self.assertEqual(session.query(TaskAssignmentModel).count(), 1)
+                self.assertEqual(session.query(TaskQueueModel).count(), 1)
+                self.assertEqual(session.query(TaskUpdateModel).count(), 1)
+                self.assertEqual(session.query(AuditLogModel).count(), 1)
+
+    def test_write_middleware_rate_limits_write_protected_task_endpoint(self) -> None:
+        with patch("automage_agents.server.middleware._settings.abuse_protection_enabled", True), patch(
+            "automage_agents.server.middleware._settings.rate_limit_max_requests", 1
+        ), patch("automage_agents.server.middleware._settings.rate_limit_window_seconds", 60), patch(
+            "automage_agents.server.middleware._abuse_store", None
+        ), patch("automage_agents.server.middleware._abuse_store_signature", None):
+            first_headers = self._auth_headers(
+                user_id="user_manager_001",
+                role="manager",
+                node_id="manager_agent_mvp_001",
+                level="l2_manager",
+                request_id="task-create-007",
+                manager_node_id="executive_agent_boss_001",
+            )
+            second_headers = self._auth_headers(
+                user_id="user_manager_001",
+                role="manager",
+                node_id="manager_agent_mvp_001",
+                level="l2_manager",
+                request_id="task-create-008",
+                manager_node_id="executive_agent_boss_001",
+            )
+            second_payload = self._task_create_payload()
+            second_payload["tasks"][0]["task_id"] = "TASK-IDEMPOTENT-002"
+
+            first = self.client.post("/api/v1/tasks", json=self._task_create_payload(), headers=first_headers)
+            second = self.client.post("/api/v1/tasks", json=second_payload, headers=second_headers)
+
+            self.assertEqual(first.status_code, 200)
+            self.assertEqual(second.status_code, 429)
+            self.assertEqual(second.json().get("detail"), "rate_limit_exceeded")
+            self.assertEqual(second.json().get("request_id"), "task-create-008")
+
+            with self.SessionLocal() as session:
+                self.assertEqual(session.query(TaskModel).count(), 1)
+                self.assertEqual(session.query(TaskAssignmentModel).count(), 1)
+                self.assertEqual(session.query(TaskQueueModel).count(), 1)
+                self.assertEqual(session.query(TaskUpdateModel).count(), 1)
+                self.assertEqual(session.query(AuditLogModel).count(), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
