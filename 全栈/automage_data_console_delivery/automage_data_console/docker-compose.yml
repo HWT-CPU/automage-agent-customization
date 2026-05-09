@@ -1,0 +1,74 @@
+services:
+  # Frontend: nginx serving built SPA + proxying API
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_started
+    restart: unless-stopped
+
+  # Backend: FastAPI
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      AUTOMAGE_ABUSE_PROTECTION_ENABLED: "true"
+      AUTOMAGE_ABUSE_PROTECTION_BACKEND: "redis"
+      AUTOMAGE_REDIS_URL: "redis://:automage@redis:6379/0"
+      AUTOMAGE_REDIS_KEY_PREFIX: "automage"
+      AUTOMAGE_DB_HOST: "postgres"
+      AUTOMAGE_DB_PORT: "5432"
+      AUTOMAGE_DB_NAME: "automage"
+      AUTOMAGE_DB_USER: "automage"
+      AUTOMAGE_DB_PASSWORD: "automage"
+    command: ["sh", "-c", "python scripts/init_db.py configs/automage.docker.toml && python scripts/seed_minimal.py configs/automage.docker.toml && python scripts/run_api.py"]
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Redis: rate limiting / idempotency store
+  redis:
+    image: redis:7.0
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "automage"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - automage_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "automage", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # PostgreSQL: primary database
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: automage
+      POSTGRES_USER: automage
+      POSTGRES_PASSWORD: automage
+    ports:
+      - "5432:5432"
+    volumes:
+      - automage_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U automage -d automage"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  automage_redis_data:
+  automage_postgres_data:

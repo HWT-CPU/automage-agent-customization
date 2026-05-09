@@ -1,0 +1,39 @@
+[openclaw]
+enabled = true
+runtime_name = "automage-openclaw-local"
+default_channel = "cli"
+reply_enabled = true
+
+[openclaw.channels.cli]
+enabled = true
+
+[openclaw.channels.feishu]
+enabled = false
+event_mode = "websocket"
+reply_enabled = true
+
+[openclaw.routing]
+default_daily_report = "daily_report_submit"
+default_task_query = "task_query"
+default_knowledge_query = "knowledge_query"
+default_manager_feedback = "manager_feedback"
+default_executive_decision = "executive_decision"
+default_markdown_import = "daily_report_markdown_import"
+
+[openclaw.commands.daily_report]
+keywords = ["今天完成", "今日完成", "完成了", "日报", "工作进展"]
+
+[openclaw.commands.task_query]
+keywords = ["查任务", "查询任务", "我的任务", "任务列表"]
+
+[openclaw.commands.knowledge_query]
+keywords = ["查知识库", "查询知识库", "知识库", "项目资料", "项目文档", "查文档", "查询文档"]
+
+[openclaw.commands.manager_feedback]
+keywords = ["经理汇总", "部门汇总", "manager"]
+
+[openclaw.commands.executive_decision]
+keywords = ["决策A", "决策 A", "选择A", "选择 A", "方案A", "方案 A", "决策B", "决策 B", "选择B", "选择 B", "方案B", "方案 B"]
+
+[openclaw.commands.markdown_import]
+keywords = ["导入日报", "正式日报", "markdown日报", "Markdown日报"]

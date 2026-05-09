@@ -5,12 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:backend": "cd backend && python scripts/run_api.py",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "smoke:api": "node scripts/smoke_real_api.mjs",
-    "check:secrets": "node scripts/check_no_secrets.mjs"
+    "check:secrets": "node scripts/check_no_secrets.mjs",
+    "backend:init-db": "cd backend && python scripts/init_db.py",
+    "backend:install": "cd backend && pip install -e .",
+    "backend:demo": "cd backend && python scripts/demo_mock_flow.py"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.59.15",

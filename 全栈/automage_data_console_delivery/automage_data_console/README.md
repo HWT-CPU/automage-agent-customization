@@ -1,20 +1,53 @@
-# AutoMage-2 Data Console
+# AutoMage-2 Data Console (Full-Stack)
 
 AutoMage-2 数据中台 / 组织运行控制台。  
-该工程用于里程碑三联调入口，不是 Landing Page。
+前端（React + Vite）+ 后端（Python FastAPI）一体化项目。
 
-## 启动
+## 项目结构
+
+```
+├── src/                 # 前端源码 (React + TypeScript + Vite)
+├── backend/             # 后端源码 (Python FastAPI)
+│   ├── automage_agents/ # FastAPI 应用包
+│   ├── scripts/         # CLI 入口 (run_api, init_db, demo_mock_flow, ...)
+│   └── configs/         # TOML 配置文件
+├── docker-compose.yml   # 全栈容器化部署
+├── Dockerfile           # 前端 Nginx 镜像
+├── nginx.conf           # Nginx 代理配置
+└── package.json
+```
+
+## 本地开发
+
+### 1. 后端 (Conda yz 环境)
 
 ```bash
+cd backend
+cp .env.example .env        # 配置数据库等环境变量
+conda activate yz           # 使用 conda yz 环境
+pip install -e .            # 安装依赖
+python scripts/init_db.py   # 初始化数据库表
+python scripts/run_api.py   # 启动 API (localhost:8000)
+```
+
+### 2. 前端 (另一个终端)
+
+```bash
+cp .env.example .env
 npm install
-npm run dev
+npm run dev               # 启动 Vite 开发服务器 (localhost:5174)
 ```
 
-## 构建
+前端默认通过 `VITE_AUTOMAGE_API_BASE=http://localhost:8000` 直接调用后端。
+Vite 也已配置代理，可设置 `VITE_AUTOMAGE_API_BASE=`（空字符串）走 Vite 代理。
+
+## Docker 全栈部署
 
 ```bash
-npm run build
+docker compose up -d --build
 ```
+
+访问 `http://localhost:8080`，前端 Nginx 会自动将 `/api/` 请求代理到后端。
 
 ## 模式说明
 
