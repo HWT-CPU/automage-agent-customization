@@ -1,0 +1,75 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:39 GMT",
+    "server": "uvicorn",
+    "content-length": "1957",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-04_post_manager-223e1adc",
+    "x-process-time-ms": "226.59"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "record": {
+        "summary_id": 22,
+        "summary_public_id": "SUM8426FDA43C2F4767BACE55",
+        "source_count": 1,
+        "manager_report_snapshot_id": 22,
+        "identity": {
+          "node_id": "manager_agent_mvp_001",
+          "user_id": "lijingli",
+          "role": "manager",
+          "level": "l2_manager",
+          "department_id": "dept_mvp_core",
+          "manager_node_id": "executive_agent_boss_001",
+          "metadata": {
+            "display_name": "lijingli",
+            "org_id": "org_automage_mvp"
+          }
+        },
+        "report": {
+          "schema_id": "schema_v1_manager",
+          "schema_version": "1.0.0",
+          "org_id": "org_automage_mvp",
+          "dept_id": "dept_mvp_core",
+          "manager_user_id": "lijingli",
+          "manager_node_id": "manager_agent_mvp_001",
+          "summary_date": "2026-05-09",
+          "aggregated_summary": "M2 real api manager summary run_id=m2real-20260508040831",
+          "overall_health": "yellow",
+          "top_3_risks": [
+            {
+              "risk_id": "RISK-MGR-ESC-001",
+              "risk_title": "数据库 Skill / API 端到端读写未验证",
+              "description": "数据库可连不等于 Agent 能通过 Skill 完成 Staff 写入、Manager 读取和 Task 查询，若不在 5.7 修通会影响 5.8 真实联调。",
+              "severity": "high",
+              "source_type": "staff_report",
+              "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+              "owner_user_id": "user_backend_001",
+              "suggested_action": "后端提供最小 API / Skill 调用样例，Agent 侧当天完成读写验证。",
+              "need_escalation": true
+            },
+            {
+              "risk_id": "RISK-MGR-ESC-002",
+              "risk_title": "真实库新增表与里程碑一契约关系未冻结",
+              "description": "staff_reports、manager_reports、decision_records、task_queue 等表与原 work_records、summaries、tasks 的主从关系未确认，会影响 OpenAPI 和 Agent Skill 入参。",
+              "severity": "medium",
+              "source_type": "staff_report",
+              "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+              "owner_user_id": "user_manager_001",
+              "suggested_action": "由数据库 Agent 输出差异分析，团队确认主落点与兼容落点。",
+              "need_escalation": false
+            }
+          ],
+          "pending_approvals": 1,
+          "source_record_ids": [
+            "wr_86cbbfe2ad43482da8cb29"
+          ],
+          "summary_public_id": "SUM8426FDA43C2F4767BACE55"
+        }
+      }
+    },
+    "msg": "经理汇总提交成功"
+  }
+}

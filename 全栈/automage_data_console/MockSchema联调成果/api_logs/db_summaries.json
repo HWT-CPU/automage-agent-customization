@@ -1,0 +1,222 @@
+[
+  {
+    "id": 23,
+    "public_id": "SUMD491FA433E2D4FC780159E",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:09:20.320823+00:00"
+  },
+  {
+    "id": 22,
+    "public_id": "SUM8426FDA43C2F4767BACE55",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:08:40.389558+00:00"
+  },
+  {
+    "id": 21,
+    "public_id": "SUM4A2F4EC243F84B69B380E7",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:06:42.858919+00:00"
+  },
+  {
+    "id": 20,
+    "public_id": "SUM3A8F6F781A78486FA8070B",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:06:03.113784+00:00"
+  },
+  {
+    "id": 19,
+    "public_id": "SUM6D900285B42B4024B1963A",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:05:16.973038+00:00"
+  },
+  {
+    "id": 18,
+    "public_id": "SUMD49A20DCC28A4B5F8C004B",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:04:37.588433+00:00"
+  },
+  {
+    "id": 17,
+    "public_id": "SUM92F63C2ACAC54AEE85D891",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:03:54.070730+00:00"
+  },
+  {
+    "id": 16,
+    "public_id": "SUM61F82A46A1E9455EB475F5",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:03:14.558995+00:00"
+  },
+  {
+    "id": 15,
+    "public_id": "SUMC85AD4A0E22642C983F090",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:00:47.284049+00:00"
+  },
+  {
+    "id": 14,
+    "public_id": "SUM51B950875EBD4D85AC915A",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 20:00:08.260190+00:00"
+  },
+  {
+    "id": 13,
+    "public_id": "SUM859BC022014444E99460B7",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 19:59:18.436942+00:00"
+  },
+  {
+    "id": 12,
+    "public_id": "SUM3FE00B7964664B03BFBAFF",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-09",
+    "status": 1,
+    "created_at": "2026-05-07 19:58:39.327136+00:00"
+  },
+  {
+    "id": 11,
+    "public_id": "SUM500E7D2114B9494EB6AD86",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-08",
+    "status": 1,
+    "created_at": "2026-05-07 17:28:12.434429+00:00"
+  },
+  {
+    "id": 10,
+    "public_id": "SUMFC6408D8D49E49A0948B5B",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-08",
+    "status": 1,
+    "created_at": "2026-05-07 16:41:31.598048+00:00"
+  },
+  {
+    "id": 9,
+    "public_id": "SUMCCB4F0DA64D84CE19647F7",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2035-05-22",
+    "status": 1,
+    "created_at": "2026-05-07 16:39:08.707841+00:00"
+  },
+  {
+    "id": 8,
+    "public_id": "SUM893C6DC85D7D44259FA0FB",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2028-08-13",
+    "status": 1,
+    "created_at": "2026-05-07 16:14:36.773437+00:00"
+  },
+  {
+    "id": 7,
+    "public_id": "SUM8B346F523C1E4ACEA81BA1",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2036-01-31",
+    "status": 1,
+    "created_at": "2026-05-07 09:12:04.268791+00:00"
+  },
+  {
+    "id": 6,
+    "public_id": "SUM1D99B8576F0145C488B207",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2035-05-22",
+    "status": 1,
+    "created_at": "2026-05-07 09:09:10.101298+00:00"
+  },
+  {
+    "id": 5,
+    "public_id": "SUM76C0FD689F7E47CA9D41FE",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-06",
+    "status": 1,
+    "created_at": "2026-05-07 09:05:43.539582+00:00"
+  },
+  {
+    "id": 4,
+    "public_id": "SUMB581A70A81284CE4AADA03",
+    "org_id": 1,
+    "department_id": 2,
+    "user_id": null,
+    "summary_type": 1,
+    "summary_date": "2026-05-06",
+    "status": 1,
+    "created_at": "2026-05-07 09:04:43.336318+00:00"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "method": "POST",
+  "url": "http://localhost:8000/api/v1/tasks",
+  "params": {},
+  "headers": {
+    "X-User-Id": "lijingli",
+    "X-Role": "manager",
+    "X-Node-Id": "manager_agent_mvp_001",
+    "X-Level": "l2_manager",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Manager-Node-Id": "executive_agent_boss_001",
+    "X-Request-Id": "m2real-20260508040831-13_idem_task_same-0be15b6d",
+    "Idempotency-Key": "m2real-20260508040831-idem-task"
+  },
+  "body": {
+    "tasks": [
+      {
+        "task_id": "TSK0804083102",
+        "org_id": "org_automage_mvp",
+        "department_id": "dept_mvp_core",
+        "task_title": "M2真实联调任务-POST/tasks补测",
+        "task_description": "create task directly",
+        "creator_user_id": "lijingli",
+        "manager_user_id": "lijingli",
+        "manager_node_id": "manager_agent_mvp_001",
+        "assignee_user_id": "zhangsan",
+        "assignee_node_id": "staff_agent_mvp_001",
+        "priority": "medium",
+        "status": "pending",
+        "source_summary_id": "SUM8426FDA43C2F4767BACE55"
+      }
+    ]
+  }
+}

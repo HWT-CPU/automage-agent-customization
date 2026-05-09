@@ -1,0 +1,83 @@
+[
+  {
+    "id": 9,
+    "public_id": "wr_ca796abbb00b4038ace88e",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2026-05-10",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 8,
+    "public_id": "wr_86cbbfe2ad43482da8cb29",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2026-05-09",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 7,
+    "public_id": "wr_81f08c8cad114cdb8aa5df",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 4,
+    "record_date": "2026-05-08",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 6,
+    "public_id": "wr_797a4efb08244cdc8569ef",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2026-05-08",
+    "created_at": "2026-05-07 16:41:28.168108+00:00"
+  },
+  {
+    "id": 5,
+    "public_id": "wr_bb77dd2cbf544e2b8a868f",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2028-08-13",
+    "created_at": "2026-05-07 16:14:33.153887+00:00"
+  },
+  {
+    "id": 4,
+    "public_id": "wr_bd6627835a014336883318",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2036-01-31",
+    "created_at": "2026-05-07 09:12:01.446723+00:00"
+  },
+  {
+    "id": 3,
+    "public_id": "wr_490ef7fc81384624a05d60",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2035-05-22",
+    "created_at": "2026-05-07 09:09:07.137423+00:00"
+  },
+  {
+    "id": 2,
+    "public_id": "WRK0000000000000000000002",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 4,
+    "record_date": "2026-05-06",
+    "created_at": "2026-05-06 02:30:00+00:00"
+  },
+  {
+    "id": 1,
+    "public_id": "WRK0000000000000000000001",
+    "org_id": 1,
+    "department_id": 1,
+    "user_id": 3,
+    "record_date": "2026-05-06",
+    "created_at": "2026-05-06 02:30:00+00:00"
+  }
+]

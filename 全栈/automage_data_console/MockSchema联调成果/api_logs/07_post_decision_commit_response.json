@@ -1,0 +1,93 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:46 GMT",
+    "server": "uvicorn",
+    "content-length": "1979",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3",
+    "x-process-time-ms": "322.63"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "decision": {
+        "decision_record_id": 20,
+        "decision_record_public_id": "DECA5CBC8A2C58C48CCB43BD5",
+        "identity": {
+          "node_id": "executive_agent_boss_001",
+          "user_id": "chenzong",
+          "role": "executive",
+          "level": "l3_executive",
+          "department_id": "dept_mvp_core",
+          "manager_node_id": null,
+          "metadata": {
+            "display_name": "chenzong",
+            "org_id": "org_automage_mvp"
+          }
+        },
+        "decision": {
+          "org_id": "org_automage_mvp",
+          "department_id": "dept_mvp_core",
+          "summary_id": "SUM8426FDA43C2F4767BACE55",
+          "selected_option_id": "A",
+          "selected_option_label": "A",
+          "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+          "task_candidates": [
+            {
+              "task_id": "TSK0804083101",
+              "org_id": "org_automage_mvp",
+              "department_id": "dept_mvp_core",
+              "task_title": "M2真实联调任务-决策提交生成",
+              "task_description": "decision commit generated task",
+              "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+              "creator_user_id": "chenzong",
+              "manager_user_id": "lijingli",
+              "manager_node_id": "manager_agent_mvp_001",
+              "assignee_user_id": "zhangsan",
+              "assignee_node_id": "staff_agent_mvp_001",
+              "priority": "high",
+              "status": "pending"
+            }
+          ]
+        }
+      },
+      "task_ids": [
+        "TSK0804083101"
+      ],
+      "tasks": [
+        {
+          "id": 21,
+          "task_id": "TSK0804083101",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-决策提交生成",
+          "description": "decision commit generated task",
+          "status": "pending",
+          "priority": "high",
+          "task_payload": {
+            "task_id": "TSK0804083101",
+            "org_id": "org_automage_mvp",
+            "department_id": "dept_mvp_core",
+            "task_title": "M2真实联调任务-决策提交生成",
+            "task_description": "decision commit generated task",
+            "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+            "creator_user_id": "chenzong",
+            "manager_user_id": "lijingli",
+            "manager_node_id": "manager_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "priority": "high",
+            "status": "pending",
+            "source_id": null,
+            "department_numeric_id": 1,
+            "org_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:08:46.969573+00:00",
+          "updated_at": "2026-05-07T20:08:46.969573+00:00"
+        }
+      ],
+      "snapshot_id": 20
+    },
+    "msg": "正式决策提交成功"
+  }
+}

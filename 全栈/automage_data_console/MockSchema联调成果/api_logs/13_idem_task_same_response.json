@@ -1,0 +1,23 @@
+{
+  "status_code": 409,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:09:06 GMT",
+    "server": "uvicorn",
+    "content-length": "295",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-13_idem_task_same-0be15b6d",
+    "x-process-time-ms": "136.99"
+  },
+  "json": {
+    "code": 409,
+    "data": null,
+    "msg": "任务创建冲突",
+    "error": {
+      "error_type": "conflict",
+      "error_code": "task_create_conflict",
+      "message": "任务 TSK0804083102 已存在，且请求内容不一致",
+      "conflict_target": "task_create:task_id",
+      "request_id": "m2real-20260508040831-13_idem_task_same-0be15b6d"
+    }
+  }
+}

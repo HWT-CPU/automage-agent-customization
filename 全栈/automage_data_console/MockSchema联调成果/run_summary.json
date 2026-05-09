@@ -1,0 +1,4548 @@
+{
+  "run_id": "m2real-20260508040831",
+  "run_date": "2026-05-09",
+  "steps": [
+    {
+      "step": "post_staff_normal",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "get_staff",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "post_staff_high_risk",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "post_manager",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "get_manager",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "post_dream_run",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "post_decision_commit",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "post_tasks",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "step": "get_tasks_multi_role",
+      "status": [
+        200,
+        200,
+        200
+      ],
+      "ok": true
+    },
+    {
+      "step": "patch_task",
+      "status": [
+        200,
+        200
+      ],
+      "ok": true
+    }
+  ],
+  "idempotency_rbac": [
+    {
+      "check": "staff_report_duplicate_same",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "staff_report_duplicate_diff",
+      "ok": true,
+      "status": 409
+    },
+    {
+      "check": "task_create_same",
+      "ok": true,
+      "status": 409
+    },
+    {
+      "check": "task_create_diff",
+      "ok": true,
+      "status": 409
+    },
+    {
+      "check": "patch_same_req_same_content",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "patch_same_req_diff_content",
+      "ok": true,
+      "status": 409
+    },
+    {
+      "check": "staff_query_other",
+      "ok": true,
+      "status": 200
+    },
+    {
+      "check": "manager_cross_dept",
+      "ok": false,
+      "status": 200
+    },
+    {
+      "check": "non_exec_dream",
+      "ok": true,
+      "status": 403
+    },
+    {
+      "check": "non_exec_decision",
+      "ok": true,
+      "status": 403
+    }
+  ],
+  "db_checks": {
+    "work_records": [
+      {
+        "id": 9,
+        "public_id": "wr_ca796abbb00b4038ace88e",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2026-05-10",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 8,
+        "public_id": "wr_86cbbfe2ad43482da8cb29",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2026-05-09",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 7,
+        "public_id": "wr_81f08c8cad114cdb8aa5df",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 4,
+        "record_date": "2026-05-08",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 6,
+        "public_id": "wr_797a4efb08244cdc8569ef",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2026-05-08",
+        "created_at": "2026-05-07 16:41:28.168108+00:00"
+      },
+      {
+        "id": 5,
+        "public_id": "wr_bb77dd2cbf544e2b8a868f",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2028-08-13",
+        "created_at": "2026-05-07 16:14:33.153887+00:00"
+      },
+      {
+        "id": 4,
+        "public_id": "wr_bd6627835a014336883318",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2036-01-31",
+        "created_at": "2026-05-07 09:12:01.446723+00:00"
+      },
+      {
+        "id": 3,
+        "public_id": "wr_490ef7fc81384624a05d60",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2035-05-22",
+        "created_at": "2026-05-07 09:09:07.137423+00:00"
+      },
+      {
+        "id": 2,
+        "public_id": "WRK0000000000000000000002",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 4,
+        "record_date": "2026-05-06",
+        "created_at": "2026-05-06 02:30:00+00:00"
+      },
+      {
+        "id": 1,
+        "public_id": "WRK0000000000000000000001",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": 3,
+        "record_date": "2026-05-06",
+        "created_at": "2026-05-06 02:30:00+00:00"
+      }
+    ],
+    "work_record_items": [
+      {
+        "id": 143,
+        "work_record_id": 9,
+        "field_key": "search.artifact_count",
+        "field_label": "产出物数量",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 142,
+        "work_record_id": 9,
+        "field_key": "search.follow_up_task_count",
+        "field_label": "需继续跟进任务数",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 141,
+        "work_record_id": 9,
+        "field_key": "search.risk_level",
+        "field_label": "总体风险等级",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 140,
+        "work_record_id": 9,
+        "field_key": "search.decision_count",
+        "field_label": "待决策数量",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 139,
+        "work_record_id": 9,
+        "field_key": "search.blocker_count",
+        "field_label": "阻塞数量",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 138,
+        "work_record_id": 9,
+        "field_key": "search.need_support",
+        "field_label": "是否需要支持",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 137,
+        "work_record_id": 9,
+        "field_key": "sign_off",
+        "field_label": "签名确认",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 136,
+        "work_record_id": 9,
+        "field_key": "daily_summary",
+        "field_label": "今日总结",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 135,
+        "work_record_id": 9,
+        "field_key": "workflow_notes",
+        "field_label": "Context / Prompt / Workflow 补充",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 134,
+        "work_record_id": 9,
+        "field_key": "risk_assessment",
+        "field_label": "风险判断",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 133,
+        "work_record_id": 9,
+        "field_key": "cross_module_requests",
+        "field_label": "与其他模块的对接需求",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 132,
+        "work_record_id": 9,
+        "field_key": "tomorrow_plans",
+        "field_label": "明日计划",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 131,
+        "work_record_id": 9,
+        "field_key": "decision_requests",
+        "field_label": "需要确认或决策的事项",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 130,
+        "work_record_id": 9,
+        "field_key": "support_requests",
+        "field_label": "需要支持的事项",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 129,
+        "work_record_id": 9,
+        "field_key": "today_blockers",
+        "field_label": "今日问题与阻塞",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 128,
+        "work_record_id": 9,
+        "field_key": "today_artifacts",
+        "field_label": "今日产出物清单",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 127,
+        "work_record_id": 9,
+        "field_key": "today_completed_items",
+        "field_label": "今日完成事项",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 126,
+        "work_record_id": 9,
+        "field_key": "today_task_progress",
+        "field_label": "今日任务进展",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 125,
+        "work_record_id": 9,
+        "field_key": "basic_info",
+        "field_label": "基础信息",
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 124,
+        "work_record_id": 8,
+        "field_key": "search.artifact_count",
+        "field_label": "产出物数量",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 123,
+        "work_record_id": 8,
+        "field_key": "search.follow_up_task_count",
+        "field_label": "需继续跟进任务数",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 122,
+        "work_record_id": 8,
+        "field_key": "search.risk_level",
+        "field_label": "总体风险等级",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 121,
+        "work_record_id": 8,
+        "field_key": "search.decision_count",
+        "field_label": "待决策数量",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 120,
+        "work_record_id": 8,
+        "field_key": "search.blocker_count",
+        "field_label": "阻塞数量",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 119,
+        "work_record_id": 8,
+        "field_key": "search.need_support",
+        "field_label": "是否需要支持",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 118,
+        "work_record_id": 8,
+        "field_key": "sign_off",
+        "field_label": "签名确认",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 117,
+        "work_record_id": 8,
+        "field_key": "daily_summary",
+        "field_label": "今日总结",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 116,
+        "work_record_id": 8,
+        "field_key": "workflow_notes",
+        "field_label": "Context / Prompt / Workflow 补充",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 115,
+        "work_record_id": 8,
+        "field_key": "risk_assessment",
+        "field_label": "风险判断",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 114,
+        "work_record_id": 8,
+        "field_key": "cross_module_requests",
+        "field_label": "与其他模块的对接需求",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 113,
+        "work_record_id": 8,
+        "field_key": "tomorrow_plans",
+        "field_label": "明日计划",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 112,
+        "work_record_id": 8,
+        "field_key": "decision_requests",
+        "field_label": "需要确认或决策的事项",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 111,
+        "work_record_id": 8,
+        "field_key": "support_requests",
+        "field_label": "需要支持的事项",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 110,
+        "work_record_id": 8,
+        "field_key": "today_blockers",
+        "field_label": "今日问题与阻塞",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 109,
+        "work_record_id": 8,
+        "field_key": "today_artifacts",
+        "field_label": "今日产出物清单",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 108,
+        "work_record_id": 8,
+        "field_key": "today_completed_items",
+        "field_label": "今日完成事项",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 107,
+        "work_record_id": 8,
+        "field_key": "today_task_progress",
+        "field_label": "今日任务进展",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 106,
+        "work_record_id": 8,
+        "field_key": "basic_info",
+        "field_label": "基础信息",
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 105,
+        "work_record_id": 7,
+        "field_key": "search.artifact_count",
+        "field_label": "产出物数量",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 104,
+        "work_record_id": 7,
+        "field_key": "search.follow_up_task_count",
+        "field_label": "需继续跟进任务数",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 103,
+        "work_record_id": 7,
+        "field_key": "search.risk_level",
+        "field_label": "总体风险等级",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 102,
+        "work_record_id": 7,
+        "field_key": "search.decision_count",
+        "field_label": "待决策数量",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 101,
+        "work_record_id": 7,
+        "field_key": "search.blocker_count",
+        "field_label": "阻塞数量",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 100,
+        "work_record_id": 7,
+        "field_key": "search.need_support",
+        "field_label": "是否需要支持",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 99,
+        "work_record_id": 7,
+        "field_key": "sign_off",
+        "field_label": "签名确认",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 98,
+        "work_record_id": 7,
+        "field_key": "daily_summary",
+        "field_label": "今日总结",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 97,
+        "work_record_id": 7,
+        "field_key": "workflow_notes",
+        "field_label": "Context / Prompt / Workflow 补充",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 96,
+        "work_record_id": 7,
+        "field_key": "risk_assessment",
+        "field_label": "风险判断",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 95,
+        "work_record_id": 7,
+        "field_key": "cross_module_requests",
+        "field_label": "与其他模块的对接需求",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      },
+      {
+        "id": 94,
+        "work_record_id": 7,
+        "field_key": "tomorrow_plans",
+        "field_label": "明日计划",
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      }
+    ],
+    "incidents": [
+      {
+        "id": 3,
+        "public_id": "INC59FC17DD392649BB995410",
+        "source_record_id": 9,
+        "reporter_user_id": 3,
+        "severity": 3,
+        "status": 0,
+        "created_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 2,
+        "public_id": "INCB80767B2504F40E48CE0BB",
+        "source_record_id": 8,
+        "reporter_user_id": 3,
+        "severity": 1,
+        "status": 0,
+        "created_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 1,
+        "public_id": "INCA0AFE997A76043DC8EFE3F",
+        "source_record_id": 7,
+        "reporter_user_id": 4,
+        "severity": 2,
+        "status": 0,
+        "created_at": "2026-05-07 17:10:49.092882+00:00"
+      }
+    ],
+    "incident_updates": [
+      {
+        "id": 3,
+        "incident_id": 3,
+        "actor_user_id": 3,
+        "status_before": null,
+        "status_after": 0,
+        "event_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 2,
+        "incident_id": 2,
+        "actor_user_id": 3,
+        "status_before": null,
+        "status_after": 0,
+        "event_at": "2026-05-07 19:58:32.586009+00:00"
+      },
+      {
+        "id": 1,
+        "incident_id": 1,
+        "actor_user_id": 4,
+        "status_before": null,
+        "status_after": 0,
+        "event_at": "2026-05-07 17:10:49.092882+00:00"
+      }
+    ],
+    "summaries": [
+      {
+        "id": 23,
+        "public_id": "SUMD491FA433E2D4FC780159E",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:09:20.320823+00:00"
+      },
+      {
+        "id": 22,
+        "public_id": "SUM8426FDA43C2F4767BACE55",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:08:40.389558+00:00"
+      },
+      {
+        "id": 21,
+        "public_id": "SUM4A2F4EC243F84B69B380E7",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:06:42.858919+00:00"
+      },
+      {
+        "id": 20,
+        "public_id": "SUM3A8F6F781A78486FA8070B",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:06:03.113784+00:00"
+      },
+      {
+        "id": 19,
+        "public_id": "SUM6D900285B42B4024B1963A",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:05:16.973038+00:00"
+      },
+      {
+        "id": 18,
+        "public_id": "SUMD49A20DCC28A4B5F8C004B",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:04:37.588433+00:00"
+      },
+      {
+        "id": 17,
+        "public_id": "SUM92F63C2ACAC54AEE85D891",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:03:54.070730+00:00"
+      },
+      {
+        "id": 16,
+        "public_id": "SUM61F82A46A1E9455EB475F5",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:03:14.558995+00:00"
+      },
+      {
+        "id": 15,
+        "public_id": "SUMC85AD4A0E22642C983F090",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:00:47.284049+00:00"
+      },
+      {
+        "id": 14,
+        "public_id": "SUM51B950875EBD4D85AC915A",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 20:00:08.260190+00:00"
+      },
+      {
+        "id": 13,
+        "public_id": "SUM859BC022014444E99460B7",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 19:59:18.436942+00:00"
+      },
+      {
+        "id": 12,
+        "public_id": "SUM3FE00B7964664B03BFBAFF",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-09",
+        "status": 1,
+        "created_at": "2026-05-07 19:58:39.327136+00:00"
+      },
+      {
+        "id": 11,
+        "public_id": "SUM500E7D2114B9494EB6AD86",
+        "org_id": 1,
+        "department_id": 1,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-08",
+        "status": 1,
+        "created_at": "2026-05-07 17:28:12.434429+00:00"
+      },
+      {
+        "id": 10,
+        "public_id": "SUMFC6408D8D49E49A0948B5B",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-08",
+        "status": 1,
+        "created_at": "2026-05-07 16:41:31.598048+00:00"
+      },
+      {
+        "id": 9,
+        "public_id": "SUMCCB4F0DA64D84CE19647F7",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2035-05-22",
+        "status": 1,
+        "created_at": "2026-05-07 16:39:08.707841+00:00"
+      },
+      {
+        "id": 8,
+        "public_id": "SUM893C6DC85D7D44259FA0FB",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2028-08-13",
+        "status": 1,
+        "created_at": "2026-05-07 16:14:36.773437+00:00"
+      },
+      {
+        "id": 7,
+        "public_id": "SUM8B346F523C1E4ACEA81BA1",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2036-01-31",
+        "status": 1,
+        "created_at": "2026-05-07 09:12:04.268791+00:00"
+      },
+      {
+        "id": 6,
+        "public_id": "SUM1D99B8576F0145C488B207",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2035-05-22",
+        "status": 1,
+        "created_at": "2026-05-07 09:09:10.101298+00:00"
+      },
+      {
+        "id": 5,
+        "public_id": "SUM76C0FD689F7E47CA9D41FE",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-06",
+        "status": 1,
+        "created_at": "2026-05-07 09:05:43.539582+00:00"
+      },
+      {
+        "id": 4,
+        "public_id": "SUMB581A70A81284CE4AADA03",
+        "org_id": 1,
+        "department_id": 2,
+        "user_id": null,
+        "summary_type": 1,
+        "summary_date": "2026-05-06",
+        "status": 1,
+        "created_at": "2026-05-07 09:04:43.336318+00:00"
+      }
+    ],
+    "summary_source_links": [
+      {
+        "id": 16,
+        "summary_id": 23,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:09:20.320823+00:00"
+      },
+      {
+        "id": 15,
+        "summary_id": 22,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:08:40.389558+00:00"
+      },
+      {
+        "id": 14,
+        "summary_id": 21,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:06:42.858919+00:00"
+      },
+      {
+        "id": 13,
+        "summary_id": 20,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:06:03.113784+00:00"
+      },
+      {
+        "id": 12,
+        "summary_id": 19,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:05:16.973038+00:00"
+      },
+      {
+        "id": 11,
+        "summary_id": 18,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:04:37.588433+00:00"
+      },
+      {
+        "id": 10,
+        "summary_id": 17,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:03:54.070730+00:00"
+      },
+      {
+        "id": 9,
+        "summary_id": 16,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:03:14.558995+00:00"
+      },
+      {
+        "id": 8,
+        "summary_id": 15,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:00:47.284049+00:00"
+      },
+      {
+        "id": 7,
+        "summary_id": 14,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 20:00:08.260190+00:00"
+      },
+      {
+        "id": 6,
+        "summary_id": 13,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 19:59:18.436942+00:00"
+      },
+      {
+        "id": 5,
+        "summary_id": 12,
+        "source_type": 1,
+        "source_id": 8,
+        "created_at": "2026-05-07 19:58:39.327136+00:00"
+      },
+      {
+        "id": 4,
+        "summary_id": 11,
+        "source_type": 1,
+        "source_id": 7,
+        "created_at": "2026-05-07 17:28:12.434429+00:00"
+      },
+      {
+        "id": 3,
+        "summary_id": 11,
+        "source_type": 1,
+        "source_id": 6,
+        "created_at": "2026-05-07 17:28:12.434429+00:00"
+      },
+      {
+        "id": 2,
+        "summary_id": 1,
+        "source_type": 1,
+        "source_id": 2,
+        "created_at": "2026-05-06 02:30:00+00:00"
+      },
+      {
+        "id": 1,
+        "summary_id": 1,
+        "source_type": 1,
+        "source_id": 1,
+        "created_at": "2026-05-06 02:30:00+00:00"
+      }
+    ],
+    "decision_records": [
+      {
+        "id": 20,
+        "public_id": "DECA5CBC8A2C58C48CCB43BD5",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 22,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Executive Decision",
+        "description": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "A"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 20:08:47.057558+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 20:08:46.969573+00:00",
+        "updated_at": "2026-05-07 20:08:46.969573+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "chenzong"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "org_id": "org_automage_mvp",
+            "summary_id": "SUM8426FDA43C2F4767BACE55",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSK0804083101",
+                "priority": "high",
+                "task_title": "M2真实联调任务-决策提交生成",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "decision commit generated task",
+                "source_summary_id": "SUM8426FDA43C2F4767BACE55"
+              }
+            ],
+            "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+            "selected_option_id": "A",
+            "selected_option_label": "A"
+          }
+        }
+      },
+      {
+        "id": 19,
+        "public_id": "DEC722DF1D5FEEC4F7CA0FAE9",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 20,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Executive Decision",
+        "description": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "A"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 20:06:09.776547+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 20:06:09.689247+00:00",
+        "updated_at": "2026-05-07 20:06:09.689247+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "chenzong"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "org_id": "org_automage_mvp",
+            "summary_id": "SUM3A8F6F781A78486FA8070B",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSK0804055401",
+                "priority": "high",
+                "task_title": "M2真实联调任务-决策提交生成",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "decision commit generated task",
+                "source_summary_id": "SUM3A8F6F781A78486FA8070B"
+              }
+            ],
+            "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+            "selected_option_id": "A",
+            "selected_option_label": "A"
+          }
+        }
+      },
+      {
+        "id": 18,
+        "public_id": "DEC6771AB4AF74B4BBEA94DBC",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 18,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Executive Decision",
+        "description": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "A"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 20:04:44.358329+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 20:04:44.273879+00:00",
+        "updated_at": "2026-05-07 20:04:44.273879+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "chenzong"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "org_id": "org_automage_mvp",
+            "summary_id": "SUMD49A20DCC28A4B5F8C004B",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSK0804042801",
+                "priority": "high",
+                "task_title": "M2真实联调任务-决策提交生成",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "decision commit generated task",
+                "source_summary_id": "SUMD49A20DCC28A4B5F8C004B"
+              }
+            ],
+            "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+            "selected_option_id": "A",
+            "selected_option_label": "A"
+          }
+        }
+      },
+      {
+        "id": 17,
+        "public_id": "DEC9E13AF444C304CD5A1DD7E",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 16,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Executive Decision",
+        "description": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "A"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 20:03:21.226826+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 20:03:21.135165+00:00",
+        "updated_at": "2026-05-07 20:03:21.135165+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "chenzong"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "org_id": "org_automage_mvp",
+            "summary_id": "SUM61F82A46A1E9455EB475F5",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSK0804030501",
+                "priority": "high",
+                "task_title": "M2真实联调任务-决策提交生成",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "decision commit generated task",
+                "source_summary_id": "SUM61F82A46A1E9455EB475F5"
+              }
+            ],
+            "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+            "selected_option_id": "A",
+            "selected_option_label": "A"
+          }
+        }
+      },
+      {
+        "id": 16,
+        "public_id": "DECF263AC0BD02C4A35A08753",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 11,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "确认Aggressive execution plan",
+        "description": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 1,
+        "option_schema_json": {
+          "options": [
+            {
+              "title": "Conservative execution plan",
+              "summary": "Prioritize risk control before broad execution.",
+              "option_id": "A",
+              "task_candidates": [
+                {
+                  "title": "Review summary risks",
+                  "status": "pending",
+                  "task_id": "TSK0CD638321E7D45B5A22240",
+                  "priority": "high",
+                  "description": "Validate top risks before scaling execution.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            },
+            {
+              "title": "Aggressive execution plan",
+              "summary": "Push execution with tighter follow-up and faster feedback loops.",
+              "option_id": "B",
+              "task_candidates": [
+                {
+                  "title": "Accelerate summary actions",
+                  "status": "pending",
+                  "task_id": "TSKA44E867587744616AFA928",
+                  "priority": "medium",
+                  "description": "Push follow-up actions while monitoring execution risk.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            }
+          ]
+        },
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 20:02:23.971304+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 20:02:21.097520+00:00",
+        "updated_at": "2026-05-07 20:02:21.097520+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "feishu_open_id": "TODO"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": ""
+          },
+          "decision_payload": {
+            "meta": {
+              "source": "feishu_im",
+              "raw_text": "确认方案B SUM500E7D2114B9494EB6AD86",
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "确认Aggressive execution plan",
+            "org_id": "org_automage_mvp",
+            "priority": "high",
+            "summary_id": "SUM500E7D2114B9494EB6AD86",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "knowledge_refs": {
+                    "feishu_knowledge": {
+                      "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                      "source": "feishu_wiki_cache",
+                      "sources": [
+                        {
+                          "score": 180,
+                          "title": "胡文涛 5.5 日报",
+                          "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                          "token_kind": "obj_token",
+                          "source_section_id": "08"
+                        },
+                        {
+                          "score": 135,
+                          "title": "OpenAPI 契约",
+                          "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                          "token_kind": "obj_token",
+                          "source_section_id": "07"
+                        },
+                        {
+                          "score": 99,
+                          "title": "里程碑二 5.6-5.9 任务表",
+                          "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                          "token_kind": "obj_token",
+                          "source_section_id": "02"
+                        }
+                      ],
+                      "source_count": 3,
+                      "context_chars": 3001,
+                      "has_context_text": true,
+                      "runtime_input_ref_key": "feishu_knowledge"
+                    }
+                  }
+                },
+                "title": "Accelerate summary actions",
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSKA44E867587744616AFA928",
+                "priority": "medium",
+                "task_title": "Accelerate summary actions",
+                "description": "Push follow-up actions while monitoring execution risk.",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Push follow-up actions while monitoring execution risk.",
+                "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+                "created_by_node_id": "executive_agent_boss_001"
+              }
+            ],
+            "decision_options": [
+              {
+                "title": "Conservative execution plan",
+                "summary": "Prioritize risk control before broad execution.",
+                "option_id": "A",
+                "task_candidates": [
+                  {
+                    "title": "Review summary risks",
+                    "status": "pending",
+                    "task_id": "TSK0CD638321E7D45B5A22240",
+                    "priority": "high",
+                    "description": "Validate top risks before scaling execution.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              },
+              {
+                "title": "Aggressive execution plan",
+                "summary": "Push execution with tighter follow-up and faster feedback loops.",
+                "option_id": "B",
+                "task_candidates": [
+                  {
+                    "title": "Accelerate summary actions",
+                    "status": "pending",
+                    "task_id": "TSKA44E867587744616AFA928",
+                    "priority": "medium",
+                    "description": "Push follow-up actions while monitoring execution risk.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              }
+            ],
+            "decision_summary": "确认方案B SUM500E7D2114B9494EB6AD86",
+            "selected_option_id": "B",
+            "selected_option_label": "Aggressive execution plan"
+          }
+        }
+      },
+      {
+        "id": 13,
+        "public_id": "DEC6F7356A8C99A4E138E9F64",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 11,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "确认Aggressive execution plan",
+        "description": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 1,
+        "option_schema_json": {
+          "options": [
+            {
+              "title": "Conservative execution plan",
+              "summary": "Prioritize risk control before broad execution.",
+              "option_id": "A",
+              "task_candidates": [
+                {
+                  "title": "Review summary risks",
+                  "status": "pending",
+                  "task_id": "TSK14DE263F886949A9B4B58A",
+                  "priority": "high",
+                  "description": "Validate top risks before scaling execution.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            },
+            {
+              "title": "Aggressive execution plan",
+              "summary": "Push execution with tighter follow-up and faster feedback loops.",
+              "option_id": "B",
+              "task_candidates": [
+                {
+                  "title": "Accelerate summary actions",
+                  "status": "pending",
+                  "task_id": "TSKB438F55B6FDE4571A30708",
+                  "priority": "medium",
+                  "description": "Push follow-up actions while monitoring execution risk.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            }
+          ]
+        },
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 19:01:51.165075+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 19:01:48.487389+00:00",
+        "updated_at": "2026-05-07 19:01:48.487389+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "feishu_open_id": "TODO"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": ""
+          },
+          "decision_payload": {
+            "meta": {
+              "source": "feishu_im",
+              "raw_text": "确认方案B SUM500E7D2114B9494EB6AD86",
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "确认Aggressive execution plan",
+            "org_id": "org_automage_mvp",
+            "priority": "high",
+            "summary_id": "SUM500E7D2114B9494EB6AD86",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "knowledge_refs": {
+                    "feishu_knowledge": {
+                      "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                      "source": "feishu_wiki_cache",
+                      "sources": [
+                        {
+                          "score": 180,
+                          "title": "胡文涛 5.5 日报",
+                          "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                          "token_kind": "obj_token",
+                          "source_section_id": "08"
+                        },
+                        {
+                          "score": 135,
+                          "title": "OpenAPI 契约",
+                          "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                          "token_kind": "obj_token",
+                          "source_section_id": "07"
+                        },
+                        {
+                          "score": 99,
+                          "title": "里程碑二 5.6-5.9 任务表",
+                          "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                          "token_kind": "obj_token",
+                          "source_section_id": "02"
+                        }
+                      ],
+                      "source_count": 3,
+                      "context_chars": 3001,
+                      "has_context_text": true,
+                      "runtime_input_ref_key": "feishu_knowledge"
+                    }
+                  }
+                },
+                "title": "Accelerate summary actions",
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSKB438F55B6FDE4571A30708",
+                "priority": "medium",
+                "task_title": "Accelerate summary actions",
+                "description": "Push follow-up actions while monitoring execution risk.",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Push follow-up actions while monitoring execution risk.",
+                "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+                "created_by_node_id": "executive_agent_boss_001"
+              }
+            ],
+            "decision_options": [
+              {
+                "title": "Conservative execution plan",
+                "summary": "Prioritize risk control before broad execution.",
+                "option_id": "A",
+                "task_candidates": [
+                  {
+                    "title": "Review summary risks",
+                    "status": "pending",
+                    "task_id": "TSK14DE263F886949A9B4B58A",
+                    "priority": "high",
+                    "description": "Validate top risks before scaling execution.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              },
+              {
+                "title": "Aggressive execution plan",
+                "summary": "Push execution with tighter follow-up and faster feedback loops.",
+                "option_id": "B",
+                "task_candidates": [
+                  {
+                    "title": "Accelerate summary actions",
+                    "status": "pending",
+                    "task_id": "TSKB438F55B6FDE4571A30708",
+                    "priority": "medium",
+                    "description": "Push follow-up actions while monitoring execution risk.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              }
+            ],
+            "decision_summary": "确认方案B SUM500E7D2114B9494EB6AD86",
+            "selected_option_id": "B",
+            "selected_option_label": "Aggressive execution plan"
+          }
+        }
+      },
+      {
+        "id": 12,
+        "public_id": "DEC5DB10BA8CE7F49329A913C",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 11,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "确认Aggressive execution plan",
+        "description": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 1,
+        "option_schema_json": {
+          "options": [
+            {
+              "title": "Conservative execution plan",
+              "summary": "Prioritize risk control before broad execution.",
+              "option_id": "A",
+              "task_candidates": [
+                {
+                  "title": "Review summary risks",
+                  "status": "pending",
+                  "task_id": "TSK9201C1D360FA4D33939EA4",
+                  "priority": "high",
+                  "description": "Validate top risks before scaling execution.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            },
+            {
+              "title": "Aggressive execution plan",
+              "summary": "Push execution with tighter follow-up and faster feedback loops.",
+              "option_id": "B",
+              "task_candidates": [
+                {
+                  "title": "Accelerate summary actions",
+                  "status": "pending",
+                  "task_id": "TSKCCB1985C338E4224BBC65D",
+                  "priority": "medium",
+                  "description": "Push follow-up actions while monitoring execution risk.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            }
+          ]
+        },
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 18:56:46.361648+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 18:56:43.652375+00:00",
+        "updated_at": "2026-05-07 18:56:43.652375+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "feishu_open_id": "TODO"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": ""
+          },
+          "decision_payload": {
+            "meta": {
+              "source": "feishu_im",
+              "raw_text": "确认方案B SUM500E7D2114B9494EB6AD86",
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "确认Aggressive execution plan",
+            "org_id": "org_automage_mvp",
+            "priority": "high",
+            "summary_id": "SUM500E7D2114B9494EB6AD86",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "knowledge_refs": {
+                    "feishu_knowledge": {
+                      "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                      "source": "feishu_wiki_cache",
+                      "sources": [
+                        {
+                          "score": 180,
+                          "title": "胡文涛 5.5 日报",
+                          "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                          "token_kind": "obj_token",
+                          "source_section_id": "08"
+                        },
+                        {
+                          "score": 135,
+                          "title": "OpenAPI 契约",
+                          "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                          "token_kind": "obj_token",
+                          "source_section_id": "07"
+                        },
+                        {
+                          "score": 99,
+                          "title": "里程碑二 5.6-5.9 任务表",
+                          "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                          "token_kind": "obj_token",
+                          "source_section_id": "02"
+                        }
+                      ],
+                      "source_count": 3,
+                      "context_chars": 3001,
+                      "has_context_text": true,
+                      "runtime_input_ref_key": "feishu_knowledge"
+                    }
+                  }
+                },
+                "title": "Accelerate summary actions",
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSKCCB1985C338E4224BBC65D",
+                "priority": "medium",
+                "task_title": "Accelerate summary actions",
+                "description": "Push follow-up actions while monitoring execution risk.",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Push follow-up actions while monitoring execution risk.",
+                "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+                "created_by_node_id": "executive_agent_boss_001"
+              }
+            ],
+            "decision_options": [
+              {
+                "title": "Conservative execution plan",
+                "summary": "Prioritize risk control before broad execution.",
+                "option_id": "A",
+                "task_candidates": [
+                  {
+                    "title": "Review summary risks",
+                    "status": "pending",
+                    "task_id": "TSK9201C1D360FA4D33939EA4",
+                    "priority": "high",
+                    "description": "Validate top risks before scaling execution.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              },
+              {
+                "title": "Aggressive execution plan",
+                "summary": "Push execution with tighter follow-up and faster feedback loops.",
+                "option_id": "B",
+                "task_candidates": [
+                  {
+                    "title": "Accelerate summary actions",
+                    "status": "pending",
+                    "task_id": "TSKCCB1985C338E4224BBC65D",
+                    "priority": "medium",
+                    "description": "Push follow-up actions while monitoring execution risk.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              }
+            ],
+            "decision_summary": "确认方案B SUM500E7D2114B9494EB6AD86",
+            "selected_option_id": "B",
+            "selected_option_label": "Aggressive execution plan"
+          }
+        }
+      },
+      {
+        "id": 11,
+        "public_id": "DECEBF3089E8C884B59A26E0F",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 11,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "确认Aggressive execution plan",
+        "description": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 1,
+        "option_schema_json": {
+          "options": [
+            {
+              "title": "Conservative execution plan",
+              "summary": "Prioritize risk control before broad execution.",
+              "option_id": "A",
+              "task_candidates": [
+                {
+                  "title": "Review summary risks",
+                  "status": "pending",
+                  "task_id": "TSK5A5DF3359EBC404B894C0E",
+                  "priority": "high",
+                  "description": "Validate top risks before scaling execution.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            },
+            {
+              "title": "Aggressive execution plan",
+              "summary": "Push execution with tighter follow-up and faster feedback loops.",
+              "option_id": "B",
+              "task_candidates": [
+                {
+                  "title": "Accelerate summary actions",
+                  "status": "pending",
+                  "task_id": "TSKBD592F09CA3C428F8C2797",
+                  "priority": "medium",
+                  "description": "Push follow-up actions while monitoring execution risk.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            }
+          ]
+        },
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 18:56:27.328632+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 18:56:24.696904+00:00",
+        "updated_at": "2026-05-07 18:56:24.696904+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "feishu_open_id": "TODO"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": ""
+          },
+          "decision_payload": {
+            "meta": {
+              "source": "feishu_im",
+              "raw_text": "确认方案B SUM500E7D2114B9494EB6AD86",
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "确认Aggressive execution plan",
+            "org_id": "org_automage_mvp",
+            "priority": "high",
+            "summary_id": "SUM500E7D2114B9494EB6AD86",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "knowledge_refs": {
+                    "feishu_knowledge": {
+                      "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                      "source": "feishu_wiki_cache",
+                      "sources": [
+                        {
+                          "score": 180,
+                          "title": "胡文涛 5.5 日报",
+                          "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                          "token_kind": "obj_token",
+                          "source_section_id": "08"
+                        },
+                        {
+                          "score": 135,
+                          "title": "OpenAPI 契约",
+                          "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                          "token_kind": "obj_token",
+                          "source_section_id": "07"
+                        },
+                        {
+                          "score": 99,
+                          "title": "里程碑二 5.6-5.9 任务表",
+                          "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                          "token_kind": "obj_token",
+                          "source_section_id": "02"
+                        }
+                      ],
+                      "source_count": 3,
+                      "context_chars": 3001,
+                      "has_context_text": true,
+                      "runtime_input_ref_key": "feishu_knowledge"
+                    }
+                  }
+                },
+                "title": "Accelerate summary actions",
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSKBD592F09CA3C428F8C2797",
+                "priority": "medium",
+                "task_title": "Accelerate summary actions",
+                "description": "Push follow-up actions while monitoring execution risk.",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Push follow-up actions while monitoring execution risk.",
+                "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+                "created_by_node_id": "executive_agent_boss_001"
+              }
+            ],
+            "decision_options": [
+              {
+                "title": "Conservative execution plan",
+                "summary": "Prioritize risk control before broad execution.",
+                "option_id": "A",
+                "task_candidates": [
+                  {
+                    "title": "Review summary risks",
+                    "status": "pending",
+                    "task_id": "TSK5A5DF3359EBC404B894C0E",
+                    "priority": "high",
+                    "description": "Validate top risks before scaling execution.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              },
+              {
+                "title": "Aggressive execution plan",
+                "summary": "Push execution with tighter follow-up and faster feedback loops.",
+                "option_id": "B",
+                "task_candidates": [
+                  {
+                    "title": "Accelerate summary actions",
+                    "status": "pending",
+                    "task_id": "TSKBD592F09CA3C428F8C2797",
+                    "priority": "medium",
+                    "description": "Push follow-up actions while monitoring execution risk.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              }
+            ],
+            "decision_summary": "确认方案B SUM500E7D2114B9494EB6AD86",
+            "selected_option_id": "B",
+            "selected_option_label": "Aggressive execution plan"
+          }
+        }
+      },
+      {
+        "id": 10,
+        "public_id": "DEC892EF3981B1C415FAD54C1",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": 11,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "确认Aggressive execution plan",
+        "description": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 1,
+        "option_schema_json": {
+          "options": [
+            {
+              "title": "Conservative execution plan",
+              "summary": "Prioritize risk control before broad execution.",
+              "option_id": "A",
+              "task_candidates": [
+                {
+                  "title": "Review summary risks",
+                  "status": "pending",
+                  "task_id": "TSK550430ABCE3A45AD925E9C",
+                  "priority": "high",
+                  "description": "Validate top risks before scaling execution.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            },
+            {
+              "title": "Aggressive execution plan",
+              "summary": "Push execution with tighter follow-up and faster feedback loops.",
+              "option_id": "B",
+              "task_candidates": [
+                {
+                  "title": "Accelerate summary actions",
+                  "status": "pending",
+                  "task_id": "TSKE531745B70A143B0ABFA7C",
+                  "priority": "medium",
+                  "description": "Push follow-up actions while monitoring execution risk.",
+                  "assignee_user_id": "chenzong",
+                  "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                }
+              ]
+            }
+          ]
+        },
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 18:53:29.030607+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 18:53:26.182291+00:00",
+        "updated_at": "2026-05-07 18:53:26.182291+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "feishu_open_id": "TODO"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": ""
+          },
+          "decision_payload": {
+            "meta": {
+              "source": "feishu_im",
+              "raw_text": "确认方案B SUM500E7D2114B9494EB6AD86",
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "确认Aggressive execution plan",
+            "org_id": "org_automage_mvp",
+            "priority": "high",
+            "summary_id": "SUM500E7D2114B9494EB6AD86",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "knowledge_refs": {
+                    "feishu_knowledge": {
+                      "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                      "source": "feishu_wiki_cache",
+                      "sources": [
+                        {
+                          "score": 180,
+                          "title": "胡文涛 5.5 日报",
+                          "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                          "token_kind": "obj_token",
+                          "source_section_id": "08"
+                        },
+                        {
+                          "score": 135,
+                          "title": "OpenAPI 契约",
+                          "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                          "token_kind": "obj_token",
+                          "source_section_id": "07"
+                        },
+                        {
+                          "score": 99,
+                          "title": "里程碑二 5.6-5.9 任务表",
+                          "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                          "token_kind": "obj_token",
+                          "source_section_id": "02"
+                        }
+                      ],
+                      "source_count": 3,
+                      "context_chars": 3001,
+                      "has_context_text": true,
+                      "runtime_input_ref_key": "feishu_knowledge"
+                    }
+                  }
+                },
+                "title": "Accelerate summary actions",
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TSKE531745B70A143B0ABFA7C",
+                "priority": "medium",
+                "task_title": "Accelerate summary actions",
+                "description": "Push follow-up actions while monitoring execution risk.",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Push follow-up actions while monitoring execution risk.",
+                "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+                "created_by_node_id": "executive_agent_boss_001"
+              }
+            ],
+            "decision_options": [
+              {
+                "title": "Conservative execution plan",
+                "summary": "Prioritize risk control before broad execution.",
+                "option_id": "A",
+                "task_candidates": [
+                  {
+                    "title": "Review summary risks",
+                    "status": "pending",
+                    "task_id": "TSK550430ABCE3A45AD925E9C",
+                    "priority": "high",
+                    "description": "Validate top risks before scaling execution.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              },
+              {
+                "title": "Aggressive execution plan",
+                "summary": "Push execution with tighter follow-up and faster feedback loops.",
+                "option_id": "B",
+                "task_candidates": [
+                  {
+                    "title": "Accelerate summary actions",
+                    "status": "pending",
+                    "task_id": "TSKE531745B70A143B0ABFA7C",
+                    "priority": "medium",
+                    "description": "Push follow-up actions while monitoring execution risk.",
+                    "assignee_user_id": "chenzong",
+                    "source_summary_id": "SUM500E7D2114B9494EB6AD86"
+                  }
+                ]
+              }
+            ],
+            "decision_summary": "确认方案B SUM500E7D2114B9494EB6AD86",
+            "selected_option_id": "B",
+            "selected_option_label": "Aggressive execution plan"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "public_id": "DEC9CA0BADA968D42B98494D6",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Real API smoke decision",
+        "description": "Smoke decision commit for Milestone 2 backend readiness.",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "Run minimal validation"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 16:41:36.982223+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 16:41:34.707964+00:00",
+        "updated_at": "2026-05-07 16:41:34.707964+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "陈总"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2026-05-08",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "title": "Real API smoke decision",
+            "org_id": "org_automage_mvp",
+            "priority": "medium",
+            "description": "Smoke decision commit for Milestone 2 backend readiness.",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "context": {
+                    "org_id": "org_automage_mvp",
+                    "run_date": "2026-05-08",
+                    "workflow_name": "milestone2_real_api_smoke",
+                    "source_channel": "script",
+                    "workflow_stage": "database_skill_smoke"
+                  }
+                },
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TASK-SMOKE-E-FRESH-000001",
+                "priority": "medium",
+                "task_title": "Complete real API smoke validation",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Run smoke_real_api.py after backend API starts."
+              }
+            ],
+            "decision_summary": "Smoke decision commit for Milestone 2 backend readiness.",
+            "selected_option_id": "A",
+            "selected_option_label": "Run minimal validation"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "public_id": "DECDD1138DA0E984127991067",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Real API smoke decision",
+        "description": "Smoke decision commit for Milestone 2 backend readiness.",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "Run minimal validation"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 16:39:14.088229+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 16:39:11.807275+00:00",
+        "updated_at": "2026-05-07 16:39:11.807275+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "陈总"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2035-05-22",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "title": "Real API smoke decision",
+            "org_id": "org_automage_mvp",
+            "priority": "medium",
+            "description": "Smoke decision commit for Milestone 2 backend readiness.",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "context": {
+                    "org_id": "org_automage_mvp",
+                    "run_date": "2035-05-22",
+                    "workflow_name": "milestone2_real_api_smoke",
+                    "source_channel": "script",
+                    "workflow_stage": "database_skill_smoke"
+                  }
+                },
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TASK-SMOKE-20260507163902",
+                "priority": "medium",
+                "task_title": "Complete real API smoke validation",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Run smoke_real_api.py after backend API starts."
+              }
+            ],
+            "decision_summary": "Smoke decision commit for Milestone 2 backend readiness.",
+            "selected_option_id": "A",
+            "selected_option_label": "Run minimal validation"
+          }
+        }
+      },
+      {
+        "id": 7,
+        "public_id": "DEC2508438CFFEF4189BB5B26",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Real API smoke decision",
+        "description": "Smoke decision commit for Milestone 2 backend readiness.",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "Run minimal validation"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 16:14:42.550873+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 16:14:39.893923+00:00",
+        "updated_at": "2026-05-07 16:14:39.893923+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "陈总"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2028-08-13",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "title": "Real API smoke decision",
+            "org_id": "org_automage_mvp",
+            "priority": "medium",
+            "description": "Smoke decision commit for Milestone 2 backend readiness.",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "context": {
+                    "org_id": "org_automage_mvp",
+                    "run_date": "2028-08-13",
+                    "workflow_name": "milestone2_real_api_smoke",
+                    "source_channel": "script",
+                    "workflow_stage": "database_skill_smoke"
+                  }
+                },
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TASK-SMOKE-20260507161429",
+                "priority": "medium",
+                "task_title": "Complete real API smoke validation",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Run smoke_real_api.py after backend API starts."
+              }
+            ],
+            "decision_summary": "Smoke decision commit for Milestone 2 backend readiness.",
+            "selected_option_id": "A",
+            "selected_option_label": "Run minimal validation"
+          }
+        }
+      },
+      {
+        "id": 6,
+        "public_id": "DECE35BD0721599450A95A6D1",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Real API smoke decision",
+        "description": "Smoke decision commit for Milestone 2 backend readiness.",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "Run minimal validation"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 09:12:07.502146+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 09:12:06.940285+00:00",
+        "updated_at": "2026-05-07 09:12:06.940285+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "陈总"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2036-01-31",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "title": "Real API smoke decision",
+            "org_id": "org_automage_mvp",
+            "priority": "medium",
+            "description": "Smoke decision commit for Milestone 2 backend readiness.",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "context": {
+                    "org_id": "org_automage_mvp",
+                    "run_date": "2036-01-31",
+                    "workflow_name": "milestone2_real_api_smoke",
+                    "source_channel": "script",
+                    "workflow_stage": "database_skill_smoke"
+                  }
+                },
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TASK-SMOKE-20260507091156",
+                "priority": "medium",
+                "task_title": "Complete real API smoke validation",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Run smoke_real_api.py after backend API starts."
+              }
+            ],
+            "decision_summary": "Smoke decision commit for Milestone 2 backend readiness.",
+            "selected_option_id": "A",
+            "selected_option_label": "Run minimal validation"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "public_id": "DEC7E6084D92A5D4ECC96E449",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Real API smoke decision",
+        "description": "Smoke decision commit for Milestone 2 backend readiness.",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "Run minimal validation"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 09:04:46.676856+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 09:04:46.100652+00:00",
+        "updated_at": "2026-05-07 09:04:46.100652+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive_agent_boss_001",
+            "user_id": "chenzong",
+            "metadata": {
+              "org_id": "org_automage_mvp",
+              "display_name": "陈总"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2026-05-06",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "title": "Real API smoke decision",
+            "org_id": "org_automage_mvp",
+            "priority": "medium",
+            "description": "Smoke decision commit for Milestone 2 backend readiness.",
+            "department_id": "dept_mvp_core",
+            "task_candidates": [
+              {
+                "meta": {
+                  "context": {
+                    "org_id": "org_automage_mvp",
+                    "run_date": "2026-05-06",
+                    "workflow_name": "milestone2_real_api_smoke",
+                    "source_channel": "script",
+                    "workflow_stage": "database_skill_smoke"
+                  }
+                },
+                "org_id": "org_automage_mvp",
+                "status": "pending",
+                "task_id": "TASK-SMOKE-REAL-API-001",
+                "priority": "medium",
+                "task_title": "Complete real API smoke validation",
+                "department_id": "dept_mvp_core",
+                "creator_user_id": "chenzong",
+                "manager_node_id": "manager_agent_mvp_001",
+                "manager_user_id": "lijingli",
+                "assignee_node_id": "staff_agent_mvp_001",
+                "assignee_user_id": "zhangsan",
+                "task_description": "Run smoke_real_api.py after backend API starts."
+              }
+            ],
+            "decision_summary": "Smoke decision commit for Milestone 2 backend readiness.",
+            "selected_option_id": "A",
+            "selected_option_label": "Run minimal validation"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "public_id": "DEC72B22818439C41D2A3EFFB",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "source_summary_id": null,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 1,
+        "decision_owner_user_id": 1,
+        "title": "Executive Decision",
+        "description": "real api decision test",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": null
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": null,
+        "decision_comment": null,
+        "due_at": null,
+        "decided_at": "2026-05-07 02:18:07.111721+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-07 02:18:07.098504+00:00",
+        "updated_at": "2026-05-07 02:18:07.098504+00:00",
+        "deleted_at": null,
+        "created_by": 1,
+        "updated_by": 1,
+        "meta": {
+          "identity": {
+            "role": "executive",
+            "level": "l3_executive",
+            "node_id": "executive-node-realtest-001",
+            "user_id": "1",
+            "metadata": {
+              "source": "codex-real-test",
+              "display_name": "real test executive"
+            },
+            "department_id": "dept_mvp_core",
+            "manager_node_id": null
+          },
+          "decision_payload": {
+            "task_candidates": [
+              {
+                "title": "decision created task",
+                "status": "pending",
+                "task_id": "TASK-20260507-DECISION-001",
+                "priority": "high",
+                "description": "created by decision commit real test",
+                "assignee_user_id": "3"
+              }
+            ],
+            "decision_summary": "real api decision test",
+            "selected_option_id": "A"
+          }
+        }
+      },
+      {
+        "id": 1,
+        "public_id": "DEC0000000000000000000001",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": 1,
+        "source_summary_id": 1,
+        "related_task_id": null,
+        "related_incident_id": null,
+        "requester_user_id": 2,
+        "decision_owner_user_id": 1,
+        "title": "重点客户报价是否立即推进",
+        "description": "团队需要在交付周期尚未完全确认前，决定是否继续向客户推进报价。",
+        "decision_type": 1,
+        "status": 2,
+        "priority": 2,
+        "option_schema_json": {
+          "options": [
+            {
+              "key": "A",
+              "label": "先确认交付周期，再推进签约"
+            },
+            {
+              "key": "B",
+              "label": "先推进签约，再补充交付说明"
+            }
+          ]
+        },
+        "selected_option_key": "A",
+        "selected_option_label": "先确认交付周期，再推进签约",
+        "decision_comment": "优先控制履约风险，避免过度承诺。",
+        "due_at": "2026-05-07 02:30:00+00:00",
+        "decided_at": "2026-05-06 03:30:00+00:00",
+        "closed_at": null,
+        "created_at": "2026-05-06 02:30:00+00:00",
+        "updated_at": "2026-05-06 03:30:00+00:00",
+        "deleted_at": null,
+        "created_by": 2,
+        "updated_by": 1,
+        "meta": {
+          "seed": true
+        }
+      }
+    ],
+    "decision_logs": [
+      {
+        "id": 40,
+        "org_id": 1,
+        "decision_record_id": 20,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3"
+        },
+        "event_at": "2026-05-07 20:08:46.969573+00:00",
+        "created_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 39,
+        "org_id": 1,
+        "decision_record_id": 20,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3"
+        },
+        "event_at": "2026-05-07 20:08:46.969573+00:00",
+        "created_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 38,
+        "org_id": 1,
+        "decision_record_id": 19,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "m2real-20260508040554-07_post_decision_commit-df1a0f86"
+        },
+        "event_at": "2026-05-07 20:06:09.689247+00:00",
+        "created_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 37,
+        "org_id": 1,
+        "decision_record_id": 19,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "m2real-20260508040554-07_post_decision_commit-df1a0f86"
+        },
+        "event_at": "2026-05-07 20:06:09.689247+00:00",
+        "created_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 36,
+        "org_id": 1,
+        "decision_record_id": 18,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "m2real-20260508040428-07_post_decision_commit-7c0988c2"
+        },
+        "event_at": "2026-05-07 20:04:44.273879+00:00",
+        "created_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 35,
+        "org_id": 1,
+        "decision_record_id": 18,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "m2real-20260508040428-07_post_decision_commit-7c0988c2"
+        },
+        "event_at": "2026-05-07 20:04:44.273879+00:00",
+        "created_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 34,
+        "org_id": 1,
+        "decision_record_id": 17,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "A",
+        "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "m2real-20260508040305-07_post_decision_commit-25915f99"
+        },
+        "event_at": "2026-05-07 20:03:21.135165+00:00",
+        "created_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 33,
+        "org_id": 1,
+        "decision_record_id": 17,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "m2real-20260508040305-07_post_decision_commit-25915f99"
+        },
+        "event_at": "2026-05-07 20:03:21.135165+00:00",
+        "created_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 32,
+        "org_id": 1,
+        "decision_record_id": 16,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "dcd5066b-80ae-4e10-869a-a3a439674738"
+        },
+        "event_at": "2026-05-07 20:02:21.097520+00:00",
+        "created_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 31,
+        "org_id": 1,
+        "decision_record_id": 16,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "dcd5066b-80ae-4e10-869a-a3a439674738"
+        },
+        "event_at": "2026-05-07 20:02:21.097520+00:00",
+        "created_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 26,
+        "org_id": 1,
+        "decision_record_id": 13,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "1ce725f9-96ea-4c36-907f-13c06d7c2530"
+        },
+        "event_at": "2026-05-07 19:01:48.487389+00:00",
+        "created_at": "2026-05-07 19:01:48.487389+00:00"
+      },
+      {
+        "id": 25,
+        "org_id": 1,
+        "decision_record_id": 13,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "1ce725f9-96ea-4c36-907f-13c06d7c2530"
+        },
+        "event_at": "2026-05-07 19:01:48.487389+00:00",
+        "created_at": "2026-05-07 19:01:48.487389+00:00"
+      },
+      {
+        "id": 24,
+        "org_id": 1,
+        "decision_record_id": 12,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "583bbed7-51c4-44fa-83db-7cc6a3c29184"
+        },
+        "event_at": "2026-05-07 18:56:43.652375+00:00",
+        "created_at": "2026-05-07 18:56:43.652375+00:00"
+      },
+      {
+        "id": 23,
+        "org_id": 1,
+        "decision_record_id": 12,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "583bbed7-51c4-44fa-83db-7cc6a3c29184"
+        },
+        "event_at": "2026-05-07 18:56:43.652375+00:00",
+        "created_at": "2026-05-07 18:56:43.652375+00:00"
+      },
+      {
+        "id": 22,
+        "org_id": 1,
+        "decision_record_id": 11,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "bab32ea5-f475-400a-9395-9eeaa6b81759"
+        },
+        "event_at": "2026-05-07 18:56:24.696904+00:00",
+        "created_at": "2026-05-07 18:56:24.696904+00:00"
+      },
+      {
+        "id": 21,
+        "org_id": 1,
+        "decision_record_id": 11,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "bab32ea5-f475-400a-9395-9eeaa6b81759"
+        },
+        "event_at": "2026-05-07 18:56:24.696904+00:00",
+        "created_at": "2026-05-07 18:56:24.696904+00:00"
+      },
+      {
+        "id": 20,
+        "org_id": 1,
+        "decision_record_id": 10,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "B",
+        "selected_option_label": "Aggressive execution plan",
+        "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "00d03e82-e024-409a-af95-7d5bfbca0616"
+        },
+        "event_at": "2026-05-07 18:53:26.182291+00:00",
+        "created_at": "2026-05-07 18:53:26.182291+00:00"
+      },
+      {
+        "id": 19,
+        "org_id": 1,
+        "decision_record_id": 10,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "00d03e82-e024-409a-af95-7d5bfbca0616"
+        },
+        "event_at": "2026-05-07 18:53:26.182291+00:00",
+        "created_at": "2026-05-07 18:53:26.182291+00:00"
+      },
+      {
+        "id": 18,
+        "org_id": 1,
+        "decision_record_id": 9,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "smoke-decision-commit-SMOKE-FRESH-000001"
+        },
+        "event_at": "2026-05-07 16:41:34.707964+00:00",
+        "created_at": "2026-05-07 16:41:34.707964+00:00"
+      },
+      {
+        "id": 17,
+        "org_id": 1,
+        "decision_record_id": 9,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "smoke-decision-commit-SMOKE-FRESH-000001"
+        },
+        "event_at": "2026-05-07 16:41:34.707964+00:00",
+        "created_at": "2026-05-07 16:41:34.707964+00:00"
+      },
+      {
+        "id": 16,
+        "org_id": 1,
+        "decision_record_id": 8,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "smoke-decision-commit-20260507163902"
+        },
+        "event_at": "2026-05-07 16:39:11.807275+00:00",
+        "created_at": "2026-05-07 16:39:11.807275+00:00"
+      },
+      {
+        "id": 15,
+        "org_id": 1,
+        "decision_record_id": 8,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "smoke-decision-commit-20260507163902"
+        },
+        "event_at": "2026-05-07 16:39:11.807275+00:00",
+        "created_at": "2026-05-07 16:39:11.807275+00:00"
+      },
+      {
+        "id": 14,
+        "org_id": 1,
+        "decision_record_id": 7,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "smoke-decision-commit-20260507161429"
+        },
+        "event_at": "2026-05-07 16:14:39.893923+00:00",
+        "created_at": "2026-05-07 16:14:39.893923+00:00"
+      },
+      {
+        "id": 13,
+        "org_id": 1,
+        "decision_record_id": 7,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "smoke-decision-commit-20260507161429"
+        },
+        "event_at": "2026-05-07 16:14:39.893923+00:00",
+        "created_at": "2026-05-07 16:14:39.893923+00:00"
+      },
+      {
+        "id": 12,
+        "org_id": 1,
+        "decision_record_id": 6,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "smoke-decision-commit-20260507091156"
+        },
+        "event_at": "2026-05-07 09:12:06.940285+00:00",
+        "created_at": "2026-05-07 09:12:06.940285+00:00"
+      },
+      {
+        "id": 11,
+        "org_id": 1,
+        "decision_record_id": 6,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "smoke-decision-commit-20260507091156"
+        },
+        "event_at": "2026-05-07 09:12:06.940285+00:00",
+        "created_at": "2026-05-07 09:12:06.940285+00:00"
+      },
+      {
+        "id": 6,
+        "org_id": 1,
+        "decision_record_id": 3,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "Run minimal validation",
+        "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "smoke-decision-commit-001"
+        },
+        "event_at": "2026-05-07 09:04:46.100652+00:00",
+        "created_at": "2026-05-07 09:04:46.100652+00:00"
+      },
+      {
+        "id": 5,
+        "org_id": 1,
+        "decision_record_id": 3,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "smoke-decision-commit-001"
+        },
+        "event_at": "2026-05-07 09:04:46.100652+00:00",
+        "created_at": "2026-05-07 09:04:46.100652+00:00"
+      },
+      {
+        "id": 4,
+        "org_id": 1,
+        "decision_record_id": 2,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": null,
+        "comment": "real api decision test",
+        "payload": {
+          "stage": "confirmed",
+          "request_id": "28a81535-f49f-4463-8e52-e7510d823832"
+        },
+        "event_at": "2026-05-07 02:18:07.098504+00:00",
+        "created_at": "2026-05-07 02:18:07.098504+00:00"
+      },
+      {
+        "id": 3,
+        "org_id": 1,
+        "decision_record_id": 2,
+        "actor_user_id": 1,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 2,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "Decision record created",
+        "payload": {
+          "stage": "created",
+          "request_id": "28a81535-f49f-4463-8e52-e7510d823832"
+        },
+        "event_at": "2026-05-07 02:18:07.098504+00:00",
+        "created_at": "2026-05-07 02:18:07.098504+00:00"
+      },
+      {
+        "id": 2,
+        "org_id": 1,
+        "decision_record_id": 1,
+        "actor_user_id": 1,
+        "action_type": 2,
+        "status_before": 1,
+        "status_after": 2,
+        "selected_option_key": "A",
+        "selected_option_label": "先确认交付周期，再推进签约",
+        "comment": "总监确认采用稳妥推进方案",
+        "payload": {
+          "stage": "approved"
+        },
+        "event_at": "2026-05-06 03:30:00+00:00",
+        "created_at": "2026-05-06 03:30:00+00:00"
+      },
+      {
+        "id": 1,
+        "org_id": 1,
+        "decision_record_id": 1,
+        "actor_user_id": 2,
+        "action_type": 1,
+        "status_before": null,
+        "status_after": 1,
+        "selected_option_key": null,
+        "selected_option_label": null,
+        "comment": "经理提交待决策事项",
+        "payload": {
+          "stage": "created"
+        },
+        "event_at": "2026-05-06 02:30:00+00:00",
+        "created_at": "2026-05-06 02:30:00+00:00"
+      }
+    ],
+    "tasks": [
+      {
+        "id": 22,
+        "public_id": "TSK0804083102",
+        "org_id": 1,
+        "department_id": 2,
+        "source_record_id": null,
+        "creator_user_id": 2,
+        "title": "M2真实联调任务-POST/tasks补测",
+        "status": 2,
+        "priority": 2,
+        "created_at": "2026-05-07 20:08:49.347372+00:00"
+      },
+      {
+        "id": 21,
+        "public_id": "TSK0804083101",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "M2真实联调任务-决策提交生成",
+        "status": 1,
+        "priority": 1,
+        "created_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 20,
+        "public_id": "TSK0804055402",
+        "org_id": 1,
+        "department_id": 2,
+        "source_record_id": null,
+        "creator_user_id": 2,
+        "title": "M2真实联调任务-POST/tasks补测",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 20:06:12.047241+00:00"
+      },
+      {
+        "id": 19,
+        "public_id": "TSK0804055401",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "M2真实联调任务-决策提交生成",
+        "status": 1,
+        "priority": 1,
+        "created_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 18,
+        "public_id": "TSK0804042802",
+        "org_id": 1,
+        "department_id": 2,
+        "source_record_id": null,
+        "creator_user_id": 2,
+        "title": "M2真实联调任务-POST/tasks补测",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 20:04:46.658610+00:00"
+      },
+      {
+        "id": 17,
+        "public_id": "TSK0804042801",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "M2真实联调任务-决策提交生成",
+        "status": 1,
+        "priority": 1,
+        "created_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 16,
+        "public_id": "TSK0804030502",
+        "org_id": 1,
+        "department_id": 2,
+        "source_record_id": null,
+        "creator_user_id": 2,
+        "title": "M2真实联调任务-POST/tasks补测",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 20:03:23.514587+00:00"
+      },
+      {
+        "id": 15,
+        "public_id": "TSK0804030501",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "M2真实联调任务-决策提交生成",
+        "status": 1,
+        "priority": 1,
+        "created_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 14,
+        "public_id": "TSKA44E867587744616AFA928",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Accelerate summary actions",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 13,
+        "public_id": "TSKB438F55B6FDE4571A30708",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Accelerate summary actions",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 19:01:48.487389+00:00"
+      },
+      {
+        "id": 12,
+        "public_id": "TSKCCB1985C338E4224BBC65D",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Accelerate summary actions",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 18:56:43.652375+00:00"
+      },
+      {
+        "id": 11,
+        "public_id": "TSKBD592F09CA3C428F8C2797",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Accelerate summary actions",
+        "status": 3,
+        "priority": 2,
+        "created_at": "2026-05-07 18:56:24.696904+00:00"
+      },
+      {
+        "id": 10,
+        "public_id": "TSKE531745B70A143B0ABFA7C",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Accelerate summary actions",
+        "status": 3,
+        "priority": 2,
+        "created_at": "2026-05-07 18:53:26.182291+00:00"
+      },
+      {
+        "id": 9,
+        "public_id": "TASK-SMOKE-E-FRESH-000001",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Complete real API smoke validation",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 16:41:34.707964+00:00"
+      },
+      {
+        "id": 8,
+        "public_id": "TASK-SMOKE-20260507163902",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Complete real API smoke validation",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 16:39:11.807275+00:00"
+      },
+      {
+        "id": 7,
+        "public_id": "TASK-SMOKE-20260507161429",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Complete real API smoke validation",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 16:14:39.893923+00:00"
+      },
+      {
+        "id": 6,
+        "public_id": "TASK-SMOKE-20260507091156",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Complete real API smoke validation",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 09:12:06.940285+00:00"
+      },
+      {
+        "id": 5,
+        "public_id": "TASK-SMOKE-REAL-API-001",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "Complete real API smoke validation",
+        "status": 1,
+        "priority": 2,
+        "created_at": "2026-05-07 09:04:46.100652+00:00"
+      },
+      {
+        "id": 4,
+        "public_id": "TASK-20260507-DECISION-001",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 1,
+        "title": "decision created task",
+        "status": 1,
+        "priority": 1,
+        "created_at": "2026-05-07 02:18:07.098504+00:00"
+      },
+      {
+        "id": 3,
+        "public_id": "TASK-20260507-REALTEST-001",
+        "org_id": 1,
+        "department_id": 1,
+        "source_record_id": null,
+        "creator_user_id": 3,
+        "title": "real api task create test",
+        "status": 2,
+        "priority": 1,
+        "created_at": "2026-05-07 02:17:01.484209+00:00"
+      }
+    ],
+    "task_assignments": [
+      {
+        "id": 22,
+        "task_id": 22,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:08:49.347372+00:00"
+      },
+      {
+        "id": 21,
+        "task_id": 21,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 20,
+        "task_id": 20,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:06:12.047241+00:00"
+      },
+      {
+        "id": 19,
+        "task_id": 19,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 18,
+        "task_id": 18,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:04:46.658610+00:00"
+      },
+      {
+        "id": 17,
+        "task_id": 17,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 16,
+        "task_id": 16,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:03:23.514587+00:00"
+      },
+      {
+        "id": 15,
+        "task_id": 15,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 14,
+        "task_id": 14,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 13,
+        "task_id": 13,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 19:01:48.487389+00:00"
+      },
+      {
+        "id": 12,
+        "task_id": 12,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 18:56:43.652375+00:00"
+      },
+      {
+        "id": 11,
+        "task_id": 11,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 18:56:24.696904+00:00"
+      },
+      {
+        "id": 10,
+        "task_id": 10,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 18:53:26.182291+00:00"
+      },
+      {
+        "id": 9,
+        "task_id": 9,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 16:41:34.707964+00:00"
+      },
+      {
+        "id": 8,
+        "task_id": 8,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 16:39:11.807275+00:00"
+      },
+      {
+        "id": 7,
+        "task_id": 7,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 16:14:39.893923+00:00"
+      },
+      {
+        "id": 6,
+        "task_id": 6,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 09:12:06.940285+00:00"
+      },
+      {
+        "id": 5,
+        "task_id": 5,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 09:04:46.100652+00:00"
+      },
+      {
+        "id": 4,
+        "task_id": 4,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 02:18:07.098504+00:00"
+      },
+      {
+        "id": 3,
+        "task_id": 3,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-07 02:17:01.484209+00:00"
+      },
+      {
+        "id": 2,
+        "task_id": 2,
+        "user_id": 4,
+        "assignment_type": 1,
+        "created_at": "2026-05-06 02:30:00+00:00"
+      },
+      {
+        "id": 1,
+        "task_id": 1,
+        "user_id": 3,
+        "assignment_type": 1,
+        "created_at": "2026-05-06 02:30:00+00:00"
+      }
+    ],
+    "task_updates": [
+      {
+        "id": 28,
+        "task_id": 22,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "m2real-20260508040831-patch-idem",
+        "event_at": "2026-05-07 20:09:11.495704+00:00"
+      },
+      {
+        "id": 27,
+        "task_id": 22,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "m2real-20260508040831-patch-2",
+        "event_at": "2026-05-07 20:09:00.369576+00:00"
+      },
+      {
+        "id": 26,
+        "task_id": 22,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "m2real-20260508040831-patch-1",
+        "event_at": "2026-05-07 20:08:58.009544+00:00"
+      },
+      {
+        "id": 25,
+        "task_id": 22,
+        "actor_user_id": 2,
+        "update_type": 1,
+        "request_id": "m2real-20260508040831-08_post_tasks-c0628c36",
+        "event_at": "2026-05-07 20:08:49.347372+00:00"
+      },
+      {
+        "id": 24,
+        "task_id": 21,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3",
+        "event_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 23,
+        "task_id": 20,
+        "actor_user_id": 2,
+        "update_type": 1,
+        "request_id": "m2real-20260508040554-08_post_tasks-fc9f3834",
+        "event_at": "2026-05-07 20:06:12.047241+00:00"
+      },
+      {
+        "id": 22,
+        "task_id": 19,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "m2real-20260508040554-07_post_decision_commit-df1a0f86",
+        "event_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 21,
+        "task_id": 18,
+        "actor_user_id": 2,
+        "update_type": 1,
+        "request_id": "m2real-20260508040428-08_post_tasks-c852548e",
+        "event_at": "2026-05-07 20:04:46.658610+00:00"
+      },
+      {
+        "id": 20,
+        "task_id": 17,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "m2real-20260508040428-07_post_decision_commit-7c0988c2",
+        "event_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 19,
+        "task_id": 16,
+        "actor_user_id": 2,
+        "update_type": 1,
+        "request_id": "m2real-20260508040305-08_post_tasks-f510d0e4",
+        "event_at": "2026-05-07 20:03:23.514587+00:00"
+      },
+      {
+        "id": 18,
+        "task_id": 15,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "m2real-20260508040305-07_post_decision_commit-25915f99",
+        "event_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 17,
+        "task_id": 14,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "dcd5066b-80ae-4e10-869a-a3a439674738",
+        "event_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 16,
+        "task_id": 13,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "1ce725f9-96ea-4c36-907f-13c06d7c2530",
+        "event_at": "2026-05-07 19:01:48.487389+00:00"
+      },
+      {
+        "id": 15,
+        "task_id": 11,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "038c54fa-c4b1-4e5f-bbaf-2f62b0d81021",
+        "event_at": "2026-05-07 18:56:48.606503+00:00"
+      },
+      {
+        "id": 14,
+        "task_id": 12,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "583bbed7-51c4-44fa-83db-7cc6a3c29184",
+        "event_at": "2026-05-07 18:56:43.652375+00:00"
+      },
+      {
+        "id": 13,
+        "task_id": 11,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "bab32ea5-f475-400a-9395-9eeaa6b81759",
+        "event_at": "2026-05-07 18:56:24.696904+00:00"
+      },
+      {
+        "id": 12,
+        "task_id": 10,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "a6a0bf8d-a4fc-4628-8414-87cb68dd50ec",
+        "event_at": "2026-05-07 18:53:29.987361+00:00"
+      },
+      {
+        "id": 11,
+        "task_id": 10,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "00d03e82-e024-409a-af95-7d5bfbca0616",
+        "event_at": "2026-05-07 18:53:26.182291+00:00"
+      },
+      {
+        "id": 10,
+        "task_id": 9,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "smoke-decision-commit-SMOKE-FRESH-000001",
+        "event_at": "2026-05-07 16:41:34.707964+00:00"
+      },
+      {
+        "id": 9,
+        "task_id": 8,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "smoke-decision-commit-20260507163902",
+        "event_at": "2026-05-07 16:39:11.807275+00:00"
+      },
+      {
+        "id": 8,
+        "task_id": 7,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "smoke-decision-commit-20260507161429",
+        "event_at": "2026-05-07 16:14:39.893923+00:00"
+      },
+      {
+        "id": 7,
+        "task_id": 6,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "smoke-decision-commit-20260507091156",
+        "event_at": "2026-05-07 09:12:06.940285+00:00"
+      },
+      {
+        "id": 6,
+        "task_id": 5,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "smoke-decision-commit-001",
+        "event_at": "2026-05-07 09:04:46.100652+00:00"
+      },
+      {
+        "id": 5,
+        "task_id": 3,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "real-patch-task-001",
+        "event_at": "2026-05-07 02:40:40.512081+00:00"
+      },
+      {
+        "id": 4,
+        "task_id": 4,
+        "actor_user_id": 1,
+        "update_type": 1,
+        "request_id": "28a81535-f49f-4463-8e52-e7510d823832",
+        "event_at": "2026-05-07 02:18:07.098504+00:00"
+      },
+      {
+        "id": 3,
+        "task_id": 3,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": "a07a7664-8bd6-4f67-8bd5-181b2c0752ba",
+        "event_at": "2026-05-07 02:17:01.484209+00:00"
+      },
+      {
+        "id": 2,
+        "task_id": 2,
+        "actor_user_id": 4,
+        "update_type": 1,
+        "request_id": null,
+        "event_at": "2026-05-06 05:30:00+00:00"
+      },
+      {
+        "id": 1,
+        "task_id": 1,
+        "actor_user_id": 3,
+        "update_type": 1,
+        "request_id": null,
+        "event_at": "2026-05-06 04:30:00+00:00"
+      }
+    ],
+    "audit_logs": [
+      {
+        "id": 171,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 23,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:09:20.320823+00:00"
+      },
+      {
+        "id": 170,
+        "org_id": 0,
+        "actor_user_id": 3,
+        "target_type": "tasks",
+        "target_id": 22,
+        "action": "update_task",
+        "event_at": "2026-05-07 20:09:11.495704+00:00"
+      },
+      {
+        "id": 169,
+        "org_id": 0,
+        "actor_user_id": 3,
+        "target_type": "tasks",
+        "target_id": 22,
+        "action": "update_task",
+        "event_at": "2026-05-07 20:09:00.369576+00:00"
+      },
+      {
+        "id": 168,
+        "org_id": 0,
+        "actor_user_id": 3,
+        "target_type": "tasks",
+        "target_id": 22,
+        "action": "update_task",
+        "event_at": "2026-05-07 20:08:58.009544+00:00"
+      },
+      {
+        "id": 167,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "tasks",
+        "target_id": 22,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:08:49.347372+00:00"
+      },
+      {
+        "id": 166,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "decision_records",
+        "target_id": 20,
+        "action": "commit_decision",
+        "event_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 165,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "tasks",
+        "target_id": 21,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:08:46.969573+00:00"
+      },
+      {
+        "id": 164,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "summaries",
+        "target_id": 22,
+        "action": "dream_run",
+        "event_at": "2026-05-07 20:08:44.801545+00:00"
+      },
+      {
+        "id": 163,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 22,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:08:40.389558+00:00"
+      },
+      {
+        "id": 162,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 21,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:06:42.858919+00:00"
+      },
+      {
+        "id": 161,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:06:38.496355+00:00"
+      },
+      {
+        "id": 160,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:06:36.372646+00:00"
+      },
+      {
+        "id": 159,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:06:34.257063+00:00"
+      },
+      {
+        "id": 158,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:06:23.091181+00:00"
+      },
+      {
+        "id": 157,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:06:20.986786+00:00"
+      },
+      {
+        "id": 156,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "tasks",
+        "target_id": 20,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:06:12.047241+00:00"
+      },
+      {
+        "id": 155,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "decision_records",
+        "target_id": 19,
+        "action": "commit_decision",
+        "event_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 154,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "tasks",
+        "target_id": 19,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:06:09.689247+00:00"
+      },
+      {
+        "id": 153,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "summaries",
+        "target_id": 20,
+        "action": "dream_run",
+        "event_at": "2026-05-07 20:06:07.527043+00:00"
+      },
+      {
+        "id": 152,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 20,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:06:03.113784+00:00"
+      },
+      {
+        "id": 151,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 19,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:05:16.973038+00:00"
+      },
+      {
+        "id": 150,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:05:12.731246+00:00"
+      },
+      {
+        "id": 149,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:05:10.592782+00:00"
+      },
+      {
+        "id": 148,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:05:08.478547+00:00"
+      },
+      {
+        "id": 147,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:04:57.537582+00:00"
+      },
+      {
+        "id": 146,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:04:55.427555+00:00"
+      },
+      {
+        "id": 145,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "tasks",
+        "target_id": 18,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:04:46.658610+00:00"
+      },
+      {
+        "id": 144,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "decision_records",
+        "target_id": 18,
+        "action": "commit_decision",
+        "event_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 143,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "tasks",
+        "target_id": 17,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:04:44.273879+00:00"
+      },
+      {
+        "id": 142,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "summaries",
+        "target_id": 18,
+        "action": "dream_run",
+        "event_at": "2026-05-07 20:04:42.096609+00:00"
+      },
+      {
+        "id": 141,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 18,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:04:37.588433+00:00"
+      },
+      {
+        "id": 140,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 17,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:03:54.070730+00:00"
+      },
+      {
+        "id": 139,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:03:49.808236+00:00"
+      },
+      {
+        "id": 138,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:03:47.601082+00:00"
+      },
+      {
+        "id": 137,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:03:45.481617+00:00"
+      },
+      {
+        "id": 136,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:03:34.370289+00:00"
+      },
+      {
+        "id": 135,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:03:32.237228+00:00"
+      },
+      {
+        "id": 134,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "tasks",
+        "target_id": 16,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:03:23.514587+00:00"
+      },
+      {
+        "id": 133,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "decision_records",
+        "target_id": 17,
+        "action": "commit_decision",
+        "event_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 132,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "tasks",
+        "target_id": 15,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:03:21.135165+00:00"
+      },
+      {
+        "id": 131,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "summaries",
+        "target_id": 16,
+        "action": "dream_run",
+        "event_at": "2026-05-07 20:03:18.973131+00:00"
+      },
+      {
+        "id": 130,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 16,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:03:14.558995+00:00"
+      },
+      {
+        "id": 129,
+        "org_id": 0,
+        "actor_user_id": 3,
+        "target_type": "work_records",
+        "target_id": 9,
+        "action": "create_staff_report",
+        "event_at": "2026-05-07 20:03:12.243995+00:00"
+      },
+      {
+        "id": 128,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "decision_records",
+        "target_id": 16,
+        "action": "commit_decision",
+        "event_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 127,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "tasks",
+        "target_id": 14,
+        "action": "create_task",
+        "event_at": "2026-05-07 20:02:21.097520+00:00"
+      },
+      {
+        "id": 126,
+        "org_id": 0,
+        "actor_user_id": 1,
+        "target_type": "summaries",
+        "target_id": 11,
+        "action": "dream_run",
+        "event_at": "2026-05-07 20:02:18.402344+00:00"
+      },
+      {
+        "id": 125,
+        "org_id": 0,
+        "actor_user_id": 2,
+        "target_type": "summaries",
+        "target_id": 15,
+        "action": "create_manager_report",
+        "event_at": "2026-05-07 20:00:47.284049+00:00"
+      },
+      {
+        "id": 124,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:00:43.027361+00:00"
+      },
+      {
+        "id": 123,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:00:40.913045+00:00"
+      },
+      {
+        "id": 122,
+        "org_id": 0,
+        "actor_user_id": null,
+        "target_type": "auth",
+        "target_id": 0,
+        "action": "permission_denied",
+        "event_at": "2026-05-07 20:00:38.797125+00:00"
+      }
+    ]
+  },
+  "blockers": [],
+  "risks": [
+    "check_failed:manager_cross_dept"
+  ]
+}

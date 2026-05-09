@@ -1,0 +1,48 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:35 GMT",
+    "server": "uvicorn",
+    "content-length": "876",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-02_get_staff-be0a7e1b",
+    "x-process-time-ms": "111.98"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "reports": [
+        {
+          "id": 8,
+          "node_id": "staff-snapshot-9",
+          "user_id": "zhangsan",
+          "role": "staff",
+          "report": {
+            "schema_id": "schema_v1_staff",
+            "timestamp": "2026-05-09T20:00:00+08:00",
+            "work_progress": "Agent prompt 第一版落地; Context 结构 v0 接入本地 Mock Demo; 本地 Mock Demo 主链路跑通",
+            "issues_faced": "Mock 字段与真实数据库字段仍需最终对齐",
+            "solution_attempt": "M2 real api integration",
+            "need_support": false,
+            "next_day_plan": "continue real api validation",
+            "resource_usage": {
+              "task_count": 1,
+              "completed_item_count": 0,
+              "artifact_count": 0,
+              "blocker_count": 1,
+              "decision_count": 0
+            },
+            "org_id": "org_automage_mvp",
+            "department_id": "dept_mvp_core",
+            "record_date": "2026-05-09",
+            "user_id": "zhangsan"
+          },
+          "created_at": "2026-05-07T19:58:32.586009+00:00",
+          "work_record_id": 8,
+          "work_record_public_id": "wr_86cbbfe2ad43482da8cb29"
+        }
+      ]
+    },
+    "msg": "员工日报列表查询成功"
+  }
+}

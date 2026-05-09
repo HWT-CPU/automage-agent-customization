@@ -1,0 +1,54 @@
+{
+  "method": "POST",
+  "url": "http://localhost:8000/api/v1/decision/commit",
+  "params": {},
+  "headers": {
+    "X-User-Id": "lijingli",
+    "X-Role": "manager",
+    "X-Node-Id": "manager_agent_mvp_001",
+    "X-Level": "l2_manager",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Manager-Node-Id": "executive_agent_boss_001",
+    "X-Request-Id": "m2real-20260508040831-20_non_exec_decision-ff09684d"
+  },
+  "body": {
+    "identity": {
+      "node_id": "manager_agent_mvp_001",
+      "user_id": "lijingli",
+      "role": "manager",
+      "level": "l2_manager",
+      "department_id": "dept_mvp_core",
+      "manager_node_id": "executive_agent_boss_001",
+      "metadata": {
+        "display_name": "lijingli",
+        "org_id": "org_automage_mvp"
+      }
+    },
+    "decision": {
+      "org_id": "org_automage_mvp",
+      "department_id": "dept_mvp_core",
+      "summary_id": "SUM8426FDA43C2F4767BACE55",
+      "selected_option_id": "A",
+      "selected_option_label": "A",
+      "decision_summary": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+      "task_candidates": [
+        {
+          "task_id": "TSK0804083101",
+          "org_id": "org_automage_mvp",
+          "department_id": "dept_mvp_core",
+          "task_title": "M2真实联调任务-决策提交生成",
+          "task_description": "decision commit generated task",
+          "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+          "creator_user_id": "chenzong",
+          "manager_user_id": "lijingli",
+          "manager_node_id": "manager_agent_mvp_001",
+          "assignee_user_id": "zhangsan",
+          "assignee_node_id": "staff_agent_mvp_001",
+          "priority": "high",
+          "status": "pending"
+        }
+      ]
+    }
+  }
+}

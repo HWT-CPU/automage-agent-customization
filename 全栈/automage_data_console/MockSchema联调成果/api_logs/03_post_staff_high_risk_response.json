@@ -1,0 +1,62 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:37 GMT",
+    "server": "uvicorn",
+    "content-length": "1055",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-03_post_staff_high_risk-b116090e",
+    "x-process-time-ms": "242.39"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "record": {
+        "work_record_id": 9,
+        "work_record_public_id": "wr_ca796abbb00b4038ace88e",
+        "staff_report_id": 10,
+        "incident_ids": [
+          3
+        ],
+        "created_incidents": [
+          {
+            "incident_id": 3,
+            "incident_public_id": "INC59FC17DD392649BB995410",
+            "title": "Blocker 1",
+            "severity": "high",
+            "status": "open"
+          }
+        ],
+        "identity": {
+          "node_id": "staff_agent_mvp_001",
+          "user_id": "zhangsan",
+          "role": "staff",
+          "level": "l1_staff",
+          "department_id": "dept_mvp_core",
+          "manager_node_id": "manager_agent_mvp_001",
+          "metadata": {
+            "display_name": "zhangsan",
+            "org_id": "org_automage_mvp"
+          }
+        },
+        "report": {
+          "schema_id": "schema_v1_staff",
+          "timestamp": "2026-05-10T21:00:00+08:00",
+          "work_progress": "High risk real api report",
+          "issues_faced": "数据库可连但 API / Skill 端到端链路未验证\n真实库表结构与里程碑一落库口径存在新增表差异",
+          "solution_attempt": "Escalate to manager\nEscalate to manager",
+          "need_support": true,
+          "next_day_plan": "fix api chain",
+          "resource_usage": {
+            "task_count": 1,
+            "completed_item_count": 0,
+            "artifact_count": 0,
+            "blocker_count": 2,
+            "decision_count": 0
+          }
+        }
+      }
+    },
+    "msg": "员工日报提交成功"
+  }
+}

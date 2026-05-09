@@ -1,0 +1,452 @@
+[
+  {
+    "id": 171,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 23,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:09:20.320823+00:00"
+  },
+  {
+    "id": 170,
+    "org_id": 0,
+    "actor_user_id": 3,
+    "target_type": "tasks",
+    "target_id": 22,
+    "action": "update_task",
+    "event_at": "2026-05-07 20:09:11.495704+00:00"
+  },
+  {
+    "id": 169,
+    "org_id": 0,
+    "actor_user_id": 3,
+    "target_type": "tasks",
+    "target_id": 22,
+    "action": "update_task",
+    "event_at": "2026-05-07 20:09:00.369576+00:00"
+  },
+  {
+    "id": 168,
+    "org_id": 0,
+    "actor_user_id": 3,
+    "target_type": "tasks",
+    "target_id": 22,
+    "action": "update_task",
+    "event_at": "2026-05-07 20:08:58.009544+00:00"
+  },
+  {
+    "id": 167,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "tasks",
+    "target_id": 22,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:08:49.347372+00:00"
+  },
+  {
+    "id": 166,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "decision_records",
+    "target_id": 20,
+    "action": "commit_decision",
+    "event_at": "2026-05-07 20:08:46.969573+00:00"
+  },
+  {
+    "id": 165,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "tasks",
+    "target_id": 21,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:08:46.969573+00:00"
+  },
+  {
+    "id": 164,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "summaries",
+    "target_id": 22,
+    "action": "dream_run",
+    "event_at": "2026-05-07 20:08:44.801545+00:00"
+  },
+  {
+    "id": 163,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 22,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:08:40.389558+00:00"
+  },
+  {
+    "id": 162,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 21,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:06:42.858919+00:00"
+  },
+  {
+    "id": 161,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:06:38.496355+00:00"
+  },
+  {
+    "id": 160,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:06:36.372646+00:00"
+  },
+  {
+    "id": 159,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:06:34.257063+00:00"
+  },
+  {
+    "id": 158,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:06:23.091181+00:00"
+  },
+  {
+    "id": 157,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:06:20.986786+00:00"
+  },
+  {
+    "id": 156,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "tasks",
+    "target_id": 20,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:06:12.047241+00:00"
+  },
+  {
+    "id": 155,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "decision_records",
+    "target_id": 19,
+    "action": "commit_decision",
+    "event_at": "2026-05-07 20:06:09.689247+00:00"
+  },
+  {
+    "id": 154,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "tasks",
+    "target_id": 19,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:06:09.689247+00:00"
+  },
+  {
+    "id": 153,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "summaries",
+    "target_id": 20,
+    "action": "dream_run",
+    "event_at": "2026-05-07 20:06:07.527043+00:00"
+  },
+  {
+    "id": 152,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 20,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:06:03.113784+00:00"
+  },
+  {
+    "id": 151,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 19,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:05:16.973038+00:00"
+  },
+  {
+    "id": 150,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:05:12.731246+00:00"
+  },
+  {
+    "id": 149,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:05:10.592782+00:00"
+  },
+  {
+    "id": 148,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:05:08.478547+00:00"
+  },
+  {
+    "id": 147,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:04:57.537582+00:00"
+  },
+  {
+    "id": 146,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:04:55.427555+00:00"
+  },
+  {
+    "id": 145,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "tasks",
+    "target_id": 18,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:04:46.658610+00:00"
+  },
+  {
+    "id": 144,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "decision_records",
+    "target_id": 18,
+    "action": "commit_decision",
+    "event_at": "2026-05-07 20:04:44.273879+00:00"
+  },
+  {
+    "id": 143,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "tasks",
+    "target_id": 17,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:04:44.273879+00:00"
+  },
+  {
+    "id": 142,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "summaries",
+    "target_id": 18,
+    "action": "dream_run",
+    "event_at": "2026-05-07 20:04:42.096609+00:00"
+  },
+  {
+    "id": 141,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 18,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:04:37.588433+00:00"
+  },
+  {
+    "id": 140,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 17,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:03:54.070730+00:00"
+  },
+  {
+    "id": 139,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:03:49.808236+00:00"
+  },
+  {
+    "id": 138,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:03:47.601082+00:00"
+  },
+  {
+    "id": 137,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:03:45.481617+00:00"
+  },
+  {
+    "id": 136,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:03:34.370289+00:00"
+  },
+  {
+    "id": 135,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:03:32.237228+00:00"
+  },
+  {
+    "id": 134,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "tasks",
+    "target_id": 16,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:03:23.514587+00:00"
+  },
+  {
+    "id": 133,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "decision_records",
+    "target_id": 17,
+    "action": "commit_decision",
+    "event_at": "2026-05-07 20:03:21.135165+00:00"
+  },
+  {
+    "id": 132,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "tasks",
+    "target_id": 15,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:03:21.135165+00:00"
+  },
+  {
+    "id": 131,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "summaries",
+    "target_id": 16,
+    "action": "dream_run",
+    "event_at": "2026-05-07 20:03:18.973131+00:00"
+  },
+  {
+    "id": 130,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 16,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:03:14.558995+00:00"
+  },
+  {
+    "id": 129,
+    "org_id": 0,
+    "actor_user_id": 3,
+    "target_type": "work_records",
+    "target_id": 9,
+    "action": "create_staff_report",
+    "event_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 128,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "decision_records",
+    "target_id": 16,
+    "action": "commit_decision",
+    "event_at": "2026-05-07 20:02:21.097520+00:00"
+  },
+  {
+    "id": 127,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "tasks",
+    "target_id": 14,
+    "action": "create_task",
+    "event_at": "2026-05-07 20:02:21.097520+00:00"
+  },
+  {
+    "id": 126,
+    "org_id": 0,
+    "actor_user_id": 1,
+    "target_type": "summaries",
+    "target_id": 11,
+    "action": "dream_run",
+    "event_at": "2026-05-07 20:02:18.402344+00:00"
+  },
+  {
+    "id": 125,
+    "org_id": 0,
+    "actor_user_id": 2,
+    "target_type": "summaries",
+    "target_id": 15,
+    "action": "create_manager_report",
+    "event_at": "2026-05-07 20:00:47.284049+00:00"
+  },
+  {
+    "id": 124,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:00:43.027361+00:00"
+  },
+  {
+    "id": 123,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:00:40.913045+00:00"
+  },
+  {
+    "id": 122,
+    "org_id": 0,
+    "actor_user_id": null,
+    "target_type": "auth",
+    "target_id": 0,
+    "action": "permission_denied",
+    "event_at": "2026-05-07 20:00:38.797125+00:00"
+  }
+]

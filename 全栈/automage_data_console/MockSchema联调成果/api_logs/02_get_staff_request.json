@@ -1,0 +1,21 @@
+{
+  "method": "GET",
+  "url": "http://localhost:8000/api/v1/report/staff",
+  "params": {
+    "org_id": "org_automage_mvp",
+    "department_id": "dept_mvp_core",
+    "record_date": "2026-05-09",
+    "user_id": "zhangsan"
+  },
+  "headers": {
+    "X-User-Id": "zhangsan",
+    "X-Role": "staff",
+    "X-Node-Id": "staff_agent_mvp_001",
+    "X-Level": "l1_staff",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Manager-Node-Id": "manager_agent_mvp_001",
+    "X-Request-Id": "m2real-20260508040831-02_get_staff-be0a7e1b"
+  },
+  "body": null
+}

@@ -1,0 +1,84 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:43 GMT",
+    "server": "uvicorn",
+    "content-length": "2254",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-06_post_dream_run-e47a961c",
+    "x-process-time-ms": "103.69"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "summary_id": 22,
+      "summary_public_id": "SUM8426FDA43C2F4767BACE55",
+      "contract_status": "pending_dream_confirmation",
+      "manager_summary": {
+        "title": "Manager Summary 2026-05-09",
+        "content": "M2 real api manager summary run_id=m2real-20260508040831",
+        "summary_date": "2026-05-09",
+        "overall_health": "yellow",
+        "top_3_risks": [
+          {
+            "risk_id": "RISK-MGR-ESC-001",
+            "severity": "high",
+            "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+            "risk_title": "数据库 Skill / API 端到端读写未验证",
+            "description": "数据库可连不等于 Agent 能通过 Skill 完成 Staff 写入、Manager 读取和 Task 查询，若不在 5.7 修通会影响 5.8 真实联调。",
+            "source_type": "staff_report",
+            "owner_user_id": "user_backend_001",
+            "need_escalation": true,
+            "suggested_action": "后端提供最小 API / Skill 调用样例，Agent 侧当天完成读写验证。"
+          },
+          {
+            "risk_id": "RISK-MGR-ESC-002",
+            "severity": "medium",
+            "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+            "risk_title": "真实库新增表与里程碑一契约关系未冻结",
+            "description": "staff_reports、manager_reports、decision_records、task_queue 等表与原 work_records、summaries、tasks 的主从关系未确认，会影响 OpenAPI 和 Agent Skill 入参。",
+            "source_type": "staff_report",
+            "owner_user_id": "user_manager_001",
+            "need_escalation": false,
+            "suggested_action": "由数据库 Agent 输出差异分析，团队确认主落点与兼容落点。"
+          }
+        ]
+      },
+      "decision_options": [
+        {
+          "option_id": "A",
+          "title": "Conservative execution plan",
+          "summary": "Prioritize risk control before broad execution.",
+          "task_candidates": [
+            {
+              "task_id": "TSKCEEDE59AA4564E2A94445D",
+              "title": "Review summary risks",
+              "description": "Validate top risks before scaling execution.",
+              "assignee_user_id": "chenzong",
+              "status": "pending",
+              "priority": "high",
+              "source_summary_id": "SUM8426FDA43C2F4767BACE55"
+            }
+          ]
+        },
+        {
+          "option_id": "B",
+          "title": "Aggressive execution plan",
+          "summary": "Push execution with tighter follow-up and faster feedback loops.",
+          "task_candidates": [
+            {
+              "task_id": "TSK45BD517336FC49B395F227",
+              "title": "Accelerate summary actions",
+              "description": "Push follow-up actions while monitoring execution risk.",
+              "assignee_user_id": "chenzong",
+              "status": "pending",
+              "priority": "medium",
+              "source_summary_id": "SUM8426FDA43C2F4767BACE55"
+            }
+          ]
+        }
+      ]
+    },
+    "msg": "Dream 决策草稿生成成功"
+  }
+}

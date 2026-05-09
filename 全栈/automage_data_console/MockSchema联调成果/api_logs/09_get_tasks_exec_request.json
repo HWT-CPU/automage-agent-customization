@@ -1,0 +1,17 @@
+{
+  "method": "GET",
+  "url": "http://localhost:8000/api/v1/tasks",
+  "params": {
+    "org_id": "org_automage_mvp"
+  },
+  "headers": {
+    "X-User-Id": "chenzong",
+    "X-Role": "executive",
+    "X-Node-Id": "executive_agent_boss_001",
+    "X-Level": "l3_executive",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Request-Id": "m2real-20260508040831-09_get_tasks_exec-c97f0704"
+  },
+  "body": null
+}

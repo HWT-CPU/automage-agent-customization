@@ -1,0 +1,42 @@
+export const apiDbMapping = [
+  {
+    api: 'POST /api/v1/report/staff',
+    roles: ['staff'],
+    read_tables: ['tasks'],
+    write_tables: ['work_records', 'work_record_items', 'incidents', 'audit_logs'],
+    ui: 'StaffWorkspacePage',
+    realIntegrated: true,
+  },
+  {
+    api: 'POST /api/v1/report/manager',
+    roles: ['manager'],
+    read_tables: ['work_records', 'incidents'],
+    write_tables: ['summaries', 'summary_source_links', 'audit_logs'],
+    ui: 'ManagerWorkspacePage',
+    realIntegrated: true,
+  },
+  {
+    api: 'POST /internal/dream/run',
+    roles: ['executive'],
+    read_tables: ['summaries', 'incidents', 'tasks'],
+    write_tables: ['decision_records', 'decision_logs', 'agent_decision_logs'],
+    ui: 'ExecutiveWorkspacePage',
+    realIntegrated: true,
+  },
+  {
+    api: 'POST /api/v1/decision/commit',
+    roles: ['executive'],
+    read_tables: ['decision_records'],
+    write_tables: ['decision_records', 'decision_logs', 'tasks', 'task_assignments', 'task_updates'],
+    ui: 'ExecutiveWorkspacePage',
+    realIntegrated: true,
+  },
+  {
+    api: 'PATCH /api/v1/tasks/{task_id}',
+    roles: ['staff', 'manager', 'executive'],
+    read_tables: ['tasks', 'task_assignments'],
+    write_tables: ['task_updates', 'audit_logs'],
+    ui: 'TaskCenterPage',
+    realIntegrated: true,
+  },
+]

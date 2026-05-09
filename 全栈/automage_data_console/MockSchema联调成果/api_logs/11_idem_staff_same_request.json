@@ -1,0 +1,155 @@
+{
+  "method": "POST",
+  "url": "http://localhost:8000/api/v1/report/staff",
+  "params": {},
+  "headers": {
+    "X-User-Id": "zhangsan",
+    "X-Role": "staff",
+    "X-Node-Id": "staff_agent_mvp_001",
+    "X-Level": "l1_staff",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Manager-Node-Id": "manager_agent_mvp_001",
+    "X-Request-Id": "m2real-20260508040831-11_idem_staff_same-3f5e033b",
+    "Idempotency-Key": "m2real-20260508040831-idem-s1"
+  },
+  "body": {
+    "identity": {
+      "node_id": "staff_agent_mvp_001",
+      "user_id": "zhangsan",
+      "role": "staff",
+      "level": "l1_staff",
+      "department_id": "dept_mvp_core",
+      "manager_node_id": "manager_agent_mvp_001",
+      "metadata": {
+        "display_name": "zhangsan",
+        "org_id": "org_automage_mvp"
+      }
+    },
+    "report": {
+      "schema_id": "schema_v1_staff",
+      "schema_version": "1.0.0",
+      "timestamp": "2026-05-09T20:00:00+08:00",
+      "org_id": "org_automage_mvp",
+      "department_id": "dept_mvp_core",
+      "user_id": "zhangsan",
+      "node_id": "staff_agent_mvp_001",
+      "record_date": "2026-05-09",
+      "task_progress": [
+        {
+          "task_id": "TASK-20260506-AGENT-001",
+          "task_title": "将 Staff 日报模板接入 Staff Agent 输入解析",
+          "today_result": "已完成表单字段到 schema_v1_staff 的解析映射，生成 Staff payload 样例。",
+          "previous_status": "in_progress",
+          "current_status": "completed",
+          "completion_percent": 100,
+          "need_follow_up": true,
+          "remark": "后续需要替换真实 API 调用并与数据库 Skill 联调。"
+        },
+        {
+          "task_id": "TASK-20260506-AGENT-002",
+          "task_title": "跑通 Manager 读取 Staff 日报并生成汇总",
+          "today_result": "本地 mock 链路已可读取 Staff payload 并输出 Manager 汇总样例。",
+          "previous_status": "pending",
+          "current_status": "in_progress",
+          "completion_percent": 80,
+          "need_follow_up": true,
+          "remark": "等待真实数据库 Skill 读写验证。"
+        }
+      ],
+      "work_progress": "Agent prompt 第一版落地; Context 结构 v0 接入本地 Mock Demo; 本地 Mock Demo 主链路跑通",
+      "issues_faced": [
+        "Mock 字段与真实数据库字段仍需最终对齐"
+      ],
+      "solution_attempt": "M2 real api integration",
+      "need_support": false,
+      "support_detail": "",
+      "need_decision": false,
+      "decision_detail": "",
+      "next_day_plan": "continue real api validation",
+      "resource_usage": {
+        "work_hours": 8.5,
+        "tools": [
+          "OpenClaw/Hermes Agent 模板",
+          "Python Mock Workflow",
+          "JSON Schema",
+          "本地文件系统"
+        ],
+        "budget": 0,
+        "materials": [
+          "Staff 日报模板 v1.0.0",
+          "Schema JSON 文件",
+          "DAG 节点-接口-数据表映射表"
+        ],
+        "other": "当前为本地 Mock 验证，暂未依赖真实数据库写入。"
+      },
+      "artifacts": [
+        {
+          "artifact_id": "ART-AGENT-PROMPT-V1",
+          "artifact_type": "prompt",
+          "title": "三级 Agent prompt 第一版",
+          "description": "Staff / Manager / Executive / Base Agent 模板说明。",
+          "url": "repo://automage_agents/templates",
+          "storage_type": "local_path",
+          "version": "v0.1.0",
+          "meta": {
+            "owner": "胡文涛"
+          }
+        },
+        {
+          "artifact_id": "ART-MOCK-WORKFLOW-V1",
+          "artifact_type": "code",
+          "title": "run_mock_workflow.py",
+          "description": "本地 Mock 闭环验证脚本。",
+          "url": "file://run_mock_workflow.py",
+          "storage_type": "local_path",
+          "version": "v1.0.0",
+          "meta": {
+            "milestone": "M2"
+          }
+        }
+      ],
+      "related_task_ids": [
+        "TASK-20260506-AGENT-001",
+        "TASK-20260506-AGENT-002"
+      ],
+      "risk_level": "low",
+      "employee_comment": "当前本地 Mock 链路可继续支撑里程碑二验证，真实数据库对齐后需要回修字段映射。",
+      "signature": {
+        "confirm_status": "confirmed",
+        "signed_by": "user_agent_001",
+        "signed_by_role": "staff_agent_owner",
+        "signed_at": "2026-05-06T20:30:00+08:00",
+        "signature_method": "manual_confirm",
+        "payload_hash": "sha256:bd593c60b286c639245bea17983a1ef86ce696f984be93ce0e2f8bc6662fe335",
+        "signature_value": "mock_signature_d786b5fdabb2",
+        "comment": "MVP Mock 数据确认"
+      },
+      "meta": {
+        "mock_case": "normal",
+        "milestone": "M2",
+        "api_endpoint": "POST /api/v1/report/staff",
+        "recommended_write_tables": [
+          "staff_reports",
+          "work_records",
+          "work_record_items",
+          "artifacts",
+          "audit_logs"
+        ],
+        "compatible_design_tables": [
+          "work_records",
+          "work_record_items",
+          "artifacts",
+          "audit_logs"
+        ],
+        "runtime_context": {
+          "dag_run_id": "DAGRUN-20260506-AUTOMAGE-M2-001",
+          "run_date": "2026-05-06",
+          "tenant_id": "org_automage_mvp",
+          "channel": "mock_local"
+        },
+        "db_mapping_strategy": "Staff 原始日报可落 staff_reports；结构化字段拆分可兼容落 work_records / work_record_items；产出物落 artifacts；审计落 audit_logs。"
+      }
+    }
+  }
+}
