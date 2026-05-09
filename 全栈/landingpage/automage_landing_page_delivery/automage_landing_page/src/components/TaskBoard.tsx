@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { statusBadgeClass } from '../lib/format'
 
 interface TaskItem {
   taskId: string
@@ -37,17 +36,13 @@ export function TaskBoard({ tasks }: Props) {
   return (
     <section id="tasks" className="space-y-3 scroll-mt-24">
       <h2 className="section-title">任务看板</h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="task-filter-wrap flex flex-wrap gap-2">
         {FILTERS.map((item) => (
           <button
             type="button"
             key={item.value}
             onClick={() => setFilter(item.value)}
-            className={`rounded-full border px-3 py-1 text-xs ${
-              filter === item.value
-                ? 'border-cyan-300 bg-cyan-50 text-cyan-700'
-                : 'border-slate-300 bg-white text-slate-600'
-            }`}
+            className={`task-filter-btn px-3 py-1 text-xs ${filter === item.value ? 'is-active' : ''}`}
           >
             {item.label}
           </button>
@@ -56,17 +51,18 @@ export function TaskBoard({ tasks }: Props) {
 
       <div className="space-y-3">
         {filtered.map((task) => (
-          <div key={task.taskId} className="rounded-2xl border border-slate-200 bg-white p-4">
+          <article key={task.taskId} className="task-uiverse-card">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-base font-semibold text-slate-900">
+              <p className="task-card-title text-base font-semibold text-slate-900">
                 {task.title}
                 <span className="ml-2 text-xs text-slate-500">({task.publicId})</span>
               </p>
-              <span className={`rounded-full border px-2 py-1 text-xs ${statusBadgeClass(task.status)}`}>
-                {task.status}
-              </span>
+              <span className="task-status-tag text-xs">{renderStatus(task.status)}</span>
             </div>
-            <div className="mt-2 grid gap-2 text-sm text-slate-600 md:grid-cols-5">
+
+            <p className="task-small-desc text-sm">assignee: {task.assignee} / source: {task.source} / priority: {task.priority}</p>
+
+            <div className="task-meta-grid mt-2 grid gap-2 text-sm text-slate-600 md:grid-cols-5">
               <p>assignee: {task.assignee}</p>
               <p>source: {task.source}</p>
               <p>priority: {task.priority}</p>
@@ -76,10 +72,22 @@ export function TaskBoard({ tasks }: Props) {
               <p>related_decision: {task.relatedDecision}</p>
               <p>related_incident: {task.relatedIncident}</p>
             </div>
-          </div>
+
+            <div className="task-go-corner">
+              <div className="task-go-arrow">→</div>
+            </div>
+          </article>
         ))}
       </div>
       <p className="text-xs text-slate-500">状态流转：待处理 -&gt; 进行中 -&gt; 阻塞 / 已完成 -&gt; 回流日报</p>
     </section>
   )
+}
+
+function renderStatus(status: string) {
+  if (status === 'pending') return '待处理'
+  if (status === 'in_progress') return '进行中'
+  if (status === 'blocked') return '阻塞'
+  if (status === 'completed') return '已完成'
+  return status
 }

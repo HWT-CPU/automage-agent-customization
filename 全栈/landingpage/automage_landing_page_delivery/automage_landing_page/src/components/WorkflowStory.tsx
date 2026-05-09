@@ -28,19 +28,15 @@ export function WorkflowStory({ steps }: Props) {
 
         <div className="space-y-4">
           {steps.map((step, idx) => (
-            <article
-              key={step.step}
-              className="group rounded-3xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-[0_22px_40px_rgba(3,105,161,0.12)]"
-            >
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs uppercase tracking-[0.12em] text-slate-500">Step {idx + 1}</p>
-                <span className="rounded-full border border-slate-300 px-2 py-1 text-xs text-slate-600">{step.status}</span>
-              </div>
-              <h3 className="mt-2 text-xl font-semibold text-slate-900">{step.step}</h3>
-              <div className="mt-4 grid gap-3 text-sm text-slate-600 md:grid-cols-3">
-                <p>角色：{step.role}</p>
-                <p>API：{step.api}</p>
-                <p>数据表：{step.table}</p>
+            <article key={step.step} className="workflow-motion-card">
+              <div className="workflow-motion-content">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-xs uppercase tracking-[0.12em] opacity-70">Step {idx + 1}</p>
+                  <span className="workflow-motion-status">{step.status}</span>
+                </div>
+                <h3 className="workflow-motion-heading">{step.step}</h3>
+                <p className="workflow-motion-para">角色：{step.role} / API：{step.api}</p>
+                <p className="workflow-motion-para workflow-motion-para-sm">数据表：{step.table}</p>
               </div>
             </article>
           ))}

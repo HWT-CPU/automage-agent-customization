@@ -24,7 +24,7 @@ const items = [
 
 export function VisualArchive() {
   return (
-    <section className="space-y-4">
+    <section className="uiverse-mosaic-bg relative space-y-4 overflow-hidden rounded-[28px] border border-slate-200/70 bg-white/75 p-5 md:p-6">
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Visual Archive</p>

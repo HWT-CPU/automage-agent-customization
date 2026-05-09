@@ -15,8 +15,9 @@ export function HeroSection({ title, subtitle, cards }: Props) {
       <div className="relative grid items-center gap-8 lg:grid-cols-2">
         <div className="space-y-6">
           <p className="inline-flex rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold text-slate-700">{title}</p>
-          <h1 className="text-5xl font-semibold leading-tight tracking-[-0.03em] md:text-6xl lg:text-7xl">
-            <span className="hero-gradient-text">Agent 时代的组织运行中枢</span>
+          <h1 className="hero-display-title text-5xl font-semibold leading-[0.95] md:text-6xl lg:text-7xl">
+            <span className="block">Agent 时代的组织</span>
+            <span className="hero-display-emphasis">运行中枢</span>
           </h1>
           <p className="max-w-xl text-base text-slate-600 md:text-lg">{subtitle}</p>
           <div className="flex flex-wrap gap-3">
