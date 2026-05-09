@@ -1,0 +1,45 @@
+[runtime]
+environment = "docker"
+backend_mode = "http"
+audit_enabled = true
+audit_org_id = 0
+auth_enabled = false
+scheduler_enabled = false
+scheduler_timezone = "Asia/Shanghai"
+scheduler_jobs = [
+  { name = "staff_daily_reminder_job", interval_seconds = 300, enabled = true },
+  { name = "manager_summary_reminder_job", interval_seconds = 600, enabled = true },
+  { name = "manager_summary_auto_generate_job", interval_seconds = 600, enabled = true },
+]
+scheduler_task_record_limit = 100
+abuse_protection_enabled = true
+abuse_protection_backend = "redis"
+rbac_enabled = true
+rate_limit_window_seconds = 60
+rate_limit_max_requests = 60
+idempotency_ttl_seconds = 300
+redis_url = "redis://:automage@redis:6379/0"
+redis_key_prefix = "automage"
+write_protected_paths = [
+  "/api/v1/report/staff",
+  "/api/v1/report/manager",
+  "/api/v1/decision/commit",
+  "/api/v1/tasks",
+]
+api_base_url = "http://localhost:8000"
+api_timeout_seconds = 10
+retry_backoff_seconds = [1, 2, 4, 8, 16]
+max_schema_correction_attempts = 2
+auth_token = ""
+openclaw_enabled = false
+feishu_enabled = false
+feishu_app_id = ""
+feishu_app_secret = ""
+
+[postgres]
+host = "postgres"
+port = 5432
+database = "automage"
+user = "automage"
+password = "automage"
+sslmode = "prefer"
