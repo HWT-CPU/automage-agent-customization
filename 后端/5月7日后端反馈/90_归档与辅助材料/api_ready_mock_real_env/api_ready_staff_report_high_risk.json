@@ -1,0 +1,210 @@
+﻿{
+  "identity": {
+    "node_id": "staff_agent_mvp_001",
+    "user_id": "zhangsan",
+    "role": "staff",
+    "level": "l1_staff",
+    "department_id": "dept_mvp_core",
+    "manager_node_id": null,
+    "metadata": {
+      "source_mock_file": "mock_staff_report_high_risk.json",
+      "display_name": "zhangsan",
+      "mock_case": "high_risk"
+    }
+  },
+  "report": {
+    "schema_id": "schema_v1_staff",
+    "schema_version": "1.0.0",
+    "timestamp": "2026-05-06T20:30:00+08:00",
+    "org_id": "org_automage_mvp",
+    "department_id": "dept_mvp_core",
+    "user_id": "zhangsan",
+    "node_id": "staff_agent_mvp_001",
+    "record_date": "2026-05-06",
+    "task_progress": [
+      {
+        "task_id": "TASK-20260506-BACKEND-001",
+        "task_title": "涓婄嚎 PostgreSQL 鏁版嵁搴撳苟鍐荤粨鏁版嵁琛ㄥ彛寰?,
+        "today_result": "鏁版嵁搴撳彲閫氳繃 182.92.93.16:5432 杩炴帴锛宲ublic schema 宸叉湁 28 寮犱笟鍔¤〃锛屽寘鍚?staff_reports銆乵anager_reports銆乨ecision_records銆乼asks銆乤udit_logs 绛夈€?,
+        "previous_status": "in_progress",
+        "current_status": "completed",
+        "completion_percent": 100,
+        "need_follow_up": true,
+        "remark": "闇€瑕佺户缁‘璁ゆ牳蹇?CRUD API 鍜屾暟鎹簱 Skill 鏄惁鍙 Agent 绋冲畾璋冪敤銆?
+      },
+      {
+        "task_id": "TASK-20260506-BACKEND-002",
+        "task_title": "鏍稿績 CRUD API 涓庢暟鎹簱 Skill 浜や粯娴嬭瘯",
+        "today_result": "鏁版嵁搴撳彲杩烇紝浣?API / Skill 绔埌绔啓鍏?Staff 鈫?Manager 鈫?Executive 鈫?Task 灏氭湭瀹屾垚楠岃瘉銆?,
+        "previous_status": "pending",
+        "current_status": "blocked",
+        "completion_percent": 40,
+        "need_follow_up": true,
+        "blocked_reason": "缂哄皯宸查獙璇佺殑鏁版嵁搴?Skill 璋冪敤鏍蜂緥鍜?API 璁块棶缁撴灉銆?,
+        "remark": "闃诲鐪熷疄鑱旇皟锛屼笉闃诲鏈湴 Mock 闂幆銆?
+      }
+    ],
+    "work_progress": [
+      {
+        "item_id": "WP-STAFF-HIGHRISK-001",
+        "title": "鐪熷疄鏁版嵁搴撶粨鏋勫垵姝ユ帰娴嬪畬鎴?,
+        "item_type": "database",
+        "description": "纭 PostgreSQL 15.17 鍙繛鎺ワ紝public schema 鏈?28 寮犺〃锛屽凡鍏峰涓氬姟缁撴瀯鍜屽皯閲忔祴璇曟暟鎹€?,
+        "status": "completed",
+        "evidence": "Node pg 瀹㈡埛绔繛鎺ヤ笌鏌ヨ鎴愬姛锛沺g_stat_user_tables 鏈夎鏁颁及璁°€?,
+        "artifact_ids": [
+          "ART-DB-PROBE-001"
+        ],
+        "artifact_links": [
+          "db://182.92.93.16:5432/automage"
+        ],
+        "related_module": "鏁版嵁搴?/ 鍚庣浜嬪疄婧?,
+        "available_for_integration": true
+      },
+      {
+        "item_id": "WP-STAFF-HIGHRISK-002",
+        "title": "涓婚摼璺?API 濂戠害琛ラ綈",
+        "item_type": "api",
+        "description": "琛ラ綈 agent/init銆乺eport/staff銆乺eport/manager銆乨ecision/commit銆乼asks銆乮ncidents銆乨ream/run 绛変富閾捐矾鎺ュ彛鍙ｅ緞銆?,
+        "status": "in_progress",
+        "evidence": "鎺ュ彛濂戠害鏂囨。鍒濈増锛屽緟鐪熷疄璋冪敤娴嬭瘯銆?,
+        "artifact_ids": [
+          "ART-API-CONTRACT-V1"
+        ],
+        "artifact_links": [
+          "file://openapi.automage_mvp.yaml"
+        ],
+        "related_module": "API / 鍚庣",
+        "available_for_integration": false
+      }
+    ],
+    "issues_faced": [
+      {
+        "issue_id": "ISSUE-STAFF-HIGHRISK-001",
+        "issue_title": "鏁版嵁搴撳彲杩炰絾 API / Skill 绔埌绔摼璺湭楠岃瘉",
+        "description": "閲岀▼纰戜簩鍚庡崐娈甸渶瑕佸皢鏈湴 mock demo 鏇挎崲涓虹湡瀹炴暟鎹簱 Skill 鍜?API 璋冪敤锛涘綋鍓嶇己灏?Staff 鍐欏叆銆丮anager 璇诲彇銆佷换鍔℃煡璇㈢殑鐪熷疄璋冪敤缁撴灉銆?,
+        "impact_scope": "闃诲閲岀▼纰戜笁鐪熷疄鑱旇皟锛涗笉闃诲閲岀▼纰戜簩鏈湴 Mock 闂幆銆?,
+        "severity": "high",
+        "is_blocking": true,
+        "need_support_from": "鐔婇敠鏂?/ 鑳℃枃娑?
+      },
+      {
+        "issue_id": "ISSUE-STAFF-HIGHRISK-002",
+        "issue_title": "鐪熷疄搴撹〃缁撴瀯涓庨噷绋嬬涓€钀藉簱鍙ｅ緞瀛樺湪鏂板琛ㄥ樊寮?,
+        "description": "鐪熷疄搴撳鍔?staff_reports銆乵anager_reports銆乨ecision_records銆乨ecision_logs銆乼ask_queue銆乤gent_profiles銆乤gent_sessions銆乪xternal_identities 绛夎〃锛岄渶瑕佹槑纭畠浠笌 work_records銆乻ummaries銆乼asks銆乤udit_logs 鐨勫叧绯汇€?,
+        "impact_scope": "褰卞搷 Mock 瀛楁鍒扮湡瀹炴暟鎹簱鐨勬槧灏勮〃鍜屽悗缁?API 钀藉簱瀹炵幇銆?,
+        "severity": "medium",
+        "is_blocking": false,
+        "need_support_from": "鏉ㄥ崜 / 鐔婇敠鏂?
+      }
+    ],
+    "solution_attempt": [
+      {
+        "solution_id": "SOL-STAFF-HIGHRISK-001",
+        "issue_id": "ISSUE-STAFF-HIGHRISK-001",
+        "description": "鍏堜繚鐣欐湰鍦?Mock 闂幆浣滀负閲岀▼纰戜簩楠屾敹搴曞骇锛屽悓鏃惰姹傛暟鎹簱 Agent 鐢熸垚鏁版嵁搴撶粨鏋勬牳鏌ヤ笌 Mock 鏄犲皠鎶ュ憡銆?,
+        "result": "鍙伩鍏嶉噷绋嬬浜岃鐪熷疄鍚庣闃诲锛屽悓鏃朵负閲岀▼纰戜笁鑱旇皟鎻愪緵宸紓娓呭崟銆?,
+        "status": "pending_verify"
+      }
+    ],
+    "need_support": true,
+    "support_detail": "闇€瑕佸悗绔彁渚涘彲璋冪敤鐨?Staff 鏃ユ姤鎻愪氦銆丮anager 璇诲彇鏃ユ姤銆佷换鍔℃煡璇笁涓渶灏?API 鎴栨暟鎹簱 Skill 鏍蜂緥锛涢渶瑕?Agent 渚ч獙璇?Skill 璇诲啓杩斿洖鏍煎紡銆?,
+    "need_decision": true,
+    "decision_detail": "鏄惁灏嗛噷绋嬬浜岄獙鏀舵爣鍑嗗垎涓衡€滄湰鍦?Mock 闂幆蹇呰繃鈥濆拰鈥滅湡瀹炴暟鎹簱 API 鑱旇皟浣滀负閲岀▼纰戜笁鍏ュ彛鏉′欢鈥濓紝閬垮厤鏁版嵁搴?Skill 鏈畬鍏ㄥ彲鐢ㄦ椂闃诲 Mock 楠屾敹銆?,
+    "next_day_plan": [
+      {
+        "plan_id": "PLAN-STAFF-HIGHRISK-001",
+        "title": "瀹屾垚鏁版嵁搴?Skill 鏈€灏忚鍐欓獙璇?,
+        "description": "鎻愪緵 Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ涓夋潯鍙鐜拌皟鐢ㄦ牱渚嬨€?,
+        "priority": "critical",
+        "expected_output": "Skill 璇诲啓楠岃瘉璁板綍鍜屽彲璋冪敤绀轰緥銆?,
+        "related_task_id": "TASK-20260507-BACKEND-001"
+      },
+      {
+        "plan_id": "PLAN-STAFF-HIGHRISK-002",
+        "title": "鍐荤粨鐪熷疄搴撲笌閲岀▼纰戜竴濂戠害宸紓澶勭悊绛栫暐",
+        "description": "鏄庣‘ staff_reports/work_records銆乵anager_reports/summaries銆乨ecision_records/summaries.meta銆乼ask_queue/tasks 鐨勪富浠庡叧绯汇€?,
+        "priority": "high",
+        "expected_output": "鏁版嵁搴撹仈璋冨缓璁笌瀛楁鏄犲皠琛ㄣ€?,
+        "related_task_id": "TASK-20260507-BACKEND-002"
+      }
+    ],
+    "resource_usage": {
+      "work_hours": 9.0,
+      "tools": [
+        "PostgreSQL 15.17",
+        "Node pg 瀹㈡埛绔?,
+        "OpenAPI 濂戠害",
+        "鏁版嵁搴?DDL / ER 鍥?
+      ],
+      "budget": 0,
+      "materials": [
+        "15涓氬姟琛―DL.sql",
+        "鐪熷疄鏁版嵁搴撹〃缁撴瀯",
+        "DAG 鑺傜偣-鎺ュ彛-鏁版嵁琛ㄦ槧灏勮〃"
+      ],
+      "other": "鐪熷疄鏁版嵁搴撶枒浼?Docker 瀹瑰櫒閮ㄧ讲锛屾湇鍔＄鍦板潃 172.17.0.2:5432銆?
+    },
+    "artifacts": [
+      {
+        "artifact_id": "ART-DB-PROBE-001",
+        "artifact_type": "table",
+        "title": "鐪熷疄鏁版嵁搴撹繛鎺ヤ笌琛ㄦ竻鍗曟帰娴嬬粨鏋?,
+        "description": "PostgreSQL 15.17锛宲ublic schema 28 寮犱笟鍔¤〃銆?,
+        "url": "db://182.92.93.16:5432/automage",
+        "storage_type": "url",
+        "version": "probe-20260506",
+        "meta": {
+          "table_count": 28,
+          "db_name": "automage"
+        }
+      }
+    ],
+    "related_task_ids": [
+      "TASK-20260506-BACKEND-001",
+      "TASK-20260506-BACKEND-002"
+    ],
+    "risk_level": "high",
+    "employee_comment": "鏁版嵁搴撴湰浣撳凡鍙繛鎺ワ紝浣嗙湡瀹?API / Skill 绔埌绔摼璺粛闇€浣滀负娆℃棩鏈€楂樹紭鍏堢骇澶勭悊銆?,
+    "signature": {
+      "confirm_status": "confirmed",
+      "signed_by": "zhangsan",
+      "signed_by_role": "backend_owner",
+      "signed_at": "2026-05-06T20:30:00+08:00",
+      "signature_method": "manual_confirm",
+      "payload_hash": "sha256:43b7ad27712fe8de893566608393d6c1397961018ff144515d4f48caa10aac15",
+      "signature_value": "mock_signature_59305e68f3b6",
+      "comment": "MVP Mock 鏁版嵁纭"
+    },
+    "meta": {
+      "mock_case": "high_risk",
+      "milestone": "M2",
+      "api_endpoint": "POST /api/v1/report/staff",
+      "recommended_write_tables": [
+        "staff_reports",
+        "work_records",
+        "work_record_items",
+        "incidents",
+        "artifacts",
+        "audit_logs"
+      ],
+      "compatible_design_tables": [
+        "work_records",
+        "work_record_items",
+        "incidents",
+        "audit_logs"
+      ],
+      "runtime_context": {
+        "dag_run_id": "DAGRUN-20260506-AUTOMAGE-M2-001",
+        "run_date": "2026-05-06",
+        "tenant_id": "org_automage_mvp",
+        "channel": "mock_local"
+      },
+      "incident_candidates": [
+        "ISSUE-STAFF-HIGHRISK-001"
+      ],
+      "db_mapping_strategy": "楂橀闄╂棩鎶ヨ繘鍏?staff_reports / work_records锛涢樆濉為」鍙浆鎹负 incidents锛涢渶瑕佽€佹澘鍐崇瓥鐨勯棶棰樼敱 Manager 姹囨€讳笂鎺ㄣ€?
+    }
+  }
+}
+

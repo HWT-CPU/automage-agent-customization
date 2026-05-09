@@ -1,0 +1,238 @@
+﻿{
+  "identity": {
+    "node_id": "executive_agent_boss_001",
+    "user_id": "chenzong",
+    "role": "executive",
+    "level": "l3_executive",
+    "department_id": null,
+    "manager_node_id": null,
+    "metadata": {
+      "source_mock_file": "mock_executive_decision_card_ab_options.json",
+      "recommended_option": "A",
+      "mock_case": "ab_options"
+    }
+  },
+  "decision": {
+    "schema_id": "schema_v1_executive",
+    "schema_version": "1.0.0",
+    "timestamp": "2026-05-06T21:30:00+08:00",
+    "org_id": "org_automage_mvp",
+    "executive_user_id": "chenzong",
+    "executive_node_id": "executive_agent_boss_001",
+    "summary_date": "2026-05-06",
+    "business_summary": "AutoMage-2 MVP 閲岀▼纰戜簩鏈湴 Mock 闂幆宸插叿澶囦氦浠樺熀纭€锛屼絾鐪熷疄鏁版嵁搴?API / Skill 鏈€灏忛摼璺皻鏈獙璇併€傚綋鍓嶅叧閿笉鏄户缁墿灞曞姛鑳斤紝鑰屾槸淇濊瘉 Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ涓夋閾捐矾鍙互琚?Agent 绋冲畾璋冪敤銆?,
+    "key_risks": [
+      {
+        "risk_id": "RISK-EXEC-001",
+        "risk_title": "鐪熷疄 API / 鏁版嵁搴?Skill 鏈€氳繃绔埌绔獙璇?,
+        "description": "鑻?5.7 涓嶄紭鍏堜慨閫氾紝5.8 鐨勭湡瀹炶仈璋冧細鍙嶅鍗″湪瀛楁銆侀壌鏉冦€佽繛鎺ュ拰杩斿洖鏍煎紡闂涓娿€?,
+        "severity": "high",
+        "source_type": "manager_summary",
+        "source_id": "MSUM-20260506-NEED-EXEC-001",
+        "owner_user_id": "zhangsan",
+        "suggested_action": "纭 5.7 鏈€楂樹紭鍏堢骇涓轰笁鏉℃渶灏忛摼璺?API / Skill 楠岃瘉銆?,
+        "need_escalation": true
+      },
+      {
+        "risk_id": "RISK-EXEC-002",
+        "risk_title": "鏁版嵁搴撴柊澧炶〃涓庡绾︿富钀界偣闇€瑕佸喕缁?,
+        "description": "鐪熷疄搴撲腑鍑虹幇 staff_reports銆乵anager_reports銆乨ecision_records銆乼ask_queue 绛夎〃锛岄渶鏄庣‘涓庨噷绋嬬涓€璁捐琛ㄧ殑鍏崇郴銆?,
+        "severity": "medium",
+        "source_type": "manager_summary",
+        "source_id": "MSUM-20260506-NEED-EXEC-001",
+        "owner_user_id": "lijingli",
+        "suggested_action": "鐢辨暟鎹簱 Agent 杈撳嚭瀵归綈鎶ュ憡锛屾潹鍗撹礋璐ｅ洖淇?Mock 瀛楁鏄犲皠銆?,
+        "need_escalation": false
+      }
+    ],
+    "decision_required": true,
+    "decision_items": [
+      {
+        "decision_id": "DEC-20260506-001",
+        "decision_title": "5.7 鏄惁浼樺厛鍐荤粨 API / 鏁版嵁搴?Skill 鏈€灏忛摼璺?,
+        "background": "鏈湴 Mock 闂幆宸插彲鎺ㄨ繘锛屼絾鐪熷疄鑱旇皟鍏ュ彛渚濊禆鍚庣 API 鍜屾暟鎹簱 Skill銆傚綋鍓嶉渶瑕佹槑纭?5.7 宸ヤ綔浼樺厛绾э紝閬垮厤鏀嚎闇€姹傛姠鍗犱富閾捐矾銆?,
+        "decision_level": "L3",
+        "risk_level": "high",
+        "options": [
+          {
+            "option_id": "A",
+            "title": "涓婚摼璺紭鍏?,
+            "description": "5.7 涓婂崍浼樺厛淇€?Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ涓変釜 API / Skill 鏈€灏忛摼璺紝Landing Page 鍜屾柊鍛樺伐娉ㄥ唽浣滀负骞惰浣嗕笉鎶㈠崰涓婚摼璺殑鏀嚎銆?,
+            "pros": [
+              "鏈€澶у寲闄嶄綆 5.8 鑱旇皟澶辫触椋庨櫓",
+              "绗﹀悎 DAG 涓婚摼璺紭鍏堝師鍒?,
+              "渚夸簬蹇€熷畾浣嶅瓧娈靛拰閴存潈闂"
+            ],
+            "cons": [
+              "閮ㄥ垎闈炰富閾捐矾鍔熻兘鍙兘寤跺悗"
+            ],
+            "estimated_cost": 1.0,
+            "estimated_duration": "0.5-1 澶?,
+            "risk_level": "low"
+          },
+          {
+            "option_id": "B",
+            "title": "缁х画澶氱嚎骞惰",
+            "description": "API銆佹暟鎹簱 Skill銆丩anding Page銆佹柊鍛樺伐娉ㄥ唽缁х画骞惰鎺ㄨ繘锛屼笉璋冩暣浼樺厛绾с€?,
+            "pros": [
+              "鏁翠綋闈㈡帹杩涜緝蹇?,
+              "鏀嚎浜х墿涓嶄細绛夊緟涓婚摼璺?
+            ],
+            "cons": [
+              "涓婚摼璺湭淇€氭椂 5.8 鑱旇皟椋庨櫓楂?,
+              "闂瀹氫綅鎴愭湰澧炲姞",
+              "瀹规槗鍑虹幇鏂囨。鍜屽疄鐜板啀娆″亸绉?
+            ],
+            "estimated_cost": 1.5,
+            "estimated_duration": "1-2 澶?,
+            "risk_level": "high"
+          }
+        ],
+        "recommended_option": "A",
+        "reasoning_summary": "閲岀▼纰戜簩楠屾敹鏍稿績鏄?Staff 鈫?Manager 鈫?Executive 鈫?Task 闂幆锛屼富閾捐矾 API / Skill 鏈€氳繃浼氱洿鎺ュ奖鍝?5.8 鍜?5.9锛涘洜姝ゅ簲浼樺厛淇濊瘉鏈€灏忛摼璺棴鍚堛€?,
+        "expected_impact": {
+          "summary": "閫夋嫨 A 鍚庯紝鍚庣鍜?Agent 渚т細鍥寸粫涓夋潯鏈€灏忛摼璺泦涓仈璋冿紝Mock 鍖呯户缁綔涓烘湰鍦板厹搴曪紝鏁版嵁搴撳榻愭姤鍛婄敤浜庡洖淇瓧娈垫槧灏勩€?,
+          "impact_level": "high",
+          "target_date": "2026-05-07"
+        },
+        "source_summary_ids": [
+          "MSUM-20260506-NEED-EXEC-001"
+        ],
+        "source_incident_ids": [
+          "INC-20260506-API-SKILL-001"
+        ]
+      }
+    ],
+    "option_a": {
+      "option_id": "A",
+      "title": "涓婚摼璺紭鍏堬細鍏堜慨閫氫笁鏉?API / Skill 鏈€灏忛摼璺?,
+      "description": "5.7 涓婂崍闆嗕腑瀹屾垚 Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ涓変釜鏈€灏忛摼璺紱涓嬪崍 Agent 渚ф浛鎹?mock 璋冪敤骞惰緭鍑虹湡瀹?API 鎺ュ叆鐗?demo銆?,
+      "pros": [
+        "鐩存帴鏈嶅姟閲岀▼纰戜簩鍜岄噷绋嬬涓夊叆鍙?,
+        "闄嶄綆瀛楁涓嶅尮閰嶉闄?,
+        "闂杈圭晫娓呮"
+      ],
+      "cons": [
+        "Landing Page P0 鍜屾柊鍛樺伐娉ㄥ唽鏀嚎浼氭殏鏃堕檷浼樺厛绾?
+      ],
+      "estimated_cost": 1.0,
+      "estimated_duration": "0.5-1 澶?,
+      "risk_level": "low"
+    },
+    "option_b": {
+      "option_id": "B",
+      "title": "澶氱嚎骞惰锛氱淮鎸佸師璁″垝鍚屾鎺ㄨ繘",
+      "description": "鍚庣 API銆佹暟鎹簱 Skill銆丄gent 缂栨帓銆丩anding Page銆佹柊鍛樺伐娉ㄥ唽缁х画骞惰鎺ㄨ繘锛屼笉璋冩暣浼樺厛绾с€?,
+      "pros": [
+        "鐭湡浜х墿鏁伴噺鏇村",
+        "鏀嚎杩涘害涓嶅彈褰卞搷"
+      ],
+      "cons": [
+        "涓婚摼璺仈璋冨け璐ラ闄╄緝楂?,
+        "鐪熷疄 API 杩熻繜涓嶉€氫細褰卞搷閲岀▼纰戜笁",
+        "鍥㈤槦瀹规槗鍦ㄩ潪鏍稿績闂涓婂垎鏁?
+      ],
+      "estimated_cost": 1.5,
+      "estimated_duration": "1-2 澶?,
+      "risk_level": "high"
+    },
+    "recommended_option": "A",
+    "reasoning_summary": "鎸?Workflow First 鍘熷垯锛岄噷绋嬬浜屽繀椤诲厛淇濊瘉鍙繍琛屼富閾捐矾锛涙暟鎹簱鍙繛鎺ュ凡缁忚В鍐冲簳灞傚墠鎻愶紝涓嬩竴姝ュ簲闆嗕腑楠岃瘉 API / Skill 鐨勭湡瀹炶鍐欍€?,
+    "expected_impact": {
+      "positive": [
+        "5.8 鍓嶄富閾捐矾鏇村彲鑳藉畬鎴愮湡瀹炶仈璋?,
+        "Mock 鏁版嵁瀛楁鑳芥洿蹇洖淇埌鐪熷疄搴撴槧灏?,
+        "鍚庣鍜?Agent 鐨勬帴鍙ｄ簤璁噺灏?
+      ],
+      "negative": [
+        "鏂板憳宸ユ敞鍐屽拰鑰佹澘渚?Landing Page 鐨勯儴鍒嗙粏鑺傚彲鑳介『寤?
+      ],
+      "acceptance_change": "閲岀▼纰戜簩鏈湴 Mock 闂幆鎸夊師璁″垝楠屾敹锛涚湡瀹?API / Skill 鏈€灏忛摼璺綔涓?5.8 鑱旇皟鍏ュ彛楠屾敹銆?
+    },
+    "generated_tasks": [
+      {
+        "task_title": "鎻愪緵 Staff 鍐欏叆 / Manager 鏌ヨ / Task 鏌ヨ涓夋潯鏈€灏?API 璋冪敤鏍蜂緥",
+        "task_description": "鍚庣鎻愪緵鍙鐜拌姹傘€佸搷搴斻€侀敊璇爜銆佸璁″瓧娈靛拰瀵瑰簲鏁版嵁搴撹〃锛屼緵 Agent 渚ф浛鎹?mock 璋冪敤銆?,
+        "assignee_user_id": "zhangsan",
+        "assignee_role": "鍚庣 / 鏁版嵁搴?Skill",
+        "department_id": "dept_mvp_core",
+        "priority": "critical",
+        "due_at": "2026-05-07T12:00:00+08:00",
+        "source_decision_id": "DEC-20260506-001",
+        "confirm_required": false
+      },
+      {
+        "task_title": "灏嗘湰鍦?Mock Demo 鏇挎崲涓虹湡瀹?API / Skill 璋冪敤",
+        "task_description": "Agent 渚у湪鍚庣缁欏嚭鏈€灏忛摼璺牱渚嬪悗锛屽畬鎴?Staff 鍐欏叆涓?Task 鏌ヨ鐨勭湡瀹炶皟鐢ㄩ獙璇侊紝骞朵繚鐣?Mock fallback銆?,
+        "assignee_user_id": "zhangsan",
+        "assignee_role": "Agent 瀹㈠埗鍖?,
+        "department_id": "dept_mvp_core",
+        "priority": "high",
+        "due_at": "2026-05-07T20:00:00+08:00",
+        "source_decision_id": "DEC-20260506-001",
+        "confirm_required": false
+      },
+      {
+        "task_title": "杈撳嚭鐪熷疄鏁版嵁搴撲笌 Mock 瀛楁鏄犲皠宸紓娓呭崟",
+        "task_description": "鍩轰簬鐪熷疄鏁版嵁搴撶粨鏋勶紝纭 staff_reports/work_records銆乵anager_reports/summaries銆乨ecision_records/summaries.meta銆乼ask_queue/tasks 鐨勪娇鐢ㄥ叧绯汇€?,
+        "assignee_user_id": "lijingli",
+        "assignee_role": "Schema / DAG / 鑱旇皟鍗忚皟",
+        "department_id": "dept_mvp_core",
+        "priority": "high",
+        "due_at": "2026-05-07T18:00:00+08:00",
+        "source_decision_id": "DEC-20260506-001",
+        "confirm_required": false
+      }
+    ],
+    "source_summary_ids": [
+      "MSUM-20260506-NEED-EXEC-001"
+    ],
+    "source_decision_ids": [],
+    "source_incident_ids": [
+      "INC-20260506-API-SKILL-001"
+    ],
+    "human_confirm_status": "pending",
+    "confirmed_by": "chenzong",
+    "confirmed_at": "2026-05-06T21:40:00+08:00",
+    "confirmed_option": "A",
+    "signature": {
+      "confirm_status": "confirmed",
+      "signed_by": "chenzong",
+      "signed_by_role": "executive",
+      "signed_at": "2026-05-06T21:40:00+08:00",
+      "signature_method": "manual_confirm",
+      "payload_hash": "sha256:0e4c921ce61d768afe4db9c780f1c3580da16fa9e18b4147bfc8985d4d022d2a",
+      "signature_value": "mock_signature_11ac836a16f0",
+      "comment": "Mock 涓粯璁よ€佹澘閫夋嫨鎺ㄨ崘鏂规 A锛岀敤浜庨獙璇佷换鍔＄敓鎴愩€?
+    },
+    "meta": {
+      "mock_case": "ab_options",
+      "milestone": "M2",
+      "api_endpoint": "POST /api/v1/decision/commit",
+      "recommended_write_tables": [
+        "decision_records",
+        "decision_logs",
+        "agent_decision_logs",
+        "tasks",
+        "task_queue",
+        "task_assignments",
+        "audit_logs"
+      ],
+      "compatible_design_tables": [
+        "summaries",
+        "tasks",
+        "task_assignments",
+        "audit_logs"
+      ],
+      "read_tables": [
+        "manager_reports",
+        "summaries",
+        "summary_source_links",
+        "incidents"
+      ],
+      "decision_card_type": "executive_ab_options",
+      "db_mapping_strategy": "Executive 鍐崇瓥鍗＄墖涓昏惤 decision_records锛涙搷浣滆繃绋嬭惤 decision_logs / agent_decision_logs锛涜€佹澘纭鍚庝换鍔¤崏妗堣繘鍏?task_queue锛屾寮忎换鍔¤繘鍏?tasks銆?
+    }
+  }
+}
+
