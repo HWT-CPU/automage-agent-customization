@@ -68,7 +68,7 @@ function App() {
   }, [])
 
   return (
-    <div className="scroll-smooth-page borderless-flow relative pb-16 pt-4">
+    <div className="scroll-smooth-page borderless-flow relative pt-4">
       <div className="global-ocean-backdrop pointer-events-none fixed inset-0" aria-hidden="true">
         <div className="global-island-backdrop" />
       </div>
@@ -145,9 +145,7 @@ function App() {
           <FinalCTA />
         </main>
 
-        <div className="px-4 md:px-10">
-          <PremiumFooter apiBase={apiBase} />
-        </div>
+        <PremiumFooter apiBase={apiBase} />
       </div>
     </div>
   )

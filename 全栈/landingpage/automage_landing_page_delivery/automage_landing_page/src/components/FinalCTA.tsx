@@ -6,10 +6,10 @@ export function FinalCTA() {
         MVP 阶段先不追求全自动管理公司，而是先让组织运行过程变成可验证的数据链路。
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <a href="#dashboard" className="rounded-full bg-white px-5 py-2.5 text-sm font-medium text-slate-900">
+        <a href="#dashboard" className="squeeze-btn">
           查看 Demo 控制台
         </a>
-        <a href="#integration-status" className="rounded-full border border-slate-500 px-5 py-2.5 text-sm font-medium text-slate-100">
+        <a href="#integration-status" className="squeeze-btn">
           查看联调报告
         </a>
       </div>

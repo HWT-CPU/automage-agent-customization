@@ -11,7 +11,7 @@ export function ReportPressSection() {
         <p className="max-w-lg text-sm text-slate-600">这段动画用于承接 Audit Timeline 和联调状态：事件不是停在日志，而是变成可验证的交付证据。</p>
       </div>
 
-      <div className="report-press">
+      <div className="report-press inset-shell">
         {pieces.map((piece, index) => (
           <div key={`${piece}-${index}`} className={piece} />
         ))}

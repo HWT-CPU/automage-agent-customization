@@ -21,9 +21,7 @@ export function IntegrationStatusMatrix({ healthOk, pytestPassed, risk }: Props)
         {statusItems(healthOk, pytestPassed, risk).map((item) => (
           <div
             key={item.label}
-            className={`rounded-2xl border p-4 ${
-              item.ok ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'
-            }`}
+            className={`inset-card p-4 ${item.ok ? 'inset-card-ok' : 'inset-card-risk'}`}
           >
             <p className="text-sm font-semibold text-slate-900">{item.label}</p>
             <p className={`mt-2 text-sm ${item.ok ? 'text-emerald-700' : 'text-rose-700'}`}>{item.value}</p>

@@ -21,10 +21,10 @@ export function HeroSection({ title, subtitle, cards }: Props) {
           </h1>
           <p className="max-w-xl text-base text-slate-600 md:text-lg">{subtitle}</p>
           <div className="flex flex-wrap gap-3">
-            <a href="#dashboard" className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-medium text-white">
+            <a href="#dashboard" className="squeeze-btn">
               查看老板控制台
             </a>
-            <a href="#workflow" className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700">
+            <a href="#workflow" className="squeeze-btn">
               查看闭环流程
             </a>
           </div>
