@@ -6,6 +6,8 @@ Date: 2026-05-06
 
 Goal: close the 5.6 checkpoint for Milestone 2 with a clear distinction between completed Agent/mock work and blocked real backend work.
 
+Current 5.9 status is tracked in `references/hwt_m2_0506_0509_completion_matrix.md`.
+
 Backend status confirmed by project owner:
 
 | Item | Status |
@@ -117,5 +119,5 @@ python scripts/smoke_real_api.py --dry-run
 Real API validation after backend starts:
 
 ```powershell
-python scripts/smoke_real_api.py --base-url http://localhost:8000
+python scripts/smoke_real_api.py --base-url http://localhost:8000 --summary-only --output-json _cache/smoke_real_api_latest.json
 ```

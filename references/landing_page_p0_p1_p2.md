@@ -106,11 +106,12 @@ Recommended first version:
 | Layer | Status | Notes |
 | ----- | ------ | ----- |
 | Agent mock payload | Ready | P0 can be displayed from mock flow |
-| Real API data | Blocked | Backend API not ready or started |
-| Database timestamps | Blocked | Requires real API/database model confirmation |
-| User directory | Blocked | Required for missing reports and onboarding |
+| Real API data | Ready for P0 contract | Real smoke covers Staff, Manager, Decision, Task create/query/update; frontend binding remains M3 |
+| Database timestamps | Ready for P0 contract | Backend models and real acceptance evidence include `created_at` / `updated_at` style trace fields |
+| User directory | Deferred for M3 | M2 uses stable test identities; production Feishu roster/profile API remains M3 |
 | Feishu knowledge refs | Ready | Lightweight refs are already attached to business payloads |
+| Onboarding | Ready as minimal flow | Use `references/onboarding_information_completion_min_flow.md`; full profile API is deferred |
 
-## Recommended 5.6 wording
+## Recommended 5.9 wording
 
-Landing Page P0/P1/P2 field planning is complete at the product and data-contract level. P0 can be prototyped using mock Agent payloads. Real data binding is blocked until the backend CRUD API is available.
+Landing Page P0/P1/P2 field planning is complete at the product and data-contract level. P0 can be prototyped from mock Agent payloads and bound to the real main-chain API once frontend work starts. Remaining work is frontend implementation, production roster/profile data binding, and P1/P2 analytics, all outside the HWT Milestone 2 code-side blocker scope.
