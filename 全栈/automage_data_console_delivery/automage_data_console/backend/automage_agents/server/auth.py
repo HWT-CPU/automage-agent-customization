@@ -187,8 +187,15 @@ def assert_manager_report_payload_allowed(
     if actor is None or actor.identity.role == AgentRole.EXECUTIVE:
         return
     requested_department_id = str(payload.get("dept_id") or payload.get("department_id") or "") or None
-    if actor.identity.department_id and requested_department_id and requested_department_id != actor.identity.department_id:
-        _raise_forbidden(actor, "Manager report is outside your RBAC scope", db=db)
+
+    # 跨部门 Manager 必须拒绝：Manager 只能提交本部门汇总
+    if actor.identity.department_id:
+        if requested_department_id and requested_department_id != actor.identity.department_id:
+            _raise_forbidden(actor, "Manager report is outside your RBAC scope (cross-dept)", db=db)
+        # auto-fill 缺失的 dept_id 为 Manager 自己部门，防止绕过校验
+        if not requested_department_id:
+            requested_department_id = actor.identity.department_id
+
     allowed = is_allowed(
         actor.identity,
         AccessRequest(

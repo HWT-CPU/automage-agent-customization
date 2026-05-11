@@ -96,8 +96,10 @@ def _same_owner(identity: AgentIdentity, request: AccessRequest) -> bool:
 
 
 def _same_department(identity: AgentIdentity, request: AccessRequest) -> bool:
-    if not identity.department_id or not request.department_id:
-        return True
+    if not identity.department_id:
+        return True  # No dept constraint on identity (legacy / exec)
+    if not request.department_id:
+        return False  # Can't verify department match — deny
     return request.department_id == identity.department_id
 
 
