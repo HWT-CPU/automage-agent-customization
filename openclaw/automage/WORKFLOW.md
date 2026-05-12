@@ -1,71 +1,76 @@
 # 墨智工作流程手册
 
 > 全链路闭环文档详见 [FULL_FLOW.md](./FULL_FLOW.md)
+> 最新修正：2026-05-13
 
 ---
 
 ## 三个核心原则
 
-1. **全流程在一会话内串行执行**——不拆到多个独立会话
-2. **推送 = 只转发，不分析**——隔离 Agent 无权启动自主流程
-3. **日期由第一步决定**——不依赖系统时间
+1. **全流程在一个主会话串行执行** — 不拆到多个隔离会话
+2. **推送 = 只转发，不分析** — 推送 Agent 无权启动自主流程
+3. **日期由员工日报决定** — 后续所有步骤用同一日期
 
 ---
 
-## 日报处理流程
+## ⚠️ 会话隔离
 
-当你收到类似"今天完成了X，遇到了Y问题..."的自然语言消息时：
+**每个聊天窗口（WebChat / 微信 / 飞书）是独立的 OpenClaw 会话。**
+- 老板在微信回 A/B → 由微信会话中的我处理决策落库
+- 操作员在 WebChat 配置 → 由当前会话中的我更新文件
+- **共享文件**保证所有会话知识一致
 
-1. 理解文本含义
-2. 提取结构化字段：
-   - work_progress: 核心工作内容
-   - issues_faced: 遇到的问题（数组）
-   - solution_attempt: 尝试的解决方案
-   - need_support: 是否需要领导支持（bool）
-   - next_day_plan: 明日计划
-   - risk_level: low/medium/high/critical
-   - resource_usage: 资源消耗（可选 object）
-3. 构造 POST /api/v1/report/staff 请求体（详见 FULL_FLOW.md Step 1）
-4. 携带 Staff 身份头 (X-Role: staff, X-User-Id: zhangsan) 发送请求
-5. 确认 200 返回后回复用户
+---
 
-## 部门汇总流程
+## 日报分析流程
 
-详见 FULL_FLOW.md Step 2-3。关键点：
+我收到部门日报数据后：
 
-- 用 Manager 身份（lijingli）查询和提交
-- 需要上传推标记（escalation_required）当存在高风险时
-- top_3_risks 必须是最严重的三个，不要超过三个
+1. LLM 理解每份日报的进展、问题、风险
+2. 提取结构化洞察
+3. 综合生成 Manager 汇总字段（详见 FULL_FLOW.md Step 3）
+4. 判断 `escalation_required`
 
-## Dream 决策流程
+---
 
-详见 FULL_FLOW.md Step 4。关键点：
+## A/B 决策方案（纯 LLM，无 API）
 
-- 用 Executive 身份（chenzong）调用
-- 返回的两个选项可能包含建议的 task_candidates，可复用
-- 用于后续的决策提交
+基于 Manager 汇总的 `top_3_risks` 和 `overall_health`，我直接用 LLM 生成：
 
-## WeChat 推送流程
+- **方案 A**：偏稳健/保守方向
+- **方案 B**：偏进取/变革方向
+- 每个方案附：策略说明、执行任务候选项、优先级
 
-详见 FULL_FLOW.md「WeChat 推送规范」。核心约束：
+输出格式推老板微信。
 
-- ⚠️ 不要用 `payload.kind: "agentTurn"` 的 isolation Agent 做"转发"
-- ⚠️ 推送内容的 AI prompt 必须强制约束：**只输出固定内容，不分析、不查询、不执行任何额外操作**
-- delivery.to 用老板的微信用户 ID（`o9cq80-...` 格式）
+---
 
-## 决策提交与任务下发流程
+## WeChat 推送
 
-详见 FULL_FLOW.md Step 5。关键点：
+推送内容格式和操作方法详见 FULL_FLOW.md「WeChat 推送规范」。
 
-- 老板确认方案后，用 Executive 身份提交决策
-- task_candidates 可以复用 Dream 返回的建议，也可以自定义
-- 提交后后端会自动创建任务并返回 task_ids
+关键约束：
+- ⚠️ 强制约束 Agent 只转发，不分析
+- delivery.to 用老板微信 Bot ID: `o9cq80-4ZTet7x8h6pGOsyDexBik@im.wechat`
+- 老板用户名：杨卓，微信号：YZ2315766973
+
+---
+
+## 决策提交与任务下发
+
+老板微信回复 A/B 后（在微信会话中）：
+
+1. 微信会话的我收到回复
+2. 构造 `POST /api/v1/decision/commit`（Executive 身份）
+3. 后端自动创建任务并返回 task_ids
+
+---
 
 ## 错误处理
 
 | 异常 | 含义 | 处理方式 |
 |------|------|---------|
-| 409 Conflict | 重复提交 | 查询已有记录，告知用户已存在 |
-| 403 Forbidden | 权限不足 | 检查当前 X-Role / X-User-Id 是否正确 |
-| 422 Validation Error | 字段不合法 | 根据 error detail 修正 |
-| 5xx | 后端故障 | 记录问题到 memory，告知用户稍后重试 |
+| 409 Conflict | 重复提交 | 查询已有记录，跳过 |
+| 403 Forbidden | 权限不足 | 检查 X-Role / X-User-Id |
+| 422 Validation | 字段不合法 | 根据 error detail 修正 |
+| 5xx | 后端故障 | 记录到 memory，下次重试 |

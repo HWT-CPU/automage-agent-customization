@@ -26,17 +26,17 @@
 
 ## AutoMage 系统架构
 
-### 三层 Agent 体系
+### 三层角色体系（角色模型 2026-05-13 修正）
 
-```
-日报文本（高熵、非结构化）
-    ↓ Staff Agent
-结构化记录（低熵、可聚合）
-    ↓ Manager Agent
-部门汇总 + 风险画像（跨域关联）
-    ↓ Executive Agent
-A/B 决策建议（可执行、可动手）
-```
+| 角色 | 谁 | 做什么 |
+|---|---|---|
+| **Staff** | 人类员工 | 提交日报 |
+| **Manager** | **我（墨智）** | 读日报 → 分析 → 生成汇总 → 判断是否需要老板介入 |
+| **Executive** | 人类老板（杨卓） | 确认/驳回我提的决策建议 |
+
+**修正要点：**
+- Manager 角色 = 墨智本人。`X-User-Id: lijingli` 是 API 权限凭证，不是有另外一个人叫李经理
+- 我不需要等
 
 ### 技术栈
 - 前端：React/Vite（localhost:8080）
@@ -44,38 +44,121 @@ A/B 决策建议（可执行、可动手）
 - 数据：PostgreSQL + Redis
 - 我：通过 OpenClaw 运行
 
-### 三个角色的权限边界
+### 三个角色的权限边界（2026-05-13 修正）
 
-| 角色 | 可读 | 可写 | 不可做 |
-|---|---|---|---|
-| Staff | 自己的日报和任务 | 提交自己日报 | 读别人日报、部门汇总、决策 |
-| Manager | 本部门日报 | 生成部门汇总、委派任务 | 跨部门数据、战略决策 |
-| Executive | 所有汇总和决策 | 提交决策、下发任务 | 绕过人工确认、直接写数据库 |
+| 角色 | 身份 | 可读 | 可写 | 不可做 |
+|---|---|---|---|---|
+| **Staff** | 人类员工 | 自己的日报和任务 | 提交自己日报 | 读别人日报、部门汇总、决策 |
+| **Manager** | **墨智（我）** | 本部门日报 | 生成部门汇总、委派任务 | 跨部门数据、战略决策 |
+| **Executive** | 人类老板（杨卓） | 所有汇总和决策 | 提交决策、下发任务 | 绕过人工确认、直接写数据库 |
+
+**重要：** `X-User-Id: lijingli` 是 Manager API 权限凭证，不是我的人类上司。我就是 Manager。
+
+### 全链路责任分工（2026-05-13 修正）
+
+| 环节 | 谁做 | 怎么做 |
+|---|---|---|
+| 员工日报落库 | **后端** | 员工调用 POST /api/v1/report/staff |
+| 读取日报 + 分析 | **我（墨智）** | GET /api/v1/report/staff → LLM 理解 |
+| 生成 Manager 汇总 | **我（墨智）** | LLM 生成 overall_health / aggregated_summary / top_3_risks / need_executive_decision → POST /api/v1/report/manager |
+| 生成 A/B 决策方案 | **我（墨智）** | LLM 根据汇总生成两个对比方案 → 直接推微信给老板 |
+| 老板确认 | **人类（杨卓）** | 微信回复 A 或 B |
+| 决策落库 | **我（墨智）** | POST /api/v1/decision/commit |
+
+### 我的每日工作流（2026-05-13 调度器版）
+
+我不再自己编排流程。改为每 2 分钟轮询调度器：
+
+```
+循环：
+  1. GET /internal/scheduler/pending
+  2. 有任务？→ 认领、执行、完成
+  3. 没任务？→ 等 2 分钟
+
+任务类型对应我做什么：
+  generate_manager_summary → 读日报 → LLM 分析 → POST /api/v1/report/manager
+  generate_dream_decision  → 我 LLM 生成 A/B → 推老板微信
+  remind_missing_staff     → 飞书通道提醒
+
+老板微信回复 A/B 发生在 WeChat 会话（隔离的），
+那次会话的我负责调 POST /api/v1/decision/commit。
+```
+
+### ⚠️ 会话隔离（重要！）
+
+### 新架构：调度器（Orchestrator）+ 我（Executor）
+
+**2026-05-13 升级：** 我不再自己记 cron、不再自己判断什么时候该做什么。改为轮询领取任务：
+
+**每 2 分钟轮询一次：**
+```
+1. GET /internal/scheduler/pending       → 查待办
+2. POST /internal/scheduler/claim/{id}   → 认领
+3. 按 instruction 执行
+4. POST /internal/scheduler/complete/{id} → 标记完成
+```
+
+**调度器确保：**
+- 每天有日报 → 自动创建汇总任务
+- 有高风险 → 自动创建决策推送任务
+- 有人未交日报 → 自动创建提醒任务
+- 我超时未领取 → 自动重试
+
+**任务类型：**
+| 类型 | 触发 | 我做什么 |
+|---|---|---|
+| `generate_manager_summary` | 有未汇总日报 | 读日报 → LLM 分析 → 写汇总 |
+| `generate_dream_decision` | 汇总需决策 | LLM 生成 A/B → 推微信 |
+| `remind_missing_staff` | 有人没交日报 | 推送到飞书提醒 |
+
+### ⚠️ 会话隔离（重要！）
+
+**每个聊天窗口是独立的 OpenClaw 会话**。
+- 老板在微信里回复的「我」= WeChat 通道的那个我（另一个会话窗口）
+- 操作员在 WebChat 教的「我」= 当前这个我
+- 但所有会话共享同一套文件（MEMORY.md / TOOLS.md / automage/ 等）
+- 所以：配置更新写文件，所有会话都能看见
+- 但：A/B 回复的处理发生在那次会话里，不跨会话
+
+**实际工作流**：
+1. 每日 cron job 在主线会话执行 Step 1-4（读日报→汇总→A/B→推微信）
+2. 老板在微信回复 → WeChat 会话中的我处理回复 → POST /api/v1/decision/commit
+3. 我在每个会话里独立判断环境，但共享同一套知识配置
+
+---
 
 ---
 
 ## 架构决策
 
-### 核心判断：我是业务编排者，不是 API 响应者
+### 核心判断：我是执行者（Executor），非编排者（Orchestrator）
 
-**现状（v0）：** 前端 → `/api/v1/agent/run` → LLMExecutor → DeepSeek API → 结构化输出
+**v0：** 前端 → `/api/v1/agent/run` → LLMExecutor → DeepSeek API
+**v1（旧见 MEMORY.md）：** 我自行 cron + 自行判断 → 主动编排
+**v2（当前）：** 调度器（Orchestrator）创建任务 → 我轮询领取 → 执行 → 标记完成
 
-**目标：** 我(墨智) 收到用户消息 → 自行判断意图 → 调用 automage Skill → 后端 API 保存 → 我组织回复
+这是"前端调 API"变为"智能体主动编排"。
 
-这不是换一个 LLM 供应商，而是把控制流从"前端调 API"变为"智能体主动编排"。
+### Skill 架构（2026-05-13 修正：A/B 方案由我 LLM 生成）
 
-### Skill 架构（确认方向）
-
-我会有一个 `automage` Skill，包含 6 个工具：
+我会有一个 `automage` Skill，包含以下 API 工具：
 
 | Tool | 对应后端 API | 用途 |
 |---|---|---|
-| `submit_staff_report` | POST /staff/reports | 结构化日报 |
-| `fetch_my_tasks` | GET /tasks | 查询任务 |
-| `analyze_team` | POST /manager/analyze | 日报分析 |
-| `submit_manager_report` | POST /manager/reports | 部门汇总 |
-| `run_dream_decision` | POST /executive/dream | A/B 方案 |
-| `commit_decision` | POST /executive/decisions | 确认决策 |
+| `get_staff_reports` | GET /api/v1/report/staff | 读取日报 |
+| `submit_manager_report` | POST /api/v1/report/manager | 部门汇总 |
+| `commit_decision` | POST /api/v1/decision/commit | 确认决策 |
+| `delegate_task` | POST /api/v1/tasks | 创建任务 |
+| `get_decision_card` | GET /internal/push/decision-card | 查询待推送决策卡片 |
+| `scheduler_pending` | GET /internal/scheduler/pending | 查待办任务 |
+| `scheduler_claim` | POST /internal/scheduler/claim/{id} | 认领任务 |
+| `scheduler_complete` | POST /internal/scheduler/complete/{id} | 标记任务完成 |
+
+> **注意：** 我不替员工交日报（`submit_staff_report` 是员工自己的事）。A/B 方案由我 LLM 生成，不调任何 API。
+
+> **调度器端点**位于 `localhost:8080`（无 `/api` 前缀）。
+
+> **A/B 方案生成不调 API**，由我（LLM）基于 manager 汇总直接生成两个对比方案，然后推微信给老板。
 
 调用时通过 X-User-Id / X-Role 头传递身份，后端 RBAC 负责鉴权。
 
@@ -129,7 +212,7 @@ A/B 决策建议（可执行、可动手）
 ### 迁移方案（最小改动）
 
 - ✅ 后端不动
-- ⏳ OpenClaw 侧定义 `automage` Skill（6 个工具）
+- ⏳ OpenClaw 侧定义 `automage` Skill（5 个 API 工具 + A/B 纯 LLM 生成）
 - ⏳ 前端去掉 LLMExecutor 调用，连我
 - ⏳ `agent_run_api.py` 变健康检查空壳
 
@@ -219,18 +302,20 @@ Body: {"collected_info": {"phone": "138...", "manager": "lijingli", "responsibil
 - 管理端/老板端仪表盘现在能看到日报内容详情（不只是数字）
 - 登录页新增忘记密码功能
 
-### 新增 API：决策卡片推送
+### 新增 API：决策卡片推送（辅助接口）
 
 - `GET /internal/push/decision-card?summary_date=YYYY-MM-DD` — 获取当天待推送的决策卡片
   - **端点位置：http://localhost:8080**（前端 Docker 容器，非 8000 后端）
   - 返回：当天汇总、待确认决策、未交日报员工列表、老板微信 ID
-  - 用途：我定时调此接口获取推送内容，通过微信发给老板
+  - 用途：辅助查询推送内容，但 A/B 方案本身由我 LLM 生成，不依赖此接口
 
-### 我的新任务
+### 我的每日任务（2026-05-13 调度器版）
 
-- 每天定时调 `GET /internal/push/decision-card?summary_date=<今天日期>`
-- 有待推送决策 → 通过微信发给老板
-- 老板回复 A/B 后 → `POST /api/v1/decision/commit` 确认
+1. 每 2 分钟轮询 `GET /internal/scheduler/pending`
+2. 有任务就领取 → 执行 → 标记完成
+3. 空闲时等下一次轮询
+
+调度器替我管了优先级和节奏。我不需要自己记住该做什么。
 
 ---
 
@@ -253,13 +338,14 @@ X-Level: l1_staff|l2_manager|l3_executive
 ### 生产环境特性
 
 - 认证已强制开启（Bearer Token）
-- 调度器已启用（每 5 分钟运行一次）
-  - `staff_daily_reminder_job` — 检查未提交日报员工
-  - `manager_summary_auto_generate_job` — 自动生成 Manager 汇总
-  - 汇总中 `need_executive_decision=true` 时自动触发 Dream 决策
-  - Dream 有结果时自动推送老板微信
 - Redis 反滥用保护已激活
 - 所有写操作需真实写入开关
+- **新调度器（Orchestrator）** 已上线：
+  - `GET /internal/scheduler/pending` 查询待办任务
+  - `POST /internal/scheduler/claim/{id}` 认领任务
+  - `POST /internal/scheduler/complete/{id}` 标记完成
+  - **我（Executor）** 每 2 分钟轮询领取并执行
+- 后端旧版调度器已替换，不再有每 5 分钟的 auto-summary/auto-Dream。
 
 ### 微信接入状态
 
@@ -293,13 +379,17 @@ X-Level: l1_staff|l2_manager|l3_executive
 
 → 修复：推送操作必须约束 Agent 只输出固定内容，不做任何分析。详见 `automage/FULL_FLOW.md`。
 
-**教训 2：全流程必须在一个主会话串行执行**
+**教训 2：会话隔离**
 
-不要把同一流程的多个步骤拆到多个独立会话。各通道的交互都应由墨智编排。
+每个聊天窗口（WebChat / 微信 / 飞书）是独立的 OpenClaw 会话。老板在微信回复 A/B 那次会话已经完成了决策 commit。但我必须在**所有会话中保持一致的配置知识**（跨会话共享文件）。
 
 **教训 3：日期硬编码，不依赖系统时间**
 
 所有 API 调用显式传入日期参数，流程日期由第一步确定，后续不变。
+
+**教训 4：Dream A/B 不是 API 调用，是我用 LLM 生成的**
+
+`POST /internal/dream/run` 在 v2 已废弃。我基于 Manager 汇总的 top_3_risks 直接用 LLM 生成两个对比方案。没有 mock，没有外部接口。
 
 ### 流程文档已沉淀
 
@@ -311,7 +401,7 @@ X-Level: l1_staff|l2_manager|l3_executive
 - 异常处理方案
 - 预定执行（cron）策略
 
-新的日报流程交互应参考此文档执行。
+> 已同步：FULL_FLOW.md 已更新，不包含任何 `/internal/dream/run` 引用。
 
 ---
 
@@ -337,6 +427,13 @@ X-Level: l1_staff|l2_manager|l3_executive
 - [x] 前端 Docker 全栈上线（localhost:8080）
 - [x] 微信推送通道测试验证通过（2026-05-13 01:29）
 - [x] API 端点修正：decision-card 走 8080 非 8000
-- [ ] 每日决策卡片推送 cron 首次执行验证
+- [x] A/B 方案由我 LLM 生成，不走 API（2026-05-13 修正）
+- [x] 会话隔离认知铭记（每个通道独立会话，共享文件配置）
+- [x] 更新 FULL_FLOW.md 去除 `/internal/dream/run` 引用
+- [x] A/B 方案 LLM 生成逻辑（已完成：基于汇总 top_3_risks 生成两个对比方案）
+- [x] 调度器架构升级（Orchestrator + Executor，我已执行过一轮）
+- [x] ~~设置每 2 分钟 cron job 轮询调度器~~ → 改用 heartbeat 轮询（isolated cron 启动太慢，2分钟不够）
+- [x] 调度器 6 个 Bug 已修复上线（类型匹配/幂等/双重流水线/webhook直推/去重范围/interval协调）
+- [x] heartbeat 轮询配置已更新到 HEARTBEAT.md
 - [ ] 新员工入职工作流第一个实操
-- [ ] 老板在微信回复 A/B 后确认决策的闭环测试
+- [ ] 老板在微信回复 A/B 后决策闭环验证
