@@ -3,33 +3,118 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
-  color: #0f172a;
-  background: #f4f7fb;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
+  --bg: #ffffff;
+  --bg-secondary: #f9fafb;
+  --border: #e5e7eb;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
 }
 
-html,
-body,
-#root {
-  margin: 0;
-  min-height: 100%;
+* { font-family: "Inter", "SF Pro Display", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+html, body, #root { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+
+body { background: var(--bg-secondary); }
+
+/* ===== 面板 — 纯白卡片，细边框，极轻微阴影 ===== */
+.panel {
+  @apply bg-white rounded-lg border border-gray-200;
 }
 
-body {
-  background:
-    radial-gradient(circle at 90% -20%, rgba(59, 130, 246, 0.25), transparent 40%),
-    radial-gradient(circle at 0% 110%, rgba(125, 211, 252, 0.22), transparent 42%),
-    #f4f7fb;
+/* ===== 统计卡片 — 左边框强调色 ===== */
+.stat-card {
+  @apply bg-white rounded-lg border border-gray-200 p-4;
+}
+.stat-card-accent {
+  @apply stat-card border-l-4 border-l-indigo-500;
 }
 
-.console-panel {
-  @apply rounded-2xl bg-white/70 shadow-sm backdrop-blur;
+/* ===== 按钮 ===== */
+.btn {
+  @apply inline-flex items-center justify-center gap-1.5 rounded-md px-3.5 py-2 text-sm font-medium transition-colors;
+}
+.btn-primary {
+  @apply btn bg-indigo-600 text-white hover:bg-indigo-700;
+}
+.btn-secondary {
+  @apply btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50;
+}
+.btn-ghost {
+  @apply btn text-gray-500 hover:text-gray-700 hover:bg-gray-100;
 }
 
-.console-title {
-  @apply text-lg font-semibold text-slate-900;
+/* ===== 侧边栏 — Linear 风格 ===== */
+.sidebar-link {
+  @apply flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-normal transition-colors;
+}
+.sidebar-link-active {
+  @apply bg-gray-100 text-gray-900 font-medium;
+}
+.sidebar-link-inactive {
+  @apply text-gray-500 hover:bg-gray-50 hover:text-gray-700;
 }
 
-.status-pill {
-  @apply rounded-full px-2 py-1 text-xs font-medium;
+/* ===== 导航栏 ===== */
+.topbar {
+  @apply sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-200;
+}
+
+/* ===== 标签 ===== */
+.badge {
+  @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium;
+}
+.badge-green  { @apply badge bg-emerald-50 text-emerald-700; }
+.badge-amber  { @apply badge bg-amber-50 text-amber-700; }
+.badge-red    { @apply badge bg-rose-50 text-rose-700; }
+.badge-blue   { @apply badge bg-blue-50 text-blue-700; }
+.badge-gray   { @apply badge bg-gray-100 text-gray-600; }
+
+/* ===== 输入框 ===== */
+.input {
+  @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm;
+  @apply placeholder:text-gray-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-200;
+}
+
+/* ===== 表格 ===== */
+table.data-table {
+  @apply w-full text-sm;
+}
+table.data-table th {
+  @apply border-b border-gray-200 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50;
+}
+table.data-table td {
+  @apply border-b border-gray-100 px-4 py-2.5 text-sm text-gray-700;
+}
+table.data-table tr:hover td {
+  @apply bg-gray-50;
+}
+
+/* ===== 细节展开 ===== */
+.expandable-row {
+  @apply cursor-pointer;
+}
+.detail-panel {
+  @apply bg-gray-50 rounded-md p-4 text-sm space-y-2;
+}
+
+/* ===== 登录页 — 极简 ===== */
+.login-bg {
+  background: var(--bg-secondary);
+}
+
+/* ===== Section 标题 ===== */
+.section-title {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+/* ===== 动画 ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: fadeIn 0.15s ease-out;
 }
