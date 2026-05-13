@@ -1,0 +1,39 @@
+{
+  "id": "automage-openclaw-bridge",
+  "enabledByDefault": false,
+  "skills": [
+    "./skills"
+  ],
+  "contracts": {
+    "tools": [
+      "automage_openclaw_event"
+    ]
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "default": "http://127.0.0.1:8000"
+      },
+      "timeoutMs": {
+        "type": "integer",
+        "minimum": 1000,
+        "default": 30000
+      }
+    }
+  },
+  "uiHints": {
+    "baseUrl": {
+      "label": "AutoMage Bridge URL",
+      "placeholder": "http://127.0.0.1:8000",
+      "help": "Windows AutoMage FastAPI base URL that exposes /openclaw/events."
+    },
+    "timeoutMs": {
+      "label": "AutoMage Bridge Timeout",
+      "placeholder": "30000",
+      "help": "HTTP timeout in milliseconds."
+    }
+  }
+}

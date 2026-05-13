@@ -112,6 +112,14 @@ python scripts/feishu_event_listener.py
 
 Then send private messages to the bot in Feishu.
 
+The command above uses the stable in-process route. To force each Feishu message through the real OpenClaw Agent/plugin path, first start the AutoMage API and OpenClaw gateway, then run:
+
+```powershell
+python scripts/feishu_event_listener.py --route-mode real-openclaw-agent --openclaw-agent main --openclaw-bridge-url http://127.0.0.1:8000
+```
+
+This route is `Feishu -> listener -> openclaw agent -> automage_openclaw_event -> /openclaw/events -> Hermes Skill -> Feishu reply`.
+
 ## Current boundary
 
 The current implementation is a local client/runtime implementation:

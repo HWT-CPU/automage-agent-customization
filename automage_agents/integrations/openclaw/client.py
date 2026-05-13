@@ -16,7 +16,15 @@ class LocalOpenClawClient:
 
     def submit_event(self, event: OpenClawEvent) -> OpenClawResponse:
         actor_user_id = self.user_mapping.get(event.actor_external_id, event.actor_external_id)
-        parsed = self.parser.parse(event.text)
+        missing_file_response = self._missing_feishu_file_response(event)
+        if missing_file_response is not None:
+            return missing_file_response
+        parsed = self.parser.parse(
+            event.text,
+            actor_user_id=actor_user_id,
+            manager_user_id=self.hermes_client.manager_context.identity.user_id,
+            payload=event.payload,
+        )
         hermes_response = self.hermes_client.invoke_skill(
             HermesInvokeRequest(
                 skill_name=parsed.skill_name,
@@ -34,6 +42,20 @@ class LocalOpenClawClient:
             reply_text=reply_text,
             hermes=hermes_response,
             error_code=hermes_response.result.error_code,
+        )
+
+    def _missing_feishu_file_response(self, event: OpenClawEvent) -> OpenClawResponse | None:
+        feishu_file = event.payload.get("feishu_file") if isinstance(event.payload, dict) else None
+        if not isinstance(feishu_file, dict) or not feishu_file.get("requested") or feishu_file.get("ok"):
+            return None
+        return OpenClawResponse(
+            ok=False,
+            event=event,
+            event_type=self.parser.config.routing.default_manager_feedback,
+            skill_name="generate_manager_report",
+            reply_text="没有收到可汇总的文件附件。请直接上传 .md/.txt/.docx/.xlsx 文件，或先上传文件后再回复“汇总这个员工日报文件”。",
+            hermes=None,
+            error_code="feishu_file_missing",
         )
 
     def _reply_text(self, event_type: str, message: str, data: dict, ok: bool) -> str:

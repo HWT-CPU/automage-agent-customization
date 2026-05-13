@@ -1,17 +1,36 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
+import subprocess
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from automage_agents.integrations.feishu.events import FeishuEventAdapter
 from automage_agents.integrations.feishu.messages import FeishuMessageAdapter
 from automage_agents.core.enums import InternalEventType
 from automage_agents.core.models import SkillResult
 from automage_agents.integrations.hermes import HermesOpenClawRuntime
-from scripts.feishu_event_listener import _load_user_mapping
+from scripts.feishu_event_listener import (
+    _build_real_openclaw_agent_message,
+    _extract_agent_reply_text,
+    _extract_feishu_file_metadata,
+    _extract_text_from_file_bytes,
+    _extract_tool_text,
+    _file_text_from_extraction,
+    _find_tool_summary,
+    _load_user_mapping,
+    _parse_json_object,
+    _prepare_feishu_file_event,
+    _run_real_openclaw_agent,
+    _tool_called,
+    FeishuFileExtraction,
+)
 
 
 class FeishuImFlowTests(unittest.TestCase):
@@ -64,6 +83,21 @@ class FeishuImFlowTests(unittest.TestCase):
 
         self.assertEqual(internal_event.actor_user_id, "staff_im_user_001")
         self.assertEqual(internal_event.event_type.value, "task_query_requested")
+
+    def test_feishu_event_adapter_maps_manager_summary_request(self) -> None:
+        adapter = FeishuEventAdapter(user_mapping={"ou_manager_001": "lijingli"})
+        event = adapter.from_message_receive_v1(
+            {
+                "event": {
+                    "sender": {"sender_id": {"open_id": "ou_manager_001"}},
+                    "message": {"message_id": "om_manager_summary", "content": json.dumps({"text": "请汇总这个员工日报文件"}, ensure_ascii=False)},
+                }
+            }
+        )
+        internal_event = adapter.to_internal_event(event)
+
+        self.assertEqual(internal_event.actor_user_id, "lijingli")
+        self.assertEqual(internal_event.event_type.value, "manager_feedback_submitted")
 
     def test_feishu_event_adapter_maps_dream_decision_request(self) -> None:
         adapter = FeishuEventAdapter(user_mapping={"ou_exec_001": "chenzong"})
@@ -232,6 +266,102 @@ class FeishuImFlowTests(unittest.TestCase):
 
         self.assertEqual(mapping, {"ou_json": "json_user", "ou_inline": "inline_user"})
 
+    def test_extracts_feishu_file_metadata_from_file_message_content(self) -> None:
+        metadata = _extract_feishu_file_metadata(
+            {
+                "message_type": "file",
+                "content": json.dumps({"file_key": "file_v2_abc", "file_name": "daily.md"}, ensure_ascii=False),
+            }
+        )
+
+        self.assertEqual(metadata["file_key"], "file_v2_abc")
+        self.assertEqual(metadata["file_name"], "daily.md")
+
+    def test_extracts_feishu_file_metadata_from_nested_attachment_content(self) -> None:
+        metadata = _extract_feishu_file_metadata(
+            {
+                "message_type": "text",
+                "content": json.dumps({"text": "Manager 汇总已生成，报告 ID：..."}, ensure_ascii=False),
+                "attachments": [
+                    {
+                        "file": {
+                            "file_key": "file_v2_nested",
+                            "name": "胡文涛日报（5月5日）.md",
+                        }
+                    }
+                ],
+            }
+        )
+
+        self.assertEqual(metadata["file_key"], "file_v2_nested")
+        self.assertEqual(metadata["file_name"], "胡文涛日报（5月5日）.md")
+
+    def test_prepare_feishu_file_event_downloads_text_file_into_message_text(self) -> None:
+        class FakeResponse:
+            file_name = "daily.md"
+            file = io.BytesIO("今天完成了文件解析。遇到的问题是需要验证。明天继续联调。".encode("utf-8"))
+
+            def success(self) -> bool:
+                return True
+
+        class FakeResource:
+            def get(self, request: object) -> FakeResponse:
+                return FakeResponse()
+
+        class FakeV1:
+            message_resource = FakeResource()
+
+        class FakeIm:
+            v1 = FakeV1()
+
+        class FakeClient:
+            im = FakeIm()
+
+        raw_event = {
+            "event": {
+                "sender": {"sender_id": {"open_id": "ou_staff_001"}},
+                "message": {
+                    "message_id": "om_file",
+                    "chat_id": "oc_test",
+                    "message_type": "file",
+                    "content": json.dumps({"file_key": "file_v2_abc", "file_name": "daily.md"}, ensure_ascii=False),
+                },
+            }
+        }
+
+        updated, extraction = _prepare_feishu_file_event(
+            FakeClient(),
+            raw_event,
+            max_bytes=2000,
+            max_chars=2000,
+        )
+        content = json.loads(updated["event"]["message"]["content"])
+
+        self.assertIsNotNone(extraction)
+        self.assertTrue(extraction.ok)
+        self.assertIn("今天完成了文件解析", content["text"])
+
+    def test_file_text_is_not_wrapped_by_listener_as_manager_summary_request(self) -> None:
+        text = _file_text_from_extraction(
+            FeishuFileExtraction(ok=True, text="员工完成了客户跟进，风险是合同模板未确认。", file_name="员工日报.md"),
+        )
+
+        self.assertNotIn("经理汇总", text)
+        self.assertIn("员工日报.md", text)
+
+    def test_extract_text_from_docx_bytes(self) -> None:
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as archive:
+            archive.writestr(
+                "word/document.xml",
+                '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>今天完成了 DOCX 解析。</w:t></w:r></w:p></w:body></w:document>',
+            )
+
+        text, truncated = _extract_text_from_file_bytes(buffer.getvalue(), "daily.docx", max_chars=2000)
+
+        self.assertFalse(truncated)
+        self.assertIn("今天完成了 DOCX 解析", text)
+
     def test_daily_report_success_reply_mentions_real_backend(self) -> None:
         adapter = FeishuMessageAdapter()
         message = adapter.build_processing_result_reply(
@@ -268,6 +398,118 @@ class FeishuImFlowTests(unittest.TestCase):
         self.assertIn("今天的日报已存在", message.body)
         self.assertIn("后端已拦截", message.body)
         self.assertIn("错误码：staff_report_conflict", message.body)
+
+    def test_real_openclaw_agent_prompt_requires_automage_tool(self) -> None:
+        prompt = _build_real_openclaw_agent_message(
+            text="查知识库 OpenAPI 契约",
+            actor_external_id="ou_staff_001",
+            event_id="om_test",
+            chat_id="oc_test",
+        )
+
+        self.assertIn("必须调用 automage_openclaw_event 工具", prompt)
+        self.assertIn('"actorExternalId": "ou_staff_001"', prompt)
+        self.assertIn('"channel": "feishu"', prompt)
+        self.assertIn("不要调用 memory_search", prompt)
+
+    def test_real_openclaw_agent_prompt_forwards_feishu_file_payload(self) -> None:
+        prompt = _build_real_openclaw_agent_message(
+            text="文件名：daily.md\n\n今天完成了文件解析。",
+            actor_external_id="ou_manager_001",
+            event_id="om_file",
+            chat_id="oc_test",
+            payload={"feishu_file": {"ok": True, "file_name": "daily.md"}},
+        )
+
+        self.assertIn('"payload": {"feishu_file": {"ok": true, "file_name": "daily.md"}}', prompt)
+
+    def test_real_openclaw_agent_tool_summary_detection(self) -> None:
+        stdout = 'noise\n{"result": {"toolSummary": {"calls": 1, "tools": ["automage_openclaw_event"], "failures": 0}, "response": "ok"}}'
+        parsed = _parse_json_object(stdout)
+        summary = _find_tool_summary(parsed)
+
+        self.assertEqual(summary["calls"], 1)
+        self.assertTrue(_tool_called(summary, stdout))
+
+    def test_real_openclaw_agent_reply_prefers_visible_text_over_json_response(self) -> None:
+        body = {
+            "result": {
+                "response": json.dumps({"ok": True, "reply": {"text": "不应该返回整段 JSON"}}, ensure_ascii=False),
+                "finalAssistantVisibleText": "知识库命中：OpenAPI 契约",
+            }
+        }
+
+        self.assertEqual(_extract_agent_reply_text(body), "知识库命中：OpenAPI 契约")
+
+    def test_real_openclaw_agent_reply_extracts_reply_text_from_json_string(self) -> None:
+        body = {
+            "result": {
+                "toolSummary": {"calls": 1, "tools": ["automage_openclaw_event"], "failures": 0},
+                "response": json.dumps({"ok": True, "reply": {"text": "当前没有待处理任务。"}}, ensure_ascii=False),
+            }
+        }
+
+        self.assertEqual(_extract_agent_reply_text(body), "当前没有待处理任务。")
+
+    def test_tool_reply_text_preferred_over_agent_fallback_text(self) -> None:
+        body = {
+            "result": {
+                "finalAssistantVisibleText": "OpenClaw Agent 已通过 automage_openclaw_event 处理该 Feishu 消息。",
+                "toolResults": [
+                    {
+                        "output": json.dumps(
+                            {"ok": True, "reply": {"text": "Manager 汇总已生成，报告 ID：SUM123"}},
+                            ensure_ascii=False,
+                        )
+                    }
+                ],
+            }
+        }
+
+        self.assertEqual(_extract_tool_text(body), "Manager 汇总已生成，报告 ID：SUM123")
+
+    def test_real_openclaw_agent_runner_invokes_wsl_agent_with_tool_prompt(self) -> None:
+        args = SimpleNamespace(
+            openclaw_wsl_path="/fake/bin",
+            openclaw_bridge_url="http://127.0.0.1:8000",
+            openclaw_wsl_distro="Ubuntu-22.04",
+            openclaw_bin="/fake/openclaw",
+            openclaw_agent="main",
+            openclaw_timeout_seconds=3,
+        )
+        completed = subprocess.CompletedProcess(
+            args=[],
+            returncode=0,
+            stdout=json.dumps(
+                {
+                    "result": {
+                        "toolSummary": {"calls": 1, "tools": ["automage_openclaw_event"], "failures": 0},
+                        "response": "知识库命中：OpenAPI 契约",
+                    }
+                },
+                ensure_ascii=False,
+            ),
+            stderr="",
+        )
+
+        with patch("scripts.feishu_event_listener.subprocess.run", return_value=completed) as mocked_run:
+            result = _run_real_openclaw_agent(
+                args,
+                text="查知识库 OpenAPI 契约",
+                actor_external_id="ou_staff_001",
+                event_id="om_test",
+                chat_id="oc_test",
+            )
+
+        command = mocked_run.call_args.args[0]
+        self.assertTrue(result.ok)
+        self.assertTrue(result.tool_called)
+        self.assertIn("/fake/openclaw", command)
+        self.assertIn("AUTOMAGE_OPENCLAW_BRIDGE_URL=http://127.0.0.1:8000", command)
+        self.assertIn("AUTOMAGE_OPENCLAW_ACTOR_ID=ou_staff_001", command)
+        self.assertIn("AUTOMAGE_OPENCLAW_ACCOUNT_ID=oc_test", command)
+        self.assertNotIn("OPENCLAW_ACCOUNT_ID=oc_test", command)
+        self.assertIn("必须调用 automage_openclaw_event 工具", command[command.index("--message") + 1])
 
 
 if __name__ == "__main__":

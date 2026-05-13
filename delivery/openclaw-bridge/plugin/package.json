@@ -1,0 +1,26 @@
+{
+  "name": "automage-openclaw-bridge",
+  "version": "0.1.0",
+  "description": "OpenClaw bridge plugin template for forwarding channel messages to AutoMage HTTP bridge.",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "openclaw": {
+    "name": "automage-openclaw-bridge",
+    "displayName": "AutoMage OpenClaw Bridge",
+    "description": "Forwards OpenClaw channel messages to AutoMage /openclaw/events.",
+    "entry": "./index.mjs",
+    "extensions": [
+      "./index.mjs"
+    ]
+  },
+  "keywords": [
+    "openclaw",
+    "automage",
+    "bridge",
+    "agent"
+  ],
+  "license": "UNLICENSED"
+}
