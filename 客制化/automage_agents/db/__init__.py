@@ -4,6 +4,7 @@ from automage_agents.db.base import Base
 from automage_agents.db.models import (
     AgentSessionModel,
     AuditLogModel,
+    BetaApplicationModel,
     DecisionRecordModel,
     DecisionLogModel,
     DepartmentModel,
@@ -34,6 +35,7 @@ from automage_agents.db.session import build_sqlalchemy_url, create_postgres_eng
 __all__ = [
     "AgentSessionModel",
     "AuditLogModel",
+    "BetaApplicationModel",
     "Base",
     "DecisionRecordModel",
     "DecisionLogModel",

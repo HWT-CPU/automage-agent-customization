@@ -33,11 +33,14 @@ from automage_agents.server.crud import (
 )
 from automage_agents.server.daily_report_api import router as daily_report_router
 from automage_agents.server.deps import get_db_session
+from automage_agents.server.hermes_skills_api import router as hermes_skills_router
 from automage_agents.server.middleware import AbuseProtectionMiddleware, RequestTrackingMiddleware
+from automage_agents.server.openclaw_bridge_api import router as openclaw_bridge_router
 from automage_agents.server.schemas import (
     AgentInitRequest,
     ApiConflictEnvelope,
     ApiEnvelope,
+    BetaApplicationCreateRequest,
     CrudWriteRequest,
     DecisionCommitRequest,
     DreamRunRequest,
@@ -51,11 +54,13 @@ from automage_agents.server.service import (
     commit_decision,
     ConflictError,
     create_agent_session,
+    create_beta_application,
     create_manager_report,
     create_staff_report,
     create_tasks,
     get_task_by_task_id,
     list_audit_logs,
+    list_beta_applications,
     list_manager_reports,
     list_staff_reports,
     list_tasks,
@@ -273,6 +278,8 @@ app = FastAPI(
 app.add_middleware(RequestTrackingMiddleware)
 app.add_middleware(AbuseProtectionMiddleware)
 app.include_router(daily_report_router)
+app.include_router(hermes_skills_router)
+app.include_router(openclaw_bridge_router)
 _settings = load_runtime_settings("configs/automage.local.toml")
 
 REPORT_READ_ROLES = require_roles(AgentRole.STAFF, AgentRole.MANAGER, AgentRole.EXECUTIVE)
@@ -493,6 +500,53 @@ def get_tasks(
     tasks = list_tasks(db, user_id=user_id, assignee_user_id=assignee_user_id, status=status)
     tasks = filter_tasks_for_actor(actor, tasks)
     return ApiEnvelope(code=200, data={"tasks": tasks}, msg="任务列表查询成功")
+
+
+@app.post(
+    "/api/v1/beta-applications",
+    response_model=ApiEnvelope,
+    summary="提交内测申请",
+    description="保存内测申请表单数据，供后续筛选和发放内测名额使用。",
+    responses=merge_responses(HTTP_422_RESPONSE),
+)
+def post_beta_application(
+    payload: BetaApplicationCreateRequest,
+    request: Request,
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    data = create_beta_application(
+        db,
+        payload.model_dump(),
+        request_id=getattr(request.state, "request_id", None),
+    )
+    return ApiEnvelope(code=200, data={"record": data}, msg="内测申请提交成功")
+
+
+@app.get(
+    "/api/v1/beta-applications",
+    response_model=ApiEnvelope,
+    summary="查询内测申请列表",
+    description="内部查询内测申请数据，便于筛选内测名单和后续跟进。",
+    responses=merge_responses(HTTP_403_RESPONSE, HTTP_422_RESPONSE),
+)
+def get_beta_application_list(
+    company_name: str | None = Query(default=None),
+    contact: str | None = Query(default=None),
+    review_status: str | None = Query(default=None),
+    source: str | None = Query(default=None),
+    limit: int = Query(default=100, ge=1, le=200),
+    actor: AuthenticatedActor | None = Depends(MANAGER_WRITE_ROLES),
+    db: Session = Depends(get_db_session),
+) -> ApiEnvelope:
+    applications = list_beta_applications(
+        db,
+        company_name=company_name,
+        contact=contact,
+        review_status=review_status,
+        source=source,
+        limit=limit,
+    )
+    return ApiEnvelope(code=200, data={"applications": applications}, msg="内测申请列表查询成功")
 
 
 @app.patch(

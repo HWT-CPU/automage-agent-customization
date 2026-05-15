@@ -16,6 +16,7 @@ from automage_agents.core.models import AgentIdentity
 from automage_agents.db.models import (
     AgentSessionModel,
     AuditLogModel,
+    BetaApplicationModel，
     DecisionLogModel,
     DecisionRecordModel,
     DepartmentModel,
@@ -126,6 +127,88 @@ def create_agent_session(db: Session, identity: AgentIdentity, request_id: str |
         "auth_status": "active",
         "identity": identity.to_dict(),
     }
+    def create_beta_application(
+        db: Session,
+        payload: dict[str, Any],
+        *,
+        request_id: str | None = None,
+    ) -> dict[str, Any]:
+        company_name = str(payload.get("company_name") or payload.get("company") or "").strip()
+        contact = str(
+            payload.get("contact")
+            or payload.get("phone_or_wechat")
+            or payload.get("mobile_or_wechat")
+            or payload.get("phone")
+            or payload.get("wechat")
+            or ""
+        ).strip()
+        team_size_value = payload.get("team_size")
+        if team_size_value in (None, ""):
+            team_size_value = payload.get("team_members")
+        team_size = str(team_size_value).strip()
+
+        meta = {
+            **dict(payload.get("meta") or {}),
+            "notes": payload.get("notes"),
+            "request_id": request_id,
+            "raw_payload": dict(payload),
+        }
+
+        row = BetaApplicationModel(
+            public_id=_public_id("BTA"),
+            name=str(payload.get("name") or "").strip(),
+            company_name=company_name,
+            contact=contact,
+            team_size=team_size,
+            review_status="pending",
+            slot_status="unassigned",
+            source=str(payload.get("source") or "landing_page").strip() or "landing_page",
+            meta=meta,
+        )
+        db.add(row)
+        db.flush()
+
+        _audit_write(
+            db,
+            action="create_beta_application",
+            target_type="beta_applications",
+            target_id=row.id,
+            summary=f"Created beta application {row.public_id}",
+            actor_user_id=None,
+            payload={
+                "beta_application_id": row.id,
+                "beta_application_public_id": row.public_id,
+                "company_name": row.company_name,
+                "source": row.source,
+            },
+            request_id=request_id,
+        )
+        db.commit()
+        db.refresh(row)
+        return _serialize_beta_application(row)
+
+
+    def list_beta_applications(
+        db: Session,
+        *,
+        company_name: str | None = None,
+        contact: str | None = None,
+        review_status: str | None = None,
+        source: str | None = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        query = db.query(BetaApplicationModel).filter(BetaApplicationModel.deleted_at.is_(None))
+        if company_name is not None:
+            query = query.filter(BetaApplicationModel.company_name.ilike(f"%{company_name.strip()}%"))
+        if contact is not None:
+            query = query.filter(BetaApplicationModel.contact.ilike(f"%{contact.strip()}%"))
+        if review_status is not None:
+            query = query.filter(BetaApplicationModel.review_status == review_status.strip())
+        if source is not None:
+            query = query.filter(BetaApplicationModel.source == source.strip())
+        rows = query.order_by(BetaApplicationModel.submitted_at.desc(), BetaApplicationModel.id.desc()).limit(limit).all()
+        return [_serialize_beta_application(row) for row in rows]
+
 
 
 def create_staff_report(
@@ -1426,6 +1509,25 @@ def _serialize_task(
         "created_at": row.created_at.isoformat() if row.created_at else None,
         "updated_at": row.updated_at.isoformat() if row.updated_at else None,
     }
+
+def _serialize_beta_application(row: BetaApplicationModel) -> dict[str, Any]:
+    return {
+        "id": row.id,
+        "application_id": row.id,
+        "application_public_id": row.public_id,
+        "name": row.name,
+        "company_name": row.company_name,
+        "contact": row.contact,
+        "team_size": row.team_size,
+        "review_status": row.review_status,
+        "slot_status": row.slot_status,
+        "source": row.source,
+        "submitted_at": row.submitted_at.isoformat() if row.submitted_at else None,
+        "created_at": row.created_at.isoformat() if row.created_at else None,
+        "updated_at": row.updated_at.isoformat() if row.updated_at else None,
+        "meta": dict(row.meta or {}),
+    }
+
 
 
 def _find_existing_staff_work_record(

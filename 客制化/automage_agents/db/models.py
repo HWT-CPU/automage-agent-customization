@@ -375,6 +375,27 @@ class TaskUpdateModel(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 
+class BetaApplicationModel(Base):
+    __tablename__ = "beta_applications"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    public_id: Mapped[str] = mapped_column(String(26), nullable=False, unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(128), nullable=False)
+    company_name: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
+    contact: Mapped[str] = mapped_column(String(128), nullable=False, index=True)
+    team_size: Mapped[str] = mapped_column(String(64), nullable=False)
+    review_status: Mapped[str] = mapped_column(String(32), nullable=False, default="pending", index=True)
+    slot_status: Mapped[str] = mapped_column(String(32), nullable=False, default="unassigned", index=True)
+    source: Mapped[str] = mapped_column(String(64), nullable=False, default="landing_page", index=True)
+    submitted_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False, index=True
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    meta: Mapped[dict] = mapped_column(JSON, default=dict, nullable=False)
+
+
 class AuditLogModel(Base):
     __tablename__ = "audit_logs"
 

@@ -175,6 +175,51 @@ class ManagerReportRequest(BaseModel):
         return self
 
 
+class BetaApplicationCreateRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="allow",
+        json_schema_extra={
+            "example": {
+                "name": "熊锦文",
+                "company_name": "AutoMage",
+                "contact": "13800138000",
+                "team_size": "11-50人",
+                "source": "landing_page",
+                "notes": "希望申请第一批内测名额。",
+            }
+        },
+    )
+
+    name: str = Field(description="申请人姓名")
+    company_name: str | None = Field(default=None, description="公司名称")
+    company: str | None = Field(default=None, description="公司名称别名字段")
+    contact: str | None = Field(default=None, description="手机号或微信")
+    phone_or_wechat: str | None = Field(default=None, description="手机号或微信别名字段")
+    mobile_or_wechat: str | None = Field(default=None, description="手机号或微信别名字段")
+    phone: str | None = Field(default=None, description="手机号别名字段")
+    wechat: str | None = Field(default=None, description="微信别名字段")
+    team_size: str | int | None = Field(default=None, description="团队人数")
+    team_members: str | int | None = Field(default=None, description="团队人数别名字段")
+    source: str | None = Field(default="landing_page", description="来源")
+    notes: str | None = Field(default=None, description="备注")
+    meta: dict[str, Any] = Field(default_factory=dict, description="附加元数据")
+
+    @model_validator(mode="after")
+    def validate_beta_application(self) -> "BetaApplicationCreateRequest":
+        if not str(self.name).strip():
+            raise ValueError("name is required")
+        company_name = self.company_name or self.company
+        if not str(company_name or "").strip():
+            raise ValueError("company_name is required")
+        contact = self.contact or self.phone_or_wechat or self.mobile_or_wechat or self.phone or self.wechat
+        if not str(contact or "").strip():
+            raise ValueError("contact is required")
+        team_size = self.team_size if self.team_size is not None else self.team_members
+        if team_size in (None, ""):
+            raise ValueError("team_size is required")
+        return self
+
+
 class DecisionCommitRequest(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
