@@ -1,0 +1,28 @@
+[hermes]
+enabled = true
+runtime_name = "automage-hermes-local"
+mode = "local"
+settings_path = "configs/automage.example.toml"
+use_mock_api = true
+skill_registry = "automage_agents.skills.registry.SKILL_REGISTRY"
+
+[hermes.context]
+org_id = "org-001"
+run_date = ""
+workflow_name = "automage_mvp_dag"
+source_channel = "mock"
+
+[hermes.agents.staff]
+enabled = true
+profile_path = "examples/user.staff.example.toml"
+workflow_stage = "staff_daily_report"
+
+[hermes.agents.manager]
+enabled = true
+profile_path = "examples/user.manager.example.toml"
+workflow_stage = "manager_summary"
+
+[hermes.agents.executive]
+enabled = true
+profile_path = "examples/user.executive.example.toml"
+workflow_stage = "executive_decision"

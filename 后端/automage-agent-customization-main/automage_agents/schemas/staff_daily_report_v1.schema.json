@@ -1,0 +1,927 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://automage.local/schemas/staff_daily_report_v1.schema.json",
+  "title": "AutoMage Staff Daily Report v1.0.0",
+  "description": "Normalized schema for the AutoMage staff daily report template. Designed for form_templates/work_records/work_record_items storage and optional compatibility with the current schema_v1_staff payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "basic_info",
+    "today_task_progress",
+    "today_completed_items",
+    "today_artifacts",
+    "today_blockers",
+    "support_requests",
+    "decision_requests",
+    "tomorrow_plans",
+    "cross_module_requests",
+    "risk_assessment",
+    "workflow_notes",
+    "daily_summary",
+    "sign_off"
+  ],
+  "properties": {
+    "schema_id": {
+      "type": "string",
+      "const": "schema_v1_staff_daily"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "v1.0.0"
+    },
+    "template_name": {
+      "type": "string",
+      "default": "AutoMage_2_Staff日报模板"
+    },
+    "source_markdown": {
+      "type": "string",
+      "description": "Optional raw markdown snapshot for traceability and replay."
+    },
+    "basic_info": {
+      "$ref": "#/$defs/basic_info"
+    },
+    "today_task_progress": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/task_progress_item"
+      },
+      "default": []
+    },
+    "today_completed_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/completed_item"
+      },
+      "default": []
+    },
+    "today_artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/artifact_item"
+      },
+      "default": []
+    },
+    "today_blockers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blocker_item"
+      },
+      "default": []
+    },
+    "support_requests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/support_request_item"
+      },
+      "default": []
+    },
+    "decision_requests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision_request_item"
+      },
+      "default": []
+    },
+    "tomorrow_plans": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tomorrow_plan_item"
+      },
+      "default": []
+    },
+    "cross_module_requests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cross_module_request_item"
+      },
+      "default": []
+    },
+    "risk_assessment": {
+      "$ref": "#/$defs/risk_assessment"
+    },
+    "workflow_notes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/workflow_note_item"
+      },
+      "default": []
+    },
+    "daily_summary": {
+      "$ref": "#/$defs/daily_summary"
+    },
+    "sign_off": {
+      "$ref": "#/$defs/sign_off"
+    },
+    "legacy_projection": {
+      "$ref": "#/$defs/legacy_projection"
+    }
+  },
+  "$defs": {
+    "status_code": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "blocked",
+        "done",
+        "cancelled",
+        "draft",
+        "confirmed"
+      ]
+    },
+    "priority_code": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "severity_code": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "basic_info": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_date",
+        "submitted_by",
+        "project_name",
+        "role_name",
+        "responsibility_module",
+        "work_types",
+        "report_status",
+        "self_confirmed",
+        "schema_id_ref",
+        "schema_version_ref",
+        "org_id",
+        "department_or_project_group",
+        "user_id",
+        "agent_node_id",
+        "submission_channel",
+        "related_template_name"
+      ],
+      "properties": {
+        "report_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "submitted_by": {
+          "type": "string"
+        },
+        "project_name": {
+          "type": "string",
+          "default": "AutoMage-2 MVP"
+        },
+        "role_name": {
+          "type": "string",
+          "description": "Human role label such as 杨卓 / 胡文涛 / 熊锦斯 / 其他."
+        },
+        "responsibility_module": {
+          "type": "string"
+        },
+        "work_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "architecture_design",
+              "schema",
+              "dag",
+              "backend",
+              "agent_customization",
+              "prompt",
+              "context",
+              "database",
+              "api",
+              "integration",
+              "documentation",
+              "other"
+            ]
+          },
+          "minItems": 1
+        },
+        "report_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "confirmed"
+          ]
+        },
+        "submitted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "self_confirmed": {
+          "type": "boolean"
+        },
+        "schema_id_ref": {
+          "type": "string",
+          "const": "schema_v1_staff"
+        },
+        "schema_version_ref": {
+          "type": "string",
+          "const": "v1.0.0"
+        },
+        "org_id": {
+          "type": "string"
+        },
+        "department_or_project_group": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "agent_node_id": {
+          "type": "string"
+        },
+        "submission_channel": {
+          "type": "string",
+          "enum": [
+            "im",
+            "web",
+            "agent",
+            "manual"
+          ]
+        },
+        "related_template_name": {
+          "type": "string",
+          "default": "Staff Daily Report Template"
+        }
+      }
+    },
+    "task_progress_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "task_name",
+        "today_result",
+        "previous_status",
+        "current_status",
+        "needs_follow_up"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "related_task_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_name": {
+          "type": "string"
+        },
+        "today_result": {
+          "type": "string"
+        },
+        "previous_status": {
+          "$ref": "#/$defs/status_code"
+        },
+        "current_status": {
+          "$ref": "#/$defs/status_code"
+        },
+        "completion_percent": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "needs_follow_up": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "completed_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "item_name",
+        "item_type",
+        "completion_detail",
+        "current_status",
+        "reusable_for_followup"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "item_name": {
+          "type": "string"
+        },
+        "item_type": {
+          "type": "string",
+          "enum": [
+            "document",
+            "code",
+            "interface",
+            "database",
+            "prompt",
+            "context",
+            "integration",
+            "test",
+            "meeting",
+            "decision",
+            "other"
+          ]
+        },
+        "completion_detail": {
+          "type": "string"
+        },
+        "current_status": {
+          "$ref": "#/$defs/status_code"
+        },
+        "evidence": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "artifact_uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "related_module": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reusable_for_followup": {
+          "type": "boolean"
+        }
+      }
+    },
+    "artifact_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "artifact_name",
+        "artifact_type"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "artifact_name": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "type": "string",
+          "enum": [
+            "document",
+            "sheet",
+            "diagram",
+            "code",
+            "interface",
+            "prompt",
+            "context",
+            "config",
+            "other"
+          ]
+        },
+        "main_content": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "usage_scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "current_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "synced": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "blocker_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "issue_name",
+        "issue_description",
+        "impact_scope",
+        "severity",
+        "is_blocking"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "issue_name": {
+          "type": "string"
+        },
+        "issue_description": {
+          "type": "string"
+        },
+        "impact_scope": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/severity_code"
+        },
+        "attempted_solution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_blocking": {
+          "type": "boolean"
+        },
+        "support_owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "support_request_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "need_support"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "need_support": {
+          "type": "boolean"
+        },
+        "support_item": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "support_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_support_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_completion_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "impact_if_unresolved": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "decision_option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "label"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "decision_request_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "decision_item",
+        "decision_level"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "decision_item": {
+          "type": "string"
+        },
+        "background": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decision_option"
+          },
+          "default": []
+        },
+        "recommended_option_key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decision_level": {
+          "type": "string",
+          "enum": [
+            "l1",
+            "l2",
+            "l3",
+            "l4"
+          ]
+        },
+        "suggested_escalation_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "impact_if_unconfirmed": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_confirmation_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "confirmed_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "tomorrow_plan_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "plan",
+        "priority",
+        "needs_collaboration"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "plan": {
+          "type": "string"
+        },
+        "expected_artifact": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "priority": {
+          "$ref": "#/$defs/priority_code"
+        },
+        "expected_completion_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dependencies": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "needs_collaboration": {
+          "type": "boolean"
+        }
+      }
+    },
+    "cross_module_request_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "line_no",
+        "counterpart",
+        "current_status"
+      ],
+      "properties": {
+        "line_no": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "counterpart": {
+          "type": "string"
+        },
+        "request_content": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "need_from_other_side": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "available_from_me": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expected_completion_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "current_status": {
+          "$ref": "#/$defs/status_code"
+        }
+      }
+    },
+    "risk_assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall_risk_level",
+        "needs_escalation"
+      ],
+      "properties": {
+        "overall_risk_level": {
+          "$ref": "#/$defs/severity_code"
+        },
+        "primary_risk_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "impacted_deliverables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "impacted_workflow_nodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "staff_report",
+              "manager_summary",
+              "executive_decision",
+              "task_dispatch",
+              "database_write",
+              "api_integration",
+              "agent_prompt",
+              "context",
+              "demo"
+            ]
+          },
+          "default": []
+        },
+        "suggested_mitigation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "needs_escalation": {
+          "type": "boolean"
+        },
+        "escalation_targets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      }
+    },
+    "workflow_note_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "note_type",
+        "target_roles",
+        "recommend_persist",
+        "validated"
+      ],
+      "properties": {
+        "note_type": {
+          "type": "string",
+          "enum": [
+            "context",
+            "prompt_rule",
+            "workflow_change"
+          ]
+        },
+        "content": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "target_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "staff",
+              "manager",
+              "executive"
+            ]
+          },
+          "minItems": 1
+        },
+        "recommend_persist": {
+          "type": "boolean"
+        },
+        "validated": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "daily_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "most_important_progress",
+        "biggest_issue",
+        "top_priority_tomorrow",
+        "team_attention_items"
+      ],
+      "properties": {
+        "most_important_progress": {
+          "type": "string"
+        },
+        "biggest_issue": {
+          "type": "string"
+        },
+        "top_priority_tomorrow": {
+          "type": "string"
+        },
+        "team_attention_items": {
+          "type": "string"
+        }
+      }
+    },
+    "sign_off": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "submitter_confirmation_text",
+        "confirmation_status"
+      ],
+      "properties": {
+        "submitter_confirmation_text": {
+          "type": "string",
+          "default": "我确认以上内容为今日真实工作记录"
+        },
+        "confirmation_status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "unconfirmed"
+          ]
+        },
+        "confirmed_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "confirmed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "legacy_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_id",
+        "timestamp",
+        "work_progress",
+        "issues_faced",
+        "solution_attempt",
+        "need_support",
+        "next_day_plan",
+        "resource_usage"
+      ],
+      "properties": {
+        "schema_id": {
+          "type": "string",
+          "const": "schema_v1_staff"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "work_progress": {
+          "type": "string"
+        },
+        "issues_faced": {
+          "type": "string"
+        },
+        "solution_attempt": {
+          "type": "string"
+        },
+        "need_support": {
+          "type": "boolean"
+        },
+        "next_day_plan": {
+          "type": "string"
+        },
+        "resource_usage": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

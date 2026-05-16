@@ -1,0 +1,23 @@
+{
+  "status_code": 409,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:09:15 GMT",
+    "server": "uvicorn",
+    "content-length": "296",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-patch-idem",
+    "x-process-time-ms": "93.86"
+  },
+  "json": {
+    "code": 409,
+    "data": null,
+    "msg": "任务更新冲突",
+    "error": {
+      "error_type": "conflict",
+      "error_code": "task_update_conflict",
+      "message": "任务 TSK0804083102 的相同 request_id 更新内容不一致",
+      "conflict_target": "task_update:task_id+request_id",
+      "request_id": "m2real-20260508040831-patch-idem"
+    }
+  }
+}

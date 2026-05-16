@@ -1,0 +1,54 @@
+configs/automage.local.toml
+configs/*.local.json
+automage.local.toml
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# Tool cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+automage_agents.egg-info/
+
+# Secrets
+.env
+*.env
+*.secret
+*.key
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+
+# Local logs
+*.log
+
+# Temporary markdown files
+tmp_*.md
+references/*.patch
+
+.vscode/
+.idea/
+
+# Generated helper assets
+_pdf_pages/
+_incoming/
+_cache/
+*.pdf
+*.docx
+*.xlsx
+
+# Local raw reference drops
+AutoMage_2_MVP_KB_v1.0.0/
+automage_m2_db_alignment/
+里程碑一_杨卓_交付v1.0.0/
+*.sql

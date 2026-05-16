@@ -1,0 +1,18 @@
+[user]
+node_id = "staff_agent_mvp_001"
+user_id = "zhangsan"
+role = "staff"
+level = "l1_staff"
+department_id = "dept_mvp_core"
+manager_node_id = "manager_agent_mvp_001"
+display_name = "张三"
+job_title = "销售顾问"
+responsibilities = ["提交日报", "处理下发任务", "反馈执行风险"]
+input_sources = ["飞书 IM", "Manager Agent 下发任务", "AutoMage 后端任务列表"]
+output_requirements = ["每日工作进度", "问题与阻塞", "解决尝试", "明日计划", "任务状态更新"]
+permission_notes = ["只能访问自己的日报和任务"]
+personalized_context = "本地真实后端联调 Staff 账号。"
+
+[user.metadata]
+org_id = "org_automage_mvp"
+feishu_open_id = "TODO"

@@ -1,0 +1,35 @@
+<svg width="760" height="460" viewBox="0 0 760 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="460" rx="24" fill="#F8FAFC"/>
+  <rect x="20" y="20" width="720" height="420" rx="18" fill="white" stroke="#E2E8F0"/>
+  <text x="40" y="56" fill="#0F172A" font-size="18" font-family="Inter">Data Trust Rail</text>
+  <text x="40" y="82" fill="#64748B" font-size="12" font-family="Inter">Schema -> API -> Database -> Audit</text>
+
+  <rect x="40" y="130" width="152" height="76" rx="12" fill="#E0F2FE"/>
+  <text x="56" y="158" fill="#075985" font-size="13" font-family="Inter">Schema</text>
+  <text x="56" y="178" fill="#0369A1" font-size="11" font-family="Inter">staff / manager / executive</text>
+
+  <rect x="224" y="130" width="152" height="76" rx="12" fill="#EDE9FE"/>
+  <text x="240" y="158" fill="#6D28D9" font-size="13" font-family="Inter">API</text>
+  <text x="240" y="178" fill="#7C3AED" font-size="11" font-family="Inter">report / decision / tasks</text>
+
+  <rect x="408" y="130" width="152" height="76" rx="12" fill="#DCFCE7"/>
+  <text x="424" y="158" fill="#166534" font-size="13" font-family="Inter">Database</text>
+  <text x="424" y="178" fill="#15803D" font-size="11" font-family="Inter">work_records / tasks / summaries</text>
+
+  <rect x="592" y="130" width="128" height="76" rx="12" fill="#FFE4E6"/>
+  <text x="608" y="158" fill="#9F1239" font-size="13" font-family="Inter">Audit</text>
+  <text x="608" y="178" fill="#BE123C" font-size="11" font-family="Inter">logs / hash / actor</text>
+
+  <line x1="194" y1="168" x2="222" y2="168" stroke="#0EA5E9" stroke-width="3"/>
+  <line x1="378" y1="168" x2="406" y2="168" stroke="#8B5CF6" stroke-width="3"/>
+  <line x1="562" y1="168" x2="590" y2="168" stroke="#22C55E" stroke-width="3"/>
+
+  <rect x="40" y="246" width="680" height="150" rx="14" fill="#0F172A"/>
+  <text x="60" y="276" fill="#E2E8F0" font-size="14" font-family="Inter">Proof Chips</text>
+  <g font-family="Inter" font-size="11">
+    <rect x="60" y="294" width="154" height="28" rx="14" fill="#1E293B"/><text x="74" y="312" fill="#BFDBFE">schema_v1_staff</text>
+    <rect x="224" y="294" width="170" height="28" rx="14" fill="#1E293B"/><text x="238" y="312" fill="#BFDBFE">POST /api/v1/report/staff</text>
+    <rect x="404" y="294" width="150" height="28" rx="14" fill="#1E293B"/><text x="418" y="312" fill="#BFDBFE">work_records</text>
+    <rect x="564" y="294" width="136" height="28" rx="14" fill="#1E293B"/><text x="578" y="312" fill="#BFDBFE">audit_logs</text>
+  </g>
+</svg>

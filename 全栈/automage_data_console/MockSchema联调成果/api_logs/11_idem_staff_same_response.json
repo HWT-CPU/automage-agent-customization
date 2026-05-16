@@ -1,0 +1,62 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:09:02 GMT",
+    "server": "uvicorn",
+    "content-length": "1061",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-11_idem_staff_same-3f5e033b",
+    "x-process-time-ms": "157.86"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "record": {
+        "work_record_id": 8,
+        "work_record_public_id": "wr_86cbbfe2ad43482da8cb29",
+        "staff_report_id": 9,
+        "incident_ids": [
+          2
+        ],
+        "created_incidents": [
+          {
+            "incident_id": 2,
+            "incident_public_id": "INCB80767B2504F40E48CE0BB",
+            "title": "Blocker 1",
+            "severity": "low",
+            "status": "open"
+          }
+        ],
+        "identity": {
+          "node_id": "staff_agent_mvp_001",
+          "user_id": "zhangsan",
+          "role": "staff",
+          "level": "l1_staff",
+          "department_id": "dept_mvp_core",
+          "manager_node_id": "manager_agent_mvp_001",
+          "metadata": {
+            "display_name": "zhangsan",
+            "org_id": "org_automage_mvp"
+          }
+        },
+        "report": {
+          "schema_id": "schema_v1_staff",
+          "timestamp": "2026-05-09T20:00:00+08:00",
+          "work_progress": "Agent prompt 第一版落地; Context 结构 v0 接入本地 Mock Demo; 本地 Mock Demo 主链路跑通",
+          "issues_faced": "Mock 字段与真实数据库字段仍需最终对齐",
+          "solution_attempt": "M2 real api integration",
+          "need_support": false,
+          "next_day_plan": "continue real api validation",
+          "resource_usage": {
+            "task_count": 1,
+            "completed_item_count": 0,
+            "artifact_count": 0,
+            "blocker_count": 1,
+            "decision_count": 0
+          }
+        }
+      }
+    },
+    "msg": "员工日报提交成功"
+  }
+}

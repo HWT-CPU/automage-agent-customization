@@ -1,0 +1,28 @@
+[hermes]
+enabled = true
+runtime_name = "automage-hermes-local"
+mode = "local"
+settings_path = "configs/automage.local.toml"  # ✅ 使用本地配置
+use_mock_api = false  # ✅ 关闭 Mock，使用真实 API
+skill_registry = "automage_agents.skills.registry.SKILL_REGISTRY"
+
+[hermes.context]
+org_id = "org_automage_mvp"  # ✅ 真实组织 ID
+run_date = ""
+workflow_name = "automage_mvp_dag"
+source_channel = "cli"  # ✅ 改为 cli
+
+[hermes.agents.staff]
+enabled = true
+profile_path = "examples/user.staff.local.toml"
+workflow_stage = "staff_daily_report"
+
+[hermes.agents.manager]
+enabled = true
+profile_path = "examples/user.manager.local.toml"
+workflow_stage = "manager_summary"
+
+[hermes.agents.executive]
+enabled = true
+profile_path = "examples/user.executive.local.toml"
+workflow_stage = "executive_decision"

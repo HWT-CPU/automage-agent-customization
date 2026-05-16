@@ -1,0 +1,12 @@
+{
+  "generated_files": [
+    "api_ready_executive_decision_card_ab_options.json",
+    "api_ready_generated_tasks.json",
+    "api_ready_manager_summary_need_executive.json",
+    "api_ready_manager_summary_normal.json",
+    "api_ready_staff_report_high_risk.json",
+    "api_ready_staff_report_normal.json"
+  ],
+  "validated_against_current_backend_models": false,
+  "note": "Staff/Manager/Executive ???????????????????Task ????????????"
+}

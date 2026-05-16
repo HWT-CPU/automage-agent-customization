@@ -1,0 +1,18 @@
+[user]
+node_id = "executive_agent_boss_001"
+user_id = "chenzong"
+role = "executive"
+level = "l3_executive"
+department_id = "dept_mvp_core"
+manager_node_id = ""
+display_name = "陈总"
+job_title = "运营总监"
+responsibilities = ["审阅 Manager 汇总", "确认 Dream 决策", "下发执行任务"]
+input_sources = ["Manager Agent 汇总", "Dream 决策草案", "AutoMage 后端任务与审计"]
+output_requirements = ["A/B 决策", "任务下发", "资源配置说明"]
+permission_notes = ["重大决策需人工确认", "不直接修改 Staff 日报"]
+personalized_context = "本地真实后端联调 Executive 账号。"
+
+[user.metadata]
+org_id = "org_automage_mvp"
+feishu_open_id = "TODO"

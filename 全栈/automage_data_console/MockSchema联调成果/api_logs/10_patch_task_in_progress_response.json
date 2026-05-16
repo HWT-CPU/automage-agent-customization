@@ -1,0 +1,45 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:57 GMT",
+    "server": "uvicorn",
+    "content-length": "844",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-patch-1",
+    "x-process-time-ms": "307.56"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "task": {
+        "id": 22,
+        "task_id": "TSK0804083102",
+        "assignee_user_id": "zhangsan",
+        "title": "M2真实联调任务-POST/tasks补测",
+        "description": "staff started task",
+        "status": "in_progress",
+        "priority": "medium",
+        "task_payload": {
+          "org_id": "org_automage_mvp",
+          "status": "pending",
+          "task_id": "TSK0804083102",
+          "priority": "medium",
+          "task_title": "M2真实联调任务-POST/tasks补测",
+          "department_id": "dept_mvp_core",
+          "org_numeric_id": 1,
+          "creator_user_id": "lijingli",
+          "manager_node_id": "manager_agent_mvp_001",
+          "manager_user_id": "lijingli",
+          "assignee_node_id": "staff_agent_mvp_001",
+          "assignee_user_id": "zhangsan",
+          "task_description": "create task directly",
+          "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+          "department_numeric_id": 2
+        },
+        "created_at": "2026-05-07T20:08:49.347372+00:00",
+        "updated_at": "2026-05-07T20:08:58.009544+00:00"
+      }
+    },
+    "msg": "任务更新成功"
+  }
+}

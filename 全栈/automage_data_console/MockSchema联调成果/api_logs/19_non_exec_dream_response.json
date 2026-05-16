@@ -1,0 +1,14 @@
+{
+  "status_code": 403,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:09:21 GMT",
+    "server": "uvicorn",
+    "content-length": "64",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-19_non_exec_dream-c0dfea18",
+    "x-process-time-ms": "2.15"
+  },
+  "json": {
+    "detail": "Role manager is not allowed to access this resource"
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 3,
+    "public_id": "INC59FC17DD392649BB995410",
+    "source_record_id": 9,
+    "reporter_user_id": 3,
+    "severity": 3,
+    "status": 0,
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 2,
+    "public_id": "INCB80767B2504F40E48CE0BB",
+    "source_record_id": 8,
+    "reporter_user_id": 3,
+    "severity": 1,
+    "status": 0,
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 1,
+    "public_id": "INCA0AFE997A76043DC8EFE3F",
+    "source_record_id": 7,
+    "reporter_user_id": 4,
+    "severity": 2,
+    "status": 0,
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  }
+]

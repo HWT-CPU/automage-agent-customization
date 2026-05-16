@@ -1,0 +1,63 @@
+"""PostgreSQL helpers for AutoMage-2."""
+
+from automage_agents.db.base import Base
+from automage_agents.db.models import (
+    AgentSessionModel,
+    AuditLogModel,
+    DecisionRecordModel,
+    DecisionLogModel,
+    DepartmentModel,
+    FormTemplateModel,
+    FormalDecisionLogModel,
+    IncidentModel,
+    IncidentUpdateModel,
+    ManagerReportModel,
+    OrganizationModel,
+    StaffReportModel,
+    SummaryModel,
+    SummarySourceLinkModel,
+    TaskAssignmentModel,
+    TaskModel,
+    TaskQueueModel,
+    TaskUpdateModel,
+    UserModel,
+    WorkRecordItemModel,
+    WorkRecordModel,
+)
+from automage_agents.db.postgres import (
+    PostgresHealthCheckResult,
+    check_postgres_connection,
+    connect_postgres,
+)
+from automage_agents.db.session import build_sqlalchemy_url, create_postgres_engine, create_session_factory
+
+__all__ = [
+    "AgentSessionModel",
+    "AuditLogModel",
+    "Base",
+    "DecisionRecordModel",
+    "DecisionLogModel",
+    "DepartmentModel",
+    "FormTemplateModel",
+    "FormalDecisionLogModel",
+    "IncidentModel",
+    "IncidentUpdateModel",
+    "ManagerReportModel",
+    "OrganizationModel",
+    "PostgresHealthCheckResult",
+    "StaffReportModel",
+    "SummaryModel",
+    "SummarySourceLinkModel",
+    "TaskAssignmentModel",
+    "TaskModel",
+    "TaskQueueModel",
+    "TaskUpdateModel",
+    "UserModel",
+    "WorkRecordItemModel",
+    "WorkRecordModel",
+    "build_sqlalchemy_url",
+    "check_postgres_connection",
+    "connect_postgres",
+    "create_postgres_engine",
+    "create_session_factory",
+]

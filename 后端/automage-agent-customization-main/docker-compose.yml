@@ -1,0 +1,35 @@
+services:
+  api:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      AUTOMAGE_ABUSE_PROTECTION_ENABLED: "true"
+      AUTOMAGE_ABUSE_PROTECTION_BACKEND: "redis"
+      AUTOMAGE_REDIS_URL: "redis://:automage@redis:6379/0"
+      AUTOMAGE_REDIS_KEY_PREFIX: "automage"
+    command: ["sh", "-c", "python scripts/init_db.py && python scripts/run_api.py"]
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.0
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "automage"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - automage_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "automage", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  automage_redis_data:

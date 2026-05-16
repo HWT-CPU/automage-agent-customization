@@ -1,0 +1,26 @@
+<svg width="760" height="460" viewBox="0 0 760 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="460" rx="24" fill="#F8FAFC"/>
+  <rect x="18" y="18" width="724" height="424" rx="18" fill="white" stroke="#E2E8F0"/>
+  <text x="40" y="56" fill="#0F172A" font-size="18" font-family="Inter">Executive Decision Exhibit</text>
+  <text x="40" y="82" fill="#64748B" font-size="12" font-family="Inter">DEC-20260506-001 / Source: MVP Core Summary</text>
+
+  <rect x="40" y="104" width="680" height="80" rx="14" fill="#F1F5F9"/>
+  <text x="56" y="132" fill="#0F172A" font-size="14" font-family="Inter">Should API and Skill minimal chain be prioritized?</text>
+  <text x="56" y="156" fill="#475569" font-size="12" font-family="Inter">AI compresses complexity into A/B options; human keeps final confirmation.</text>
+
+  <rect x="40" y="204" width="328" height="160" rx="14" fill="#E0F2FE"/>
+  <text x="56" y="234" fill="#075985" font-size="14" font-family="Inter">Option A / Main chain first</text>
+  <text x="56" y="258" fill="#0369A1" font-size="12" font-family="Inter">Fix Staff, Manager, Task APIs first</text>
+  <text x="56" y="278" fill="#0369A1" font-size="12" font-family="Inter">Reduce M3 integration risk</text>
+  <rect x="56" y="316" width="110" height="30" rx="15" fill="#0EA5E9"/>
+  <text x="82" y="336" fill="white" font-size="12" font-family="Inter">Confirm A</text>
+
+  <rect x="392" y="204" width="328" height="160" rx="14" fill="#F3E8FF"/>
+  <text x="408" y="234" fill="#6D28D9" font-size="14" font-family="Inter">Option B / Parallel streams</text>
+  <text x="408" y="258" fill="#7C3AED" font-size="12" font-family="Inter">Keep expansion and integration together</text>
+  <text x="408" y="278" fill="#7C3AED" font-size="12" font-family="Inter">Higher risk on core chain</text>
+  <rect x="408" y="316" width="130" height="30" rx="15" fill="#C4B5FD"/>
+  <text x="430" y="336" fill="#4C1D95" font-size="12" font-family="Inter">Need More Info</text>
+
+  <text x="40" y="396" fill="#64748B" font-size="12" font-family="Inter">Recommended: A / Status: pending / Risk: manager_cross_dept non-blocking</text>
+</svg>

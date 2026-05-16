@@ -1,0 +1,31 @@
+<svg width="740" height="420" viewBox="0 0 740 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lineG" x1="140" y1="80" x2="620" y2="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="740" height="420" rx="24" fill="#F8FAFC"/>
+  <rect x="16" y="16" width="708" height="388" rx="18" stroke="#CBD5E1"/>
+
+  <rect x="72" y="76" width="180" height="90" rx="16" fill="#E0F2FE"/>
+  <text x="92" y="108" fill="#0C4A6E" font-size="16" font-family="Inter">Staff Agent</text>
+  <text x="92" y="132" fill="#0369A1" font-size="12" font-family="Inter">Fact capture / Task update</text>
+
+  <rect x="286" y="166" width="180" height="90" rx="16" fill="#EDE9FE"/>
+  <text x="306" y="198" fill="#4C1D95" font-size="16" font-family="Inter">Manager Agent</text>
+  <text x="306" y="222" fill="#6D28D9" font-size="12" font-family="Inter">Merge judgement / Risk push</text>
+
+  <rect x="500" y="256" width="180" height="90" rx="16" fill="#DCFCE7"/>
+  <text x="520" y="288" fill="#14532D" font-size="16" font-family="Inter">Executive / Dream</text>
+  <text x="520" y="312" fill="#15803D" font-size="12" font-family="Inter">Decision confirm / Task issue</text>
+
+  <path d="M252 122C282 128 286 166 286 184" stroke="url(#lineG)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M466 212C498 220 500 258 500 276" stroke="url(#lineG)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M590 256C606 224 564 192 472 178" stroke="#22C55E" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="548" y="212" fill="#166534" font-size="11" font-family="Inter">Feedback loop</text>
+
+  <circle cx="286" cy="184" r="8" fill="#38BDF8"/>
+  <circle cx="500" cy="276" r="8" fill="#8B5CF6"/>
+  <circle cx="472" cy="178" r="8" fill="#22C55E"/>
+</svg>

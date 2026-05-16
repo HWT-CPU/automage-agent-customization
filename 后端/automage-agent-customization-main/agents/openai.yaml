@@ -1,0 +1,3 @@
+display_name: AutoMage Alignment
+short_description: Keep AutoMage code changes aligned with the project's DDL, ER, and API contracts.
+default_prompt: Align this AutoMage change with the project's source-of-truth docs before implementing.

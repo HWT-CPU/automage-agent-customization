@@ -1,0 +1,12 @@
+{
+  "document_name": "AutoMage_2_MVP_架构设计文档v1.0.0.pdf",
+  "version": "v1.0.0",
+  "page_count": 438,
+  "language": "zh-CN",
+  "source_type": "architecture_design_document",
+  "source_of_truth": true,
+  "kb_root": "agent\\AutoMage_2_MVP_KB_v1.0.0",
+  "generated_at_utc": "2026-05-06T20:00:02.756820+00:00",
+  "toc_level1_count": 25,
+  "pymupdf_version": "1.27.2.3"
+}

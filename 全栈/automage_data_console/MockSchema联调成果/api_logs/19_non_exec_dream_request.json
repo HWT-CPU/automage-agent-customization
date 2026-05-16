@@ -1,0 +1,18 @@
+{
+  "method": "POST",
+  "url": "http://localhost:8000/internal/dream/run",
+  "params": {},
+  "headers": {
+    "X-User-Id": "lijingli",
+    "X-Role": "manager",
+    "X-Node-Id": "manager_agent_mvp_001",
+    "X-Level": "l2_manager",
+    "X-Department-Id": "dept_mvp_core",
+    "Content-Type": "application/json",
+    "X-Manager-Node-Id": "executive_agent_boss_001",
+    "X-Request-Id": "m2real-20260508040831-19_non_exec_dream-c0dfea18"
+  },
+  "body": {
+    "summary_id": "SUM8426FDA43C2F4767BACE55"
+  }
+}

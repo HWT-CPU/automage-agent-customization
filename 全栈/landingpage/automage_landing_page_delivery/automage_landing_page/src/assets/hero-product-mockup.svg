@@ -1,0 +1,85 @@
+<svg width="920" height="620" viewBox="0 0 920 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="80" y1="40" x2="840" y2="580" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1226"/>
+      <stop offset="0.52" stop-color="#111C3A"/>
+      <stop offset="1" stop-color="#0B1020"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="300" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E293B"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="shadow" x="88" y="62" width="744" height="504" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="920" height="620" rx="28" fill="url(#bgGrad)"/>
+  <g filter="url(#shadow)">
+    <rect x="110" y="84" width="700" height="460" rx="18" fill="#0B1327"/>
+    <rect x="110.5" y="84.5" width="699" height="459" rx="17.5" stroke="#334155" stroke-opacity="0.6"/>
+  </g>
+
+  <rect x="110" y="84" width="700" height="40" rx="18" fill="#0F172A"/>
+  <circle cx="140" cy="104" r="5" fill="#F87171"/>
+  <circle cx="158" cy="104" r="5" fill="#FBBF24"/>
+  <circle cx="176" cy="104" r="5" fill="#34D399"/>
+  <rect x="208" y="95" width="210" height="18" rx="9" fill="#1E293B"/>
+  <text x="220" y="108" fill="#93C5FD" font-size="10" font-family="Inter">AutoMage-2 Executive Dashboard</text>
+  <rect x="672" y="94" width="120" height="20" rx="10" fill="#065F46"/>
+  <text x="686" y="108" fill="#A7F3D0" font-size="10" font-family="Inter">MVP P0 / Demo Mode</text>
+
+  <rect x="130" y="146" width="148" height="380" rx="12" fill="#111827"/>
+  <text x="146" y="172" fill="#E2E8F0" font-size="12" font-family="Inter">Agent Nodes</text>
+  <rect x="146" y="188" width="116" height="72" rx="10" fill="#172554"/>
+  <text x="156" y="210" fill="#BFDBFE" font-size="11" font-family="Inter">Staff Agent</text>
+  <text x="156" y="228" fill="#93C5FD" font-size="10" font-family="Inter">Facts intake / Task loop</text>
+  <rect x="146" y="274" width="116" height="72" rx="10" fill="#1E1B4B"/>
+  <text x="156" y="296" fill="#DDD6FE" font-size="11" font-family="Inter">Manager Agent</text>
+  <text x="156" y="314" fill="#C4B5FD" font-size="10" font-family="Inter">Merge risks / Summary</text>
+  <rect x="146" y="360" width="116" height="72" rx="10" fill="#0F3B47"/>
+  <text x="156" y="382" fill="#99F6E4" font-size="11" font-family="Inter">Executive / Dream</text>
+  <text x="156" y="400" fill="#5EEAD4" font-size="10" font-family="Inter">Decision / Task issue</text>
+
+  <rect x="298" y="146" width="278" height="180" rx="12" fill="url(#cardGrad)"/>
+  <text x="316" y="172" fill="#F8FAFC" font-size="13" font-family="Inter">Org Health &amp; Risk</text>
+  <rect x="316" y="186" width="242" height="1" fill="#334155"/>
+  <text x="316" y="208" fill="#CBD5E1" font-size="11" font-family="Inter">Health: Yellow</text>
+  <rect x="394" y="198" width="124" height="10" rx="5" fill="#374151"/>
+  <rect x="394" y="198" width="72" height="10" rx="5" fill="#F59E0B"/>
+  <text x="316" y="232" fill="#CBD5E1" font-size="11" font-family="Inter">Pending decisions: 1 | Risks: 2</text>
+  <text x="316" y="252" fill="#CBD5E1" font-size="11" font-family="Inter">Tasks: Pending 1 / In progress 1 / Done 1</text>
+  <text x="316" y="272" fill="#CBD5E1" font-size="11" font-family="Inter">Trust chain: Schema / API / DB / Audit</text>
+  <text x="316" y="292" fill="#FCA5A5" font-size="11" font-family="Inter">Risk: manager_cross_dept not rejected</text>
+
+  <rect x="594" y="146" width="196" height="300" rx="12" fill="#0F172A"/>
+  <text x="610" y="170" fill="#F8FAFC" font-size="13" font-family="Inter">Executive Decision Card</text>
+  <text x="610" y="194" fill="#C7D2FE" font-size="10" font-family="Inter">Freeze API / Skill minimal chain first?</text>
+  <rect x="610" y="206" width="164" height="74" rx="10" fill="#172554"/>
+  <text x="620" y="226" fill="#BFDBFE" font-size="10" font-family="Inter">Option A: Main loop first</text>
+  <text x="620" y="242" fill="#93C5FD" font-size="9" font-family="Inter">Fix Staff / Manager / Task API</text>
+  <text x="620" y="256" fill="#93C5FD" font-size="9" font-family="Inter">Lower integration risk</text>
+  <rect x="610" y="288" width="164" height="74" rx="10" fill="#312E81"/>
+  <text x="620" y="308" fill="#DDD6FE" font-size="10" font-family="Inter">Option B: Parallel streams</text>
+  <text x="620" y="324" fill="#C4B5FD" font-size="9" font-family="Inter">More output breadth</text>
+  <text x="620" y="338" fill="#C4B5FD" font-size="9" font-family="Inter">Higher risk on core chain</text>
+  <rect x="610" y="374" width="74" height="24" rx="12" fill="#0369A1"/>
+  <text x="622" y="390" fill="#E0F2FE" font-size="10" font-family="Inter">Confirm A</text>
+  <rect x="700" y="374" width="74" height="24" rx="12" fill="#334155"/>
+  <text x="712" y="390" fill="#E2E8F0" font-size="10" font-family="Inter">Need info</text>
+
+  <rect x="298" y="340" width="278" height="186" rx="12" fill="#111827"/>
+  <text x="316" y="364" fill="#F8FAFC" font-size="13" font-family="Inter">Task Timeline</text>
+  <line x1="322" y1="392" x2="548" y2="392" stroke="#1E40AF" stroke-width="2"/>
+  <circle cx="334" cy="392" r="6" fill="#F59E0B"/>
+  <circle cx="392" cy="392" r="6" fill="#38BDF8"/>
+  <circle cx="450" cy="392" r="6" fill="#F87171"/>
+  <circle cx="508" cy="392" r="6" fill="#34D399"/>
+  <text x="318" y="414" fill="#CBD5E1" font-size="10" font-family="Inter">Pending</text>
+  <text x="374" y="414" fill="#CBD5E1" font-size="10" font-family="Inter">In progress</text>
+  <text x="438" y="414" fill="#CBD5E1" font-size="10" font-family="Inter">Blocked</text>
+  <text x="500" y="414" fill="#CBD5E1" font-size="10" font-family="Inter">Done</text>
+  <text x="316" y="446" fill="#93C5FD" font-size="10" font-family="Inter">TASK-BE-001 API sample delivery</text>
+  <text x="316" y="462" fill="#93C5FD" font-size="10" font-family="Inter">TASK-AG-001 real API integration</text>
+  <text x="316" y="478" fill="#FCA5A5" font-size="10" font-family="Inter">TASK-SEC-001 close RBAC risk</text>
+</svg>

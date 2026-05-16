@@ -1,0 +1,194 @@
+﻿{
+  "identity": {
+    "node_id": "manager_agent_mvp_001",
+    "user_id": "lijingli",
+    "role": "manager",
+    "level": "l2_manager",
+    "department_id": "dept_mvp_core",
+    "manager_node_id": null,
+    "metadata": {
+      "source_mock_file": "mock_manager_summary_need_executive.json",
+      "mock_case": "need_executive",
+      "summary_type": "department_daily"
+    }
+  },
+  "report": {
+    "schema_id": "schema_v1_manager",
+    "schema_version": "1.0.0",
+    "timestamp": "2026-05-06T21:15:00+08:00",
+    "org_id": "org_automage_mvp",
+    "dept_id": "dept_mvp_core",
+    "manager_user_id": "lijingli",
+    "manager_node_id": "manager_agent_mvp_001",
+    "summary_date": "2026-05-06",
+    "staff_report_count": 2,
+    "missing_report_count": 0,
+    "missing_staff_ids": [],
+    "overall_health": "yellow",
+    "aggregated_summary": "閲岀▼纰戜簩鏈湴 Mock 閾捐矾宸插叿澶囩户缁獙璇佸熀纭€锛孉gent 渚?prompt銆乧ontext 涓?mock demo 杩涘睍姝ｅ父锛涘悗绔暟鎹簱宸插彲杩炴帴锛屼絾 API / 鏁版嵁搴?Skill 绔埌绔鍐欏皻鏈畬鎴愰獙璇併€傚綋鍓嶅缓璁皢閲岀▼纰戜簩楠屾敹鎷嗘垚鈥滄湰鍦?Mock 闂幆蹇呰繃鈥濆拰鈥滅湡瀹?API 鑱旇皟浣滀负閲岀▼纰戜笁鍏ュ彛鏉′欢鈥濓紝鍚屾椂瑕佹眰鍚庣鍦?5.7 鎻愪緵鏈€灏?Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ璋冪敤鏍蜂緥銆?,
+    "top_3_risks": [
+      {
+        "risk_id": "RISK-MGR-ESC-001",
+        "risk_title": "鏁版嵁搴?Skill / API 绔埌绔鍐欐湭楠岃瘉",
+        "description": "鏁版嵁搴撳彲杩炰笉绛変簬 Agent 鑳介€氳繃 Skill 瀹屾垚 Staff 鍐欏叆銆丮anager 璇诲彇鍜?Task 鏌ヨ锛岃嫢涓嶅湪 5.7 淇€氫細褰卞搷 5.8 鐪熷疄鑱旇皟銆?,
+        "severity": "high",
+        "source_type": "staff_report",
+        "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+        "owner_user_id": "zhangsan",
+        "suggested_action": "鍚庣鎻愪緵鏈€灏?API / Skill 璋冪敤鏍蜂緥锛孉gent 渚у綋澶╁畬鎴愯鍐欓獙璇併€?,
+        "need_escalation": true
+      },
+      {
+        "risk_id": "RISK-MGR-ESC-002",
+        "risk_title": "鐪熷疄搴撴柊澧炶〃涓庨噷绋嬬涓€濂戠害鍏崇郴鏈喕缁?,
+        "description": "staff_reports銆乵anager_reports銆乨ecision_records銆乼ask_queue 绛夎〃涓庡師 work_records銆乻ummaries銆乼asks 鐨勪富浠庡叧绯绘湭纭锛屼細褰卞搷 OpenAPI 鍜?Agent Skill 鍏ュ弬銆?,
+        "severity": "medium",
+        "source_type": "staff_report",
+        "source_id": "WR-20260506-STAFF-HIGHRISK-001",
+        "owner_user_id": "lijingli",
+        "suggested_action": "鐢辨暟鎹簱 Agent 杈撳嚭宸紓鍒嗘瀽锛屽洟闃熺‘璁や富钀界偣涓庡吋瀹硅惤鐐广€?,
+        "need_escalation": false
+      }
+    ],
+    "workforce_efficiency": {
+      "score": 72,
+      "level": "medium",
+      "explanation": "鏈湴 Mock 宸ヤ綔鎺ㄨ繘椤哄埄锛屼絾鐪熷疄 API / Skill 楠岃瘉瀛樺湪楂樹紭鍏堢骇闃诲銆?
+    },
+    "pending_approvals": 1,
+    "highlight_staff": [
+      {
+        "user_id": "zhangsan",
+        "display_name": "鑳℃枃娑?,
+        "reason": "瀹屾垚鏈湴 Mock Demo 閾捐矾锛屽彲浣滀负閲岀▼纰戜簩楠屾敹搴曞骇銆?,
+        "evidence_record_ids": [
+          "WR-20260506-STAFF-NORMAL-001"
+        ]
+      },
+      {
+        "user_id": "zhangsan",
+        "display_name": "鐔婇敠鏂?,
+        "reason": "瀹屾垚鐪熷疄鏁版嵁搴撹繛鎺ユ帰娴嬪拰鍚庣浜嬪疄灞傚璞℃⒊鐞嗐€?,
+        "evidence_record_ids": [
+          "WR-20260506-STAFF-HIGHRISK-001"
+        ]
+      }
+    ],
+    "blocked_items": [
+      {
+        "blocked_id": "BLOCK-MGR-001",
+        "title": "鐪熷疄鏁版嵁搴?Skill 璇诲啓楠岃瘉鏈畬鎴?,
+        "description": "缂哄皯 Agent 閫氳繃 Skill 鍐欏叆 Staff 鏃ユ姤銆佽鍙?Manager 姹囨€绘潵婧愩€佹煡璇?Task 鐨勫彲澶嶇幇鏍蜂緥銆?,
+        "severity": "high",
+        "owner_user_id": "zhangsan",
+        "source_record_ids": [
+          "WR-20260506-STAFF-HIGHRISK-001"
+        ],
+        "need_executive_decision": true,
+        "suggested_action": "鑰佹澘纭鍚庡皢鈥淎PI / Skill 鏈€灏忛摼璺€濊涓?5.7 鏈€楂樹紭鍏堢骇浠诲姟銆?
+      }
+    ],
+    "manager_decisions": [
+      {
+        "decision_id": "MDEC-20260506-002",
+        "decision_title": "鏈湴 Mock 闂幆缁х画浣滀负閲岀▼纰戜簩楠屾敹搴曞骇",
+        "decision_level": "L2",
+        "background": "閲岀▼纰戜簩鍘熺洰鏍囨槸鏈湴 Mock 闂幆楠岃瘉锛屼笉搴斿畬鍏ㄧ瓑寰呯湡瀹炲悗绔€?,
+        "handled_by": "lijingli",
+        "result": "Manager 鏉冮檺鍐呯‘璁わ細Mock 鏁版嵁鍖呭拰 run_mock_workflow.py 缁х画鎺ㄨ繘銆?,
+        "status": "confirmed",
+        "source_record_ids": [
+          "WR-20260506-STAFF-NORMAL-001",
+          "WR-20260506-STAFF-HIGHRISK-001"
+        ]
+      }
+    ],
+    "need_executive_decision": [
+      {
+        "candidate_id": "EXC-CAND-20260506-001",
+        "decision_title": "鏄惁灏?5.7 鏈€楂樹紭鍏堢骇璋冩暣涓?API / 鏁版嵁搴?Skill 鏈€灏忛摼璺獙璇?,
+        "background": "鏁版嵁搴撴湰浣撳凡鍙繛鎺ワ紝浣?Agent 閫氳繃 Skill 璇诲啓鐪熷疄搴撶殑閾捐矾灏氭湭楠岃瘉銆傝嫢涓嶄紭鍏堝鐞嗭紝浼氬奖鍝?5.8 鐪熷疄鑱旇皟鍜?5.9 閲岀▼纰戜簩鍐荤粨銆?,
+        "reason_to_escalate": "璇ヤ簨椤规秹鍙婂悗绔€丄gent 鍜岄噷绋嬬楠屾敹鍙ｅ緞锛岄渶瑕佽€佹澘纭浼樺厛绾с€?,
+        "risk_level": "high",
+        "option_a": "5.7 涓婂崍浼樺厛淇€?Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ涓変釜 API / Skill 鏈€灏忛摼璺紱鍏朵粬闇€姹傚悗缃€?,
+        "option_b": "缁х画骞惰鎺ㄨ繘鍏ㄩ儴 API銆丩anding Page 鍜屾柊鍛樺伐娉ㄥ唽锛孉PI / Skill 鏈€灏忛摼璺寜鍘熻妭濂忓鐞嗐€?,
+        "recommended_option": "A",
+        "expected_impact": "閫夋嫨 A 鍙檷浣?5.8 鑱旇皟澶辫触椋庨櫓锛屼繚璇佷富閾捐矾浼樺厛闂悎锛涗唬浠锋槸閮ㄥ垎鏀嚎闇€姹傚欢鍚庛€?,
+        "source_record_ids": [
+          "WR-20260506-STAFF-HIGHRISK-001"
+        ]
+      }
+    ],
+    "next_day_adjustment": [
+      {
+        "adjustment_id": "ADJ-MGR-ESC-001",
+        "title": "鍚庣鍏堜氦浠樹笁鏉℃渶灏忛摼璺皟鐢ㄦ牱渚?,
+        "description": "Staff 鍐欏叆銆丮anager 鏌ヨ銆乀ask 鏌ヨ浼樺厛浜庨潪涓婚摼璺?API銆?,
+        "target_user_id": "zhangsan",
+        "target_role": "鍚庣 / 鏁版嵁搴?Skill",
+        "priority": "critical",
+        "expected_output": "鍙鐜?API / Skill 璋冪敤鏍蜂緥涓庤繑鍥?JSON銆?
+      },
+      {
+        "adjustment_id": "ADJ-MGR-ESC-002",
+        "title": "Agent 渚ф浛鎹㈡湰鍦?mock 涓虹湡瀹?Skill 璋冪敤",
+        "description": "鍦ㄥ悗绔彁渚涙渶灏忚皟鐢ㄦ牱渚嬪悗锛屽綋澶╁畬鎴?Staff 鍐欏叆鍜?Task 鏌ヨ楠岃瘉銆?,
+        "target_user_id": "zhangsan",
+        "target_role": "Agent 瀹㈠埗鍖?,
+        "priority": "high",
+        "expected_output": "鐪熷疄 API 鎺ュ叆鐗?demo 杩愯璁板綍銆?
+      }
+    ],
+    "source_record_ids": [
+      "WR-20260506-STAFF-NORMAL-001",
+      "WR-20260506-STAFF-HIGHRISK-001"
+    ],
+    "source_task_ids": [
+      "TASK-20260506-AGENT-001",
+      "TASK-20260506-BACKEND-001",
+      "TASK-20260506-BACKEND-002"
+    ],
+    "source_incident_ids": [
+      "INC-20260506-API-SKILL-001"
+    ],
+    "signature": {
+      "confirm_status": "confirmed",
+      "signed_by": "lijingli",
+      "signed_by_role": "manager",
+      "signed_at": "2026-05-06T21:15:00+08:00",
+      "signature_method": "manual_confirm",
+      "payload_hash": "sha256:40d42222e919d9baabc9e6dfcfe93e54f9757d9f2a9387b4b775f778a39f2f99",
+      "signature_value": "mock_signature_6b53491dee3c",
+      "comment": "MVP Mock 鏁版嵁纭"
+    },
+    "meta": {
+      "mock_case": "need_executive",
+      "milestone": "M2",
+      "api_endpoint": "POST /api/v1/report/manager",
+      "recommended_write_tables": [
+        "manager_reports",
+        "summaries",
+        "summary_source_links",
+        "incidents",
+        "audit_logs"
+      ],
+      "compatible_design_tables": [
+        "summaries",
+        "summary_source_links",
+        "incidents",
+        "audit_logs"
+      ],
+      "read_tables": [
+        "staff_reports",
+        "work_records",
+        "work_record_items",
+        "incidents",
+        "tasks"
+      ],
+      "summary_type": "department_daily",
+      "scope_type": "department",
+      "db_mapping_strategy": "涓婃帹浜嬮」杩涘叆 manager_reports / summaries锛涢樆濉為」杩涘叆 incidents锛涘€欓€夊喅绛栫敱 Executive/Dream 杞?decision_records銆?
+    }
+  }
+}
+

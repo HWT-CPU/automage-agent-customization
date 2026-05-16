@@ -1,0 +1,17 @@
+[user]
+node_id = "manager_agent_mvp_001"
+user_id = "lijingli"
+role = "manager"
+level = "l2_manager"
+department_id = "dept_mvp_core"
+manager_node_id = "executive_agent_mvp_001"
+display_name = "李经理"
+job_title = "销售部门经理"
+responsibilities = ["汇总部门日报", "识别部门风险", "权限内任务分发"]
+input_sources = ["Staff Agent 日报", "部门群反馈", "后端部门数据"]
+output_requirements = ["部门健康度", "聚合摘要", "Top 3 风险", "效率观察", "待审批事项"]
+permission_notes = ["只能访问本部门数据", "不能做公司级决策"]
+personalized_context = "关注销售线索转化、客户跟进质量和跨部门支持需求。"
+
+[user.metadata]
+feishu_open_id = "ou_lijingli"

@@ -1,0 +1,576 @@
+[
+  {
+    "id": 40,
+    "org_id": 1,
+    "decision_record_id": 20,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "A",
+    "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3"
+    },
+    "event_at": "2026-05-07 20:08:46.969573+00:00",
+    "created_at": "2026-05-07 20:08:46.969573+00:00"
+  },
+  {
+    "id": 39,
+    "org_id": 1,
+    "decision_record_id": 20,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "m2real-20260508040831-07_post_decision_commit-9b8b27f3"
+    },
+    "event_at": "2026-05-07 20:08:46.969573+00:00",
+    "created_at": "2026-05-07 20:08:46.969573+00:00"
+  },
+  {
+    "id": 38,
+    "org_id": 1,
+    "decision_record_id": 19,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "A",
+    "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "m2real-20260508040554-07_post_decision_commit-df1a0f86"
+    },
+    "event_at": "2026-05-07 20:06:09.689247+00:00",
+    "created_at": "2026-05-07 20:06:09.689247+00:00"
+  },
+  {
+    "id": 37,
+    "org_id": 1,
+    "decision_record_id": 19,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "m2real-20260508040554-07_post_decision_commit-df1a0f86"
+    },
+    "event_at": "2026-05-07 20:06:09.689247+00:00",
+    "created_at": "2026-05-07 20:06:09.689247+00:00"
+  },
+  {
+    "id": 36,
+    "org_id": 1,
+    "decision_record_id": 18,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "A",
+    "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "m2real-20260508040428-07_post_decision_commit-7c0988c2"
+    },
+    "event_at": "2026-05-07 20:04:44.273879+00:00",
+    "created_at": "2026-05-07 20:04:44.273879+00:00"
+  },
+  {
+    "id": 35,
+    "org_id": 1,
+    "decision_record_id": 18,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "m2real-20260508040428-07_post_decision_commit-7c0988c2"
+    },
+    "event_at": "2026-05-07 20:04:44.273879+00:00",
+    "created_at": "2026-05-07 20:04:44.273879+00:00"
+  },
+  {
+    "id": 34,
+    "org_id": 1,
+    "decision_record_id": 17,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "A",
+    "comment": "5.7 是否优先冻结 API / 数据库 Skill 最小链路",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "m2real-20260508040305-07_post_decision_commit-25915f99"
+    },
+    "event_at": "2026-05-07 20:03:21.135165+00:00",
+    "created_at": "2026-05-07 20:03:21.135165+00:00"
+  },
+  {
+    "id": 33,
+    "org_id": 1,
+    "decision_record_id": 17,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "m2real-20260508040305-07_post_decision_commit-25915f99"
+    },
+    "event_at": "2026-05-07 20:03:21.135165+00:00",
+    "created_at": "2026-05-07 20:03:21.135165+00:00"
+  },
+  {
+    "id": 32,
+    "org_id": 1,
+    "decision_record_id": 16,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "B",
+    "selected_option_label": "Aggressive execution plan",
+    "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "dcd5066b-80ae-4e10-869a-a3a439674738"
+    },
+    "event_at": "2026-05-07 20:02:21.097520+00:00",
+    "created_at": "2026-05-07 20:02:21.097520+00:00"
+  },
+  {
+    "id": 31,
+    "org_id": 1,
+    "decision_record_id": 16,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "dcd5066b-80ae-4e10-869a-a3a439674738"
+    },
+    "event_at": "2026-05-07 20:02:21.097520+00:00",
+    "created_at": "2026-05-07 20:02:21.097520+00:00"
+  },
+  {
+    "id": 26,
+    "org_id": 1,
+    "decision_record_id": 13,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "B",
+    "selected_option_label": "Aggressive execution plan",
+    "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "1ce725f9-96ea-4c36-907f-13c06d7c2530"
+    },
+    "event_at": "2026-05-07 19:01:48.487389+00:00",
+    "created_at": "2026-05-07 19:01:48.487389+00:00"
+  },
+  {
+    "id": 25,
+    "org_id": 1,
+    "decision_record_id": 13,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "1ce725f9-96ea-4c36-907f-13c06d7c2530"
+    },
+    "event_at": "2026-05-07 19:01:48.487389+00:00",
+    "created_at": "2026-05-07 19:01:48.487389+00:00"
+  },
+  {
+    "id": 24,
+    "org_id": 1,
+    "decision_record_id": 12,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "B",
+    "selected_option_label": "Aggressive execution plan",
+    "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "583bbed7-51c4-44fa-83db-7cc6a3c29184"
+    },
+    "event_at": "2026-05-07 18:56:43.652375+00:00",
+    "created_at": "2026-05-07 18:56:43.652375+00:00"
+  },
+  {
+    "id": 23,
+    "org_id": 1,
+    "decision_record_id": 12,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "583bbed7-51c4-44fa-83db-7cc6a3c29184"
+    },
+    "event_at": "2026-05-07 18:56:43.652375+00:00",
+    "created_at": "2026-05-07 18:56:43.652375+00:00"
+  },
+  {
+    "id": 22,
+    "org_id": 1,
+    "decision_record_id": 11,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "B",
+    "selected_option_label": "Aggressive execution plan",
+    "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "bab32ea5-f475-400a-9395-9eeaa6b81759"
+    },
+    "event_at": "2026-05-07 18:56:24.696904+00:00",
+    "created_at": "2026-05-07 18:56:24.696904+00:00"
+  },
+  {
+    "id": 21,
+    "org_id": 1,
+    "decision_record_id": 11,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "bab32ea5-f475-400a-9395-9eeaa6b81759"
+    },
+    "event_at": "2026-05-07 18:56:24.696904+00:00",
+    "created_at": "2026-05-07 18:56:24.696904+00:00"
+  },
+  {
+    "id": 20,
+    "org_id": 1,
+    "decision_record_id": 10,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "B",
+    "selected_option_label": "Aggressive execution plan",
+    "comment": "确认方案B SUM500E7D2114B9494EB6AD86",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "00d03e82-e024-409a-af95-7d5bfbca0616"
+    },
+    "event_at": "2026-05-07 18:53:26.182291+00:00",
+    "created_at": "2026-05-07 18:53:26.182291+00:00"
+  },
+  {
+    "id": 19,
+    "org_id": 1,
+    "decision_record_id": 10,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "00d03e82-e024-409a-af95-7d5bfbca0616"
+    },
+    "event_at": "2026-05-07 18:53:26.182291+00:00",
+    "created_at": "2026-05-07 18:53:26.182291+00:00"
+  },
+  {
+    "id": 18,
+    "org_id": 1,
+    "decision_record_id": 9,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "Run minimal validation",
+    "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "smoke-decision-commit-SMOKE-FRESH-000001"
+    },
+    "event_at": "2026-05-07 16:41:34.707964+00:00",
+    "created_at": "2026-05-07 16:41:34.707964+00:00"
+  },
+  {
+    "id": 17,
+    "org_id": 1,
+    "decision_record_id": 9,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "smoke-decision-commit-SMOKE-FRESH-000001"
+    },
+    "event_at": "2026-05-07 16:41:34.707964+00:00",
+    "created_at": "2026-05-07 16:41:34.707964+00:00"
+  },
+  {
+    "id": 16,
+    "org_id": 1,
+    "decision_record_id": 8,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "Run minimal validation",
+    "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "smoke-decision-commit-20260507163902"
+    },
+    "event_at": "2026-05-07 16:39:11.807275+00:00",
+    "created_at": "2026-05-07 16:39:11.807275+00:00"
+  },
+  {
+    "id": 15,
+    "org_id": 1,
+    "decision_record_id": 8,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "smoke-decision-commit-20260507163902"
+    },
+    "event_at": "2026-05-07 16:39:11.807275+00:00",
+    "created_at": "2026-05-07 16:39:11.807275+00:00"
+  },
+  {
+    "id": 14,
+    "org_id": 1,
+    "decision_record_id": 7,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "Run minimal validation",
+    "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "smoke-decision-commit-20260507161429"
+    },
+    "event_at": "2026-05-07 16:14:39.893923+00:00",
+    "created_at": "2026-05-07 16:14:39.893923+00:00"
+  },
+  {
+    "id": 13,
+    "org_id": 1,
+    "decision_record_id": 7,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "smoke-decision-commit-20260507161429"
+    },
+    "event_at": "2026-05-07 16:14:39.893923+00:00",
+    "created_at": "2026-05-07 16:14:39.893923+00:00"
+  },
+  {
+    "id": 12,
+    "org_id": 1,
+    "decision_record_id": 6,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "Run minimal validation",
+    "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "smoke-decision-commit-20260507091156"
+    },
+    "event_at": "2026-05-07 09:12:06.940285+00:00",
+    "created_at": "2026-05-07 09:12:06.940285+00:00"
+  },
+  {
+    "id": 11,
+    "org_id": 1,
+    "decision_record_id": 6,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "smoke-decision-commit-20260507091156"
+    },
+    "event_at": "2026-05-07 09:12:06.940285+00:00",
+    "created_at": "2026-05-07 09:12:06.940285+00:00"
+  },
+  {
+    "id": 6,
+    "org_id": 1,
+    "decision_record_id": 3,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "Run minimal validation",
+    "comment": "Smoke decision commit for Milestone 2 backend readiness.",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "smoke-decision-commit-001"
+    },
+    "event_at": "2026-05-07 09:04:46.100652+00:00",
+    "created_at": "2026-05-07 09:04:46.100652+00:00"
+  },
+  {
+    "id": 5,
+    "org_id": 1,
+    "decision_record_id": 3,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "smoke-decision-commit-001"
+    },
+    "event_at": "2026-05-07 09:04:46.100652+00:00",
+    "created_at": "2026-05-07 09:04:46.100652+00:00"
+  },
+  {
+    "id": 4,
+    "org_id": 1,
+    "decision_record_id": 2,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": null,
+    "comment": "real api decision test",
+    "payload": {
+      "stage": "confirmed",
+      "request_id": "28a81535-f49f-4463-8e52-e7510d823832"
+    },
+    "event_at": "2026-05-07 02:18:07.098504+00:00",
+    "created_at": "2026-05-07 02:18:07.098504+00:00"
+  },
+  {
+    "id": 3,
+    "org_id": 1,
+    "decision_record_id": 2,
+    "actor_user_id": 1,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 2,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "Decision record created",
+    "payload": {
+      "stage": "created",
+      "request_id": "28a81535-f49f-4463-8e52-e7510d823832"
+    },
+    "event_at": "2026-05-07 02:18:07.098504+00:00",
+    "created_at": "2026-05-07 02:18:07.098504+00:00"
+  },
+  {
+    "id": 2,
+    "org_id": 1,
+    "decision_record_id": 1,
+    "actor_user_id": 1,
+    "action_type": 2,
+    "status_before": 1,
+    "status_after": 2,
+    "selected_option_key": "A",
+    "selected_option_label": "先确认交付周期，再推进签约",
+    "comment": "总监确认采用稳妥推进方案",
+    "payload": {
+      "stage": "approved"
+    },
+    "event_at": "2026-05-06 03:30:00+00:00",
+    "created_at": "2026-05-06 03:30:00+00:00"
+  },
+  {
+    "id": 1,
+    "org_id": 1,
+    "decision_record_id": 1,
+    "actor_user_id": 2,
+    "action_type": 1,
+    "status_before": null,
+    "status_after": 1,
+    "selected_option_key": null,
+    "selected_option_label": null,
+    "comment": "经理提交待决策事项",
+    "payload": {
+      "stage": "created"
+    },
+    "event_at": "2026-05-06 02:30:00+00:00",
+    "created_at": "2026-05-06 02:30:00+00:00"
+  }
+]

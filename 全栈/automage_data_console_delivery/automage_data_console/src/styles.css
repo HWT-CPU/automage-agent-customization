@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #0f172a;
+  --accent-muted: #334155;
+  --bg: #ffffff;
+  --bg-canvas: #f1f5f9;
+  --border: #e2e8f0;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+}
+
+* {
+  font-family: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--bg-canvas);
+  color: var(--text);
+}
+
+body {
+  background: var(--bg-canvas);
+}
+
+/* ===== 内容面板（原 console-panel 类名保留兼容）===== */
+.console-panel {
+  @apply rounded-lg border border-slate-200/90 bg-white shadow-sm;
+}
+
+.console-title {
+  @apply text-sm font-semibold tracking-tight text-slate-800;
+}
+
+.status-pill {
+  @apply inline-flex items-center rounded px-2 py-0.5 text-xs font-medium tabular-nums;
+}
+
+.panel {
+  @apply rounded-lg border border-slate-200/90 bg-white shadow-sm;
+}
+
+.stat-card {
+  @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm;
+}
+
+.stat-card-accent {
+  @apply stat-card border-l-[3px] border-l-slate-900;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-medium transition-colors;
+}
+
+.btn-primary {
+  @apply btn bg-slate-900 text-white shadow-sm hover:bg-slate-800 active:bg-slate-950;
+}
+
+.btn-secondary {
+  @apply btn border border-slate-300 bg-white text-slate-800 hover:bg-slate-50;
+}
+
+.btn-ghost {
+  @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+}
+
+.sidebar-link {
+  @apply flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-normal transition-colors;
+}
+
+.sidebar-link-active {
+  @apply bg-slate-100 font-medium text-slate-900;
+}
+
+.sidebar-link-inactive {
+  @apply text-slate-600 hover:bg-slate-50 hover:text-slate-900;
+}
+
+.topbar {
+  @apply border-b border-slate-200 bg-white;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-medium;
+}
+
+.badge-green {
+  @apply badge border border-emerald-200 bg-emerald-50 text-emerald-800;
+}
+
+.badge-amber {
+  @apply badge border border-amber-200 bg-amber-50 text-amber-900;
+}
+
+.badge-red {
+  @apply badge border border-rose-200 bg-rose-50 text-rose-800;
+}
+
+.badge-blue {
+  @apply badge border border-slate-200 bg-slate-50 text-slate-800;
+}
+
+.badge-gray {
+  @apply badge border border-slate-200 bg-white text-slate-600;
+}
+
+.input {
+  @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm;
+  @apply placeholder:text-slate-400 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-300;
+}
+
+/* ===== 表格 ===== */
+table.data-table {
+  @apply w-full text-sm;
+}
+table.data-table th {
+  @apply border-b border-slate-200 bg-slate-50 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600;
+}
+table.data-table td {
+  @apply border-b border-slate-100 px-4 py-2.5 text-sm text-slate-700;
+}
+table.data-table tr:hover td {
+  @apply bg-slate-50;
+}
+
+/* ===== 细节展开 ===== */
+.expandable-row {
+  @apply cursor-pointer;
+}
+.detail-panel {
+  @apply space-y-2 rounded-md border border-slate-100 bg-slate-50 p-4 text-sm;
+}
+
+/* ===== 登录页 — 极简 ===== */
+.login-bg {
+  background: var(--bg-canvas);
+}
+
+/* ===== Section 标题 ===== */
+.section-title {
+  @apply mb-4 text-lg font-semibold tracking-tight text-slate-900;
+}
+
+/* ===== 动画 ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* ===== 页面内容区进入动画（由 AppShell 使用）===== */
+.page-fade {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ===== 文本链接 ===== */
+.link {
+  @apply text-slate-700 underline decoration-slate-300 underline-offset-2 transition-colors hover:text-slate-900 hover:decoration-slate-400;
+}
+
+/* ===== 信息条 / 提示块 ===== */
+.callout {
+  @apply rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700;
+}
+
+.callout-warn {
+  @apply rounded-lg border border-amber-200/80 bg-amber-50/80 px-4 py-3 text-sm text-amber-950;
+}

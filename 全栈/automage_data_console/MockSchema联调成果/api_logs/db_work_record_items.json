@@ -1,0 +1,352 @@
+[
+  {
+    "id": 143,
+    "work_record_id": 9,
+    "field_key": "search.artifact_count",
+    "field_label": "产出物数量",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 142,
+    "work_record_id": 9,
+    "field_key": "search.follow_up_task_count",
+    "field_label": "需继续跟进任务数",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 141,
+    "work_record_id": 9,
+    "field_key": "search.risk_level",
+    "field_label": "总体风险等级",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 140,
+    "work_record_id": 9,
+    "field_key": "search.decision_count",
+    "field_label": "待决策数量",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 139,
+    "work_record_id": 9,
+    "field_key": "search.blocker_count",
+    "field_label": "阻塞数量",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 138,
+    "work_record_id": 9,
+    "field_key": "search.need_support",
+    "field_label": "是否需要支持",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 137,
+    "work_record_id": 9,
+    "field_key": "sign_off",
+    "field_label": "签名确认",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 136,
+    "work_record_id": 9,
+    "field_key": "daily_summary",
+    "field_label": "今日总结",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 135,
+    "work_record_id": 9,
+    "field_key": "workflow_notes",
+    "field_label": "Context / Prompt / Workflow 补充",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 134,
+    "work_record_id": 9,
+    "field_key": "risk_assessment",
+    "field_label": "风险判断",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 133,
+    "work_record_id": 9,
+    "field_key": "cross_module_requests",
+    "field_label": "与其他模块的对接需求",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 132,
+    "work_record_id": 9,
+    "field_key": "tomorrow_plans",
+    "field_label": "明日计划",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 131,
+    "work_record_id": 9,
+    "field_key": "decision_requests",
+    "field_label": "需要确认或决策的事项",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 130,
+    "work_record_id": 9,
+    "field_key": "support_requests",
+    "field_label": "需要支持的事项",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 129,
+    "work_record_id": 9,
+    "field_key": "today_blockers",
+    "field_label": "今日问题与阻塞",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 128,
+    "work_record_id": 9,
+    "field_key": "today_artifacts",
+    "field_label": "今日产出物清单",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 127,
+    "work_record_id": 9,
+    "field_key": "today_completed_items",
+    "field_label": "今日完成事项",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 126,
+    "work_record_id": 9,
+    "field_key": "today_task_progress",
+    "field_label": "今日任务进展",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 125,
+    "work_record_id": 9,
+    "field_key": "basic_info",
+    "field_label": "基础信息",
+    "created_at": "2026-05-07 20:03:12.243995+00:00"
+  },
+  {
+    "id": 124,
+    "work_record_id": 8,
+    "field_key": "search.artifact_count",
+    "field_label": "产出物数量",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 123,
+    "work_record_id": 8,
+    "field_key": "search.follow_up_task_count",
+    "field_label": "需继续跟进任务数",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 122,
+    "work_record_id": 8,
+    "field_key": "search.risk_level",
+    "field_label": "总体风险等级",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 121,
+    "work_record_id": 8,
+    "field_key": "search.decision_count",
+    "field_label": "待决策数量",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 120,
+    "work_record_id": 8,
+    "field_key": "search.blocker_count",
+    "field_label": "阻塞数量",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 119,
+    "work_record_id": 8,
+    "field_key": "search.need_support",
+    "field_label": "是否需要支持",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 118,
+    "work_record_id": 8,
+    "field_key": "sign_off",
+    "field_label": "签名确认",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 117,
+    "work_record_id": 8,
+    "field_key": "daily_summary",
+    "field_label": "今日总结",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 116,
+    "work_record_id": 8,
+    "field_key": "workflow_notes",
+    "field_label": "Context / Prompt / Workflow 补充",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 115,
+    "work_record_id": 8,
+    "field_key": "risk_assessment",
+    "field_label": "风险判断",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 114,
+    "work_record_id": 8,
+    "field_key": "cross_module_requests",
+    "field_label": "与其他模块的对接需求",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 113,
+    "work_record_id": 8,
+    "field_key": "tomorrow_plans",
+    "field_label": "明日计划",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 112,
+    "work_record_id": 8,
+    "field_key": "decision_requests",
+    "field_label": "需要确认或决策的事项",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 111,
+    "work_record_id": 8,
+    "field_key": "support_requests",
+    "field_label": "需要支持的事项",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 110,
+    "work_record_id": 8,
+    "field_key": "today_blockers",
+    "field_label": "今日问题与阻塞",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 109,
+    "work_record_id": 8,
+    "field_key": "today_artifacts",
+    "field_label": "今日产出物清单",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 108,
+    "work_record_id": 8,
+    "field_key": "today_completed_items",
+    "field_label": "今日完成事项",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 107,
+    "work_record_id": 8,
+    "field_key": "today_task_progress",
+    "field_label": "今日任务进展",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 106,
+    "work_record_id": 8,
+    "field_key": "basic_info",
+    "field_label": "基础信息",
+    "created_at": "2026-05-07 19:58:32.586009+00:00"
+  },
+  {
+    "id": 105,
+    "work_record_id": 7,
+    "field_key": "search.artifact_count",
+    "field_label": "产出物数量",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 104,
+    "work_record_id": 7,
+    "field_key": "search.follow_up_task_count",
+    "field_label": "需继续跟进任务数",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 103,
+    "work_record_id": 7,
+    "field_key": "search.risk_level",
+    "field_label": "总体风险等级",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 102,
+    "work_record_id": 7,
+    "field_key": "search.decision_count",
+    "field_label": "待决策数量",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 101,
+    "work_record_id": 7,
+    "field_key": "search.blocker_count",
+    "field_label": "阻塞数量",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 100,
+    "work_record_id": 7,
+    "field_key": "search.need_support",
+    "field_label": "是否需要支持",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 99,
+    "work_record_id": 7,
+    "field_key": "sign_off",
+    "field_label": "签名确认",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 98,
+    "work_record_id": 7,
+    "field_key": "daily_summary",
+    "field_label": "今日总结",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 97,
+    "work_record_id": 7,
+    "field_key": "workflow_notes",
+    "field_label": "Context / Prompt / Workflow 补充",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 96,
+    "work_record_id": 7,
+    "field_key": "risk_assessment",
+    "field_label": "风险判断",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 95,
+    "work_record_id": 7,
+    "field_key": "cross_module_requests",
+    "field_label": "与其他模块的对接需求",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  },
+  {
+    "id": 94,
+    "work_record_id": 7,
+    "field_key": "tomorrow_plans",
+    "field_label": "明日计划",
+    "created_at": "2026-05-07 17:10:49.092882+00:00"
+  }
+]

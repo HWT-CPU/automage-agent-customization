@@ -1,0 +1,58 @@
+[runtime]
+environment = "local"
+backend_mode = "mock"
+audit_enabled = true
+audit_org_id = 0
+auth_enabled = false
+scheduler_enabled = false
+scheduler_timezone = "Asia/Shanghai"
+scheduler_jobs = [
+  { name = "staff_daily_reminder_job", interval_seconds = 300, enabled = true },
+  { name = "manager_summary_reminder_job", interval_seconds = 600, enabled = true },
+  { name = "manager_summary_auto_generate_job", interval_seconds = 600, enabled = true },
+]
+scheduler_task_record_limit = 100
+rbac_enabled = true
+abuse_protection_enabled = false
+abuse_protection_backend = "memory"
+rate_limit_window_seconds = 60
+rate_limit_max_requests = 60
+idempotency_ttl_seconds = 300
+redis_url = ""
+redis_key_prefix = "automage"
+write_protected_paths = [
+  "/api/v1/report/staff",
+  "/api/v1/report/manager",
+  "/api/v1/decision/commit",
+  "/api/v1/tasks",
+]
+api_base_url = "http://localhost:8000"
+api_timeout_seconds = 10
+retry_backoff_seconds = [1, 2, 4, 8, 16]
+max_schema_correction_attempts = 2
+auth_token = ""
+openclaw_enabled = false
+feishu_enabled = false
+feishu_app_id = ""
+feishu_app_secret = ""
+
+[database]
+driver = "postgresql"
+host = ""
+port = 5432
+name = ""
+user = ""
+password = ""
+
+[postgres]
+host = "localhost"
+port = 5432
+database = "automage"
+user = "automage"
+password = ""
+sslmode = "prefer"
+
+# TODO(熊锦文): 确认真实 API base URL、鉴权 Token 或签名方式。
+# TODO(熊锦文): 真实数据库密码只允许放在本地 .env 或密钥管理器，不得提交到仓库。
+# TODO(OpenClaw): 确认 OpenClaw Channel 是否单独管理飞书凭证。
+# TODO(全栈/运维): 真实凭证不得提交到仓库，后续改为环境变量或配置中心。

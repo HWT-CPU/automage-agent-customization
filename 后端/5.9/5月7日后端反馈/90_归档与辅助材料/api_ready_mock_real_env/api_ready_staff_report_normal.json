@@ -1,0 +1,223 @@
+﻿{
+  "identity": {
+    "node_id": "staff_agent_mvp_001",
+    "user_id": "zhangsan",
+    "role": "staff",
+    "level": "l1_staff",
+    "department_id": "dept_mvp_core",
+    "manager_node_id": null,
+    "metadata": {
+      "source_mock_file": "mock_staff_report_normal.json",
+      "display_name": "zhangsan",
+      "mock_case": "normal"
+    }
+  },
+  "report": {
+    "schema_id": "schema_v1_staff",
+    "schema_version": "1.0.0",
+    "timestamp": "2026-05-06T20:30:00+08:00",
+    "org_id": "org_automage_mvp",
+    "department_id": "dept_mvp_core",
+    "user_id": "zhangsan",
+    "node_id": "staff_agent_mvp_001",
+    "record_date": "2026-05-06",
+    "task_progress": [
+      {
+        "task_id": "TASK-20260506-AGENT-001",
+        "task_title": "灏?Staff 鏃ユ姤妯℃澘鎺ュ叆 Staff Agent 杈撳叆瑙ｆ瀽",
+        "today_result": "宸插畬鎴愯〃鍗曞瓧娈靛埌 schema_v1_staff 鐨勮В鏋愭槧灏勶紝鐢熸垚 Staff payload 鏍蜂緥銆?,
+        "previous_status": "in_progress",
+        "current_status": "completed",
+        "completion_percent": 100,
+        "need_follow_up": true,
+        "remark": "鍚庣画闇€瑕佹浛鎹㈢湡瀹?API 璋冪敤骞朵笌鏁版嵁搴?Skill 鑱旇皟銆?
+      },
+      {
+        "task_id": "TASK-20260506-AGENT-002",
+        "task_title": "璺戦€?Manager 璇诲彇 Staff 鏃ユ姤骞剁敓鎴愭眹鎬?,
+        "today_result": "鏈湴 mock 閾捐矾宸插彲璇诲彇 Staff payload 骞惰緭鍑?Manager 姹囨€绘牱渚嬨€?,
+        "previous_status": "pending",
+        "current_status": "in_progress",
+        "completion_percent": 80,
+        "need_follow_up": true,
+        "remark": "绛夊緟鐪熷疄鏁版嵁搴?Skill 璇诲啓楠岃瘉銆?
+      }
+    ],
+    "work_progress": [
+      {
+        "item_id": "WP-STAFF-NORMAL-001",
+        "title": "Agent prompt 绗竴鐗堣惤鍦?,
+        "item_type": "prompt",
+        "description": "瀹屾垚 Staff銆丮anager銆丒xecutive銆丅ase Agent 鐨勭涓€鐗?prompt锛屾槑纭鑹层€佹潈闄愯竟鐣屻€佸彲鐢?Skills 涓庤Е鍙戣涓恒€?,
+        "status": "completed",
+        "evidence": "automage_agents/templates/base/agents.md锛沘utomage_agents/templates/line_worker/agents.md锛沘utomage_agents/templates/manager/agents.md锛沘utomage_agents/templates/executive/agents.md",
+        "artifact_ids": [
+          "ART-AGENT-PROMPT-V1"
+        ],
+        "artifact_links": [
+          "repo://automage_agents/templates"
+        ],
+        "related_module": "Agent 瀹㈠埗鍖?/ Prompt",
+        "available_for_integration": true
+      },
+      {
+        "item_id": "WP-STAFF-NORMAL-002",
+        "title": "Context 缁撴瀯 v0 鎺ュ叆鏈湴 Mock Demo",
+        "item_type": "context",
+        "description": "鏂板 RuntimeContextV0锛屽苟鎺ュ叆 SkillContext銆丄gent 鍒濆鍖栥€佹棩鎶ユ彁浜ゃ€丮anager 姹囨€诲拰 Executive 鍐崇瓥閾捐矾銆?,
+        "status": "completed",
+        "evidence": "鏈湴 demo 鍙惡甯?org_id銆乽ser_id銆乶ode_id銆乨ag_run_id銆乺un_date 杩愯銆?,
+        "artifact_ids": [
+          "ART-CONTEXT-V0"
+        ],
+        "artifact_links": [
+          "repo://automage_agents/context/runtime_context_v0.py"
+        ],
+        "related_module": "Agent 缂栨帓 / Context",
+        "available_for_integration": true
+      },
+      {
+        "item_id": "WP-STAFF-NORMAL-003",
+        "title": "鏈湴 Mock Demo 涓婚摼璺窇閫?,
+        "item_type": "test",
+        "description": "瑕嗙洊 Staff 鏃ユ姤銆丮anager 璇诲彇鏃ユ姤銆丮anager 姹囨€汇€丒xecutive 鍐崇瓥銆佽€佹澘纭銆佷换鍔＄敓鎴愩€丼taff 鏌ヨ浠诲姟銆?,
+        "status": "completed",
+        "evidence": "run_mock_workflow.py 鍙鍙?mock JSON 骞惰緭鍑?workflow 楠岃瘉缁撴灉銆?,
+        "artifact_ids": [
+          "ART-MOCK-WORKFLOW-V1"
+        ],
+        "artifact_links": [
+          "file://run_mock_workflow.py"
+        ],
+        "related_module": "Mock Workflow / 鑱旇皟",
+        "available_for_integration": true
+      }
+    ],
+    "issues_faced": [
+      {
+        "issue_id": "ISSUE-STAFF-NORMAL-001",
+        "issue_title": "Mock 瀛楁涓庣湡瀹炴暟鎹簱瀛楁浠嶉渶鏈€缁堝榻?,
+        "description": "褰撳墠 Mock Demo 浣跨敤 Schema JSON 浣滀负濂戠害锛岀湡瀹炴暟鎹簱涓瓨鍦?staff_reports / manager_reports / decision_records 绛夋柊琛紝闇€瑕佹暟鎹簱 Agent 缁х画鍋氬瓧娈垫槧灏勭‘璁ゃ€?,
+        "impact_scope": "閲岀▼纰戜簩鍙户缁紝閲岀▼纰戜笁鐪熷疄鑱旇皟鍓嶉渶鍐荤粨鏄犲皠銆?,
+        "severity": "medium",
+        "is_blocking": false,
+        "need_support_from": "鐔婇敠鏂?/ 鏉ㄥ崜"
+      }
+    ],
+    "solution_attempt": [
+      {
+        "solution_id": "SOL-STAFF-NORMAL-001",
+        "issue_id": "ISSUE-STAFF-NORMAL-001",
+        "description": "鍦?Mock 鏁版嵁 meta 涓悓鏃惰褰曟帹鑽愭帴鍙ｃ€佹帹鑽愯〃銆佸吋瀹硅〃鍜屽瓧娈垫槧灏勭瓥鐣ワ紝渚夸簬鍚庣画鏁版嵁搴撴牳鏌ャ€?,
+        "result": "Mock 闂幆涓嶄緷璧栫湡瀹炴暟鎹簱鍗冲彲鍏堣窇閫氾紝鍚庣画鐢辨暟鎹簱瀵归綈鎶ュ憡鍥炰慨銆?,
+        "status": "effective"
+      }
+    ],
+    "need_support": false,
+    "support_detail": "",
+    "need_decision": false,
+    "decision_detail": "",
+    "next_day_plan": [
+      {
+        "plan_id": "PLAN-STAFF-NORMAL-001",
+        "title": "灏嗘湰鍦?Mock Demo 鏇挎崲涓烘暟鎹簱 Skill 璋冪敤",
+        "description": "浼樺厛鏇挎崲 Staff 鏃ユ姤鎻愪氦銆丮anager 璇诲彇鏃ユ姤銆佷换鍔℃煡璇笁娈甸摼璺€?,
+        "priority": "high",
+        "expected_output": "鐪熷疄 API 鎺ュ叆鐗?demo锛岃嚦灏戝畬鎴?Staff 鍐欏叆楠岃瘉銆?,
+        "related_task_id": "TASK-20260507-AGENT-001"
+      },
+      {
+        "plan_id": "PLAN-STAFF-NORMAL-002",
+        "title": "琛ュ厖 Agent 渚ч敊璇鐞嗕笌閲嶈瘯绛栫暐",
+        "description": "瑕嗙洊 401銆?03銆?09銆?22銆?xx 鍜岀綉缁滆秴鏃躲€?,
+        "priority": "medium",
+        "expected_output": "Agent 閿欒澶勭悊绛栫暐璇存槑涓?mock 鐢ㄤ緥銆?,
+        "related_task_id": "TASK-20260507-AGENT-002"
+      }
+    ],
+    "resource_usage": {
+      "work_hours": 8.5,
+      "tools": [
+        "OpenClaw/Hermes Agent 妯℃澘",
+        "Python Mock Workflow",
+        "JSON Schema",
+        "鏈湴鏂囦欢绯荤粺"
+      ],
+      "budget": 0,
+      "materials": [
+        "Staff 鏃ユ姤妯℃澘 v1.0.0",
+        "Schema JSON 鏂囦欢",
+        "DAG 鑺傜偣-鎺ュ彛-鏁版嵁琛ㄦ槧灏勮〃"
+      ],
+      "other": "褰撳墠涓烘湰鍦?Mock 楠岃瘉锛屾殏鏈緷璧栫湡瀹炴暟鎹簱鍐欏叆銆?
+    },
+    "artifacts": [
+      {
+        "artifact_id": "ART-AGENT-PROMPT-V1",
+        "artifact_type": "prompt",
+        "title": "涓夌骇 Agent prompt 绗竴鐗?,
+        "description": "Staff / Manager / Executive / Base Agent 妯℃澘璇存槑銆?,
+        "url": "repo://automage_agents/templates",
+        "storage_type": "local_path",
+        "version": "v0.1.0",
+        "meta": {
+          "owner": "鑳℃枃娑?
+        }
+      },
+      {
+        "artifact_id": "ART-MOCK-WORKFLOW-V1",
+        "artifact_type": "code",
+        "title": "run_mock_workflow.py",
+        "description": "鏈湴 Mock 闂幆楠岃瘉鑴氭湰銆?,
+        "url": "file://run_mock_workflow.py",
+        "storage_type": "local_path",
+        "version": "v1.0.0",
+        "meta": {
+          "milestone": "M2"
+        }
+      }
+    ],
+    "related_task_ids": [
+      "TASK-20260506-AGENT-001",
+      "TASK-20260506-AGENT-002"
+    ],
+    "risk_level": "low",
+    "employee_comment": "褰撳墠鏈湴 Mock 閾捐矾鍙户缁敮鎾戦噷绋嬬浜岄獙璇侊紝鐪熷疄鏁版嵁搴撳榻愬悗闇€瑕佸洖淇瓧娈垫槧灏勩€?,
+    "signature": {
+      "confirm_status": "confirmed",
+      "signed_by": "zhangsan",
+      "signed_by_role": "staff_agent_owner",
+      "signed_at": "2026-05-06T20:30:00+08:00",
+      "signature_method": "manual_confirm",
+      "payload_hash": "sha256:bd593c60b286c639245bea17983a1ef86ce696f984be93ce0e2f8bc6662fe335",
+      "signature_value": "mock_signature_d786b5fdabb2",
+      "comment": "MVP Mock 鏁版嵁纭"
+    },
+    "meta": {
+      "mock_case": "normal",
+      "milestone": "M2",
+      "api_endpoint": "POST /api/v1/report/staff",
+      "recommended_write_tables": [
+        "staff_reports",
+        "work_records",
+        "work_record_items",
+        "artifacts",
+        "audit_logs"
+      ],
+      "compatible_design_tables": [
+        "work_records",
+        "work_record_items",
+        "artifacts",
+        "audit_logs"
+      ],
+      "runtime_context": {
+        "dag_run_id": "DAGRUN-20260506-AUTOMAGE-M2-001",
+        "run_date": "2026-05-06",
+        "tenant_id": "org_automage_mvp",
+        "channel": "mock_local"
+      },
+      "db_mapping_strategy": "Staff 鍘熷鏃ユ姤鍙惤 staff_reports锛涚粨鏋勫寲瀛楁鎷嗗垎鍙吋瀹硅惤 work_records / work_record_items锛涗骇鍑虹墿钀?artifacts锛涘璁¤惤 audit_logs銆?
+    }
+  }
+}
+

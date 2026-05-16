@@ -1,0 +1,818 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:51 GMT",
+    "server": "uvicorn",
+    "content-length": "22097",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-09_get_tasks_staff-a07c62dd",
+    "x-process-time-ms": "89.51"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "tasks": [
+        {
+          "id": 1,
+          "task_id": "TSK0000000000000000000001",
+          "assignee_user_id": "zhangsan",
+          "title": "确认重点客户交付排期",
+          "description": "联系交付同事确认两个重点客户的预计上线时间，并同步给经理。",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "seed": true
+          },
+          "created_at": "2026-05-06T02:30:00+00:00",
+          "updated_at": "2026-05-06T02:30:00+00:00"
+        },
+        {
+          "id": 3,
+          "task_id": "TASK-20260507-REALTEST-001",
+          "assignee_user_id": "zhangsan",
+          "title": "real api task create test",
+          "description": "picked up by backend real validation",
+          "status": "in_progress",
+          "priority": "high",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-20260507-REALTEST-001",
+            "priority": "high",
+            "schema_id": "schema_v1_task",
+            "source_id": "REALTEST-20260507-001",
+            "task_title": "real api task create test",
+            "source_type": "manual_test",
+            "updated_from": "codex",
+            "department_id": "dept_mvp_core",
+            "execution_note": "picked_up_real",
+            "org_numeric_id": 1,
+            "schema_version": "1.0.0",
+            "creator_user_id": "3",
+            "assignee_user_id": "zhangsan",
+            "confirm_required": false,
+            "task_description": "validate POST /api/v1/tasks",
+            "source_summary_id": "MSUM-REALTEST-001",
+            "created_by_node_id": "staff-node-realtest-001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T02:17:01.484209+00:00",
+          "updated_at": "2026-05-07T02:40:40.512081+00:00"
+        },
+        {
+          "id": 5,
+          "task_id": "TASK-SMOKE-REAL-API-001",
+          "assignee_user_id": "zhangsan",
+          "title": "Complete real API smoke validation",
+          "description": "Run smoke_real_api.py after backend API starts.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2026-05-06",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-SMOKE-REAL-API-001",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Complete real API smoke validation",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Run smoke_real_api.py after backend API starts.",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T09:04:46.100652+00:00",
+          "updated_at": "2026-05-07T09:04:46.100652+00:00"
+        },
+        {
+          "id": 6,
+          "task_id": "TASK-SMOKE-20260507091156",
+          "assignee_user_id": "zhangsan",
+          "title": "Complete real API smoke validation",
+          "description": "Run smoke_real_api.py after backend API starts.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2036-01-31",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-SMOKE-20260507091156",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Complete real API smoke validation",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Run smoke_real_api.py after backend API starts.",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T09:12:06.940285+00:00",
+          "updated_at": "2026-05-07T09:12:06.940285+00:00"
+        },
+        {
+          "id": 7,
+          "task_id": "TASK-SMOKE-20260507161429",
+          "assignee_user_id": "zhangsan",
+          "title": "Complete real API smoke validation",
+          "description": "Run smoke_real_api.py after backend API starts.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2028-08-13",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-SMOKE-20260507161429",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Complete real API smoke validation",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Run smoke_real_api.py after backend API starts.",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T16:14:39.893923+00:00",
+          "updated_at": "2026-05-07T16:14:39.893923+00:00"
+        },
+        {
+          "id": 8,
+          "task_id": "TASK-SMOKE-20260507163902",
+          "assignee_user_id": "zhangsan",
+          "title": "Complete real API smoke validation",
+          "description": "Run smoke_real_api.py after backend API starts.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2035-05-22",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-SMOKE-20260507163902",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Complete real API smoke validation",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Run smoke_real_api.py after backend API starts.",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T16:39:11.807275+00:00",
+          "updated_at": "2026-05-07T16:39:11.807275+00:00"
+        },
+        {
+          "id": 9,
+          "task_id": "TASK-SMOKE-E-FRESH-000001",
+          "assignee_user_id": "zhangsan",
+          "title": "Complete real API smoke validation",
+          "description": "Run smoke_real_api.py after backend API starts.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "context": {
+                "org_id": "org_automage_mvp",
+                "run_date": "2026-05-08",
+                "workflow_name": "milestone2_real_api_smoke",
+                "source_channel": "script",
+                "workflow_stage": "database_skill_smoke"
+              }
+            },
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TASK-SMOKE-E-FRESH-000001",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Complete real API smoke validation",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Run smoke_real_api.py after backend API starts.",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T16:41:34.707964+00:00",
+          "updated_at": "2026-05-07T16:41:34.707964+00:00"
+        },
+        {
+          "id": 10,
+          "task_id": "TSKE531745B70A143B0ABFA7C",
+          "assignee_user_id": "zhangsan",
+          "title": "Accelerate summary actions",
+          "description": "完成任务 TSKE531745B70A143B0ABFA7C",
+          "status": "done",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "Accelerate summary actions",
+            "org_id": "org_automage_mvp",
+            "source": "feishu_im",
+            "status": "pending",
+            "task_id": "TSKE531745B70A143B0ABFA7C",
+            "priority": "medium",
+            "raw_text": "完成任务 TSKE531745B70A143B0ABFA7C",
+            "source_id": null,
+            "task_title": "Accelerate summary actions",
+            "description": "Push follow-up actions while monitoring execution risk.",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Push follow-up actions while monitoring execution risk.",
+            "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+            "created_by_node_id": "executive_agent_boss_001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T18:53:26.182291+00:00",
+          "updated_at": "2026-05-07T18:53:29.987361+00:00"
+        },
+        {
+          "id": 11,
+          "task_id": "TSKBD592F09CA3C428F8C2797",
+          "assignee_user_id": "zhangsan",
+          "title": "Accelerate summary actions",
+          "description": "完成任务 <TSKBD592F09CA3C428F8C2797>",
+          "status": "done",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "Accelerate summary actions",
+            "org_id": "org_automage_mvp",
+            "source": "feishu_im",
+            "status": "pending",
+            "task_id": "TSKBD592F09CA3C428F8C2797",
+            "priority": "medium",
+            "raw_text": "完成任务 <TSKBD592F09CA3C428F8C2797>",
+            "source_id": null,
+            "task_title": "Accelerate summary actions",
+            "description": "Push follow-up actions while monitoring execution risk.",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Push follow-up actions while monitoring execution risk.",
+            "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+            "created_by_node_id": "executive_agent_boss_001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T18:56:24.696904+00:00",
+          "updated_at": "2026-05-07T18:56:48.606503+00:00"
+        },
+        {
+          "id": 12,
+          "task_id": "TSKCCB1985C338E4224BBC65D",
+          "assignee_user_id": "zhangsan",
+          "title": "Accelerate summary actions",
+          "description": "Push follow-up actions while monitoring execution risk.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "Accelerate summary actions",
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSKCCB1985C338E4224BBC65D",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Accelerate summary actions",
+            "description": "Push follow-up actions while monitoring execution risk.",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Push follow-up actions while monitoring execution risk.",
+            "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+            "created_by_node_id": "executive_agent_boss_001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T18:56:43.652375+00:00",
+          "updated_at": "2026-05-07T18:56:43.652375+00:00"
+        },
+        {
+          "id": 13,
+          "task_id": "TSKB438F55B6FDE4571A30708",
+          "assignee_user_id": "zhangsan",
+          "title": "Accelerate summary actions",
+          "description": "Push follow-up actions while monitoring execution risk.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "Accelerate summary actions",
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSKB438F55B6FDE4571A30708",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Accelerate summary actions",
+            "description": "Push follow-up actions while monitoring execution risk.",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Push follow-up actions while monitoring execution risk.",
+            "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+            "created_by_node_id": "executive_agent_boss_001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T19:01:48.487389+00:00",
+          "updated_at": "2026-05-07T19:01:48.487389+00:00"
+        },
+        {
+          "id": 14,
+          "task_id": "TSKA44E867587744616AFA928",
+          "assignee_user_id": "zhangsan",
+          "title": "Accelerate summary actions",
+          "description": "Push follow-up actions while monitoring execution risk.",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "meta": {
+              "knowledge_refs": {
+                "feishu_knowledge": {
+                  "query": "生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 生成决策草案 SUM500E7D2114B9494EB6AD86 executive executive_decision dream_decision_engine",
+                  "source": "feishu_wiki_cache",
+                  "sources": [
+                    {
+                      "score": 180,
+                      "title": "胡文涛 5.5 日报",
+                      "token": "I4Arwx0kDiwrGQk02Alc34qEnHc",
+                      "token_kind": "obj_token",
+                      "source_section_id": "08"
+                    },
+                    {
+                      "score": 135,
+                      "title": "OpenAPI 契约",
+                      "token": "MKJNw69cRiRN40ken67cWsXjn0g",
+                      "token_kind": "obj_token",
+                      "source_section_id": "07"
+                    },
+                    {
+                      "score": 99,
+                      "title": "里程碑二 5.6-5.9 任务表",
+                      "token": "LO1SwjMesivhL2kkKwzcgUjynQf",
+                      "token_kind": "obj_token",
+                      "source_section_id": "02"
+                    }
+                  ],
+                  "source_count": 3,
+                  "context_chars": 3001,
+                  "has_context_text": true,
+                  "runtime_input_ref_key": "feishu_knowledge"
+                }
+              }
+            },
+            "title": "Accelerate summary actions",
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSKA44E867587744616AFA928",
+            "priority": "medium",
+            "source_id": null,
+            "task_title": "Accelerate summary actions",
+            "description": "Push follow-up actions while monitoring execution risk.",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "Push follow-up actions while monitoring execution risk.",
+            "source_summary_id": "SUM500E7D2114B9494EB6AD86",
+            "created_by_node_id": "executive_agent_boss_001",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:02:21.097520+00:00",
+          "updated_at": "2026-05-07T20:02:21.097520+00:00"
+        },
+        {
+          "id": 15,
+          "task_id": "TSK0804030501",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-决策提交生成",
+          "description": "decision commit generated task",
+          "status": "pending",
+          "priority": "high",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804030501",
+            "priority": "high",
+            "source_id": null,
+            "task_title": "M2真实联调任务-决策提交生成",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "decision commit generated task",
+            "source_summary_id": "SUM61F82A46A1E9455EB475F5",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:03:21.135165+00:00",
+          "updated_at": "2026-05-07T20:03:21.135165+00:00"
+        },
+        {
+          "id": 16,
+          "task_id": "TSK0804030502",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-POST/tasks补测",
+          "description": "create task directly",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804030502",
+            "priority": "medium",
+            "task_title": "M2真实联调任务-POST/tasks补测",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "lijingli",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "create task directly",
+            "source_summary_id": "SUM61F82A46A1E9455EB475F5",
+            "department_numeric_id": 2
+          },
+          "created_at": "2026-05-07T20:03:23.514587+00:00",
+          "updated_at": "2026-05-07T20:03:23.514587+00:00"
+        },
+        {
+          "id": 17,
+          "task_id": "TSK0804042801",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-决策提交生成",
+          "description": "decision commit generated task",
+          "status": "pending",
+          "priority": "high",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804042801",
+            "priority": "high",
+            "source_id": null,
+            "task_title": "M2真实联调任务-决策提交生成",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "decision commit generated task",
+            "source_summary_id": "SUMD49A20DCC28A4B5F8C004B",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:04:44.273879+00:00",
+          "updated_at": "2026-05-07T20:04:44.273879+00:00"
+        },
+        {
+          "id": 18,
+          "task_id": "TSK0804042802",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-POST/tasks补测",
+          "description": "create task directly",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804042802",
+            "priority": "medium",
+            "task_title": "M2真实联调任务-POST/tasks补测",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "lijingli",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "create task directly",
+            "source_summary_id": "SUMD49A20DCC28A4B5F8C004B",
+            "department_numeric_id": 2
+          },
+          "created_at": "2026-05-07T20:04:46.658610+00:00",
+          "updated_at": "2026-05-07T20:04:46.658610+00:00"
+        },
+        {
+          "id": 19,
+          "task_id": "TSK0804055401",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-决策提交生成",
+          "description": "decision commit generated task",
+          "status": "pending",
+          "priority": "high",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804055401",
+            "priority": "high",
+            "source_id": null,
+            "task_title": "M2真实联调任务-决策提交生成",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "decision commit generated task",
+            "source_summary_id": "SUM3A8F6F781A78486FA8070B",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:06:09.689247+00:00",
+          "updated_at": "2026-05-07T20:06:09.689247+00:00"
+        },
+        {
+          "id": 20,
+          "task_id": "TSK0804055402",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-POST/tasks补测",
+          "description": "create task directly",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804055402",
+            "priority": "medium",
+            "task_title": "M2真实联调任务-POST/tasks补测",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "lijingli",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "create task directly",
+            "source_summary_id": "SUM3A8F6F781A78486FA8070B",
+            "department_numeric_id": 2
+          },
+          "created_at": "2026-05-07T20:06:12.047241+00:00",
+          "updated_at": "2026-05-07T20:06:12.047241+00:00"
+        },
+        {
+          "id": 21,
+          "task_id": "TSK0804083101",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-决策提交生成",
+          "description": "decision commit generated task",
+          "status": "pending",
+          "priority": "high",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804083101",
+            "priority": "high",
+            "source_id": null,
+            "task_title": "M2真实联调任务-决策提交生成",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "chenzong",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "decision commit generated task",
+            "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+            "department_numeric_id": 1
+          },
+          "created_at": "2026-05-07T20:08:46.969573+00:00",
+          "updated_at": "2026-05-07T20:08:46.969573+00:00"
+        },
+        {
+          "id": 22,
+          "task_id": "TSK0804083102",
+          "assignee_user_id": "zhangsan",
+          "title": "M2真实联调任务-POST/tasks补测",
+          "description": "create task directly",
+          "status": "pending",
+          "priority": "medium",
+          "task_payload": {
+            "org_id": "org_automage_mvp",
+            "status": "pending",
+            "task_id": "TSK0804083102",
+            "priority": "medium",
+            "task_title": "M2真实联调任务-POST/tasks补测",
+            "department_id": "dept_mvp_core",
+            "org_numeric_id": 1,
+            "creator_user_id": "lijingli",
+            "manager_node_id": "manager_agent_mvp_001",
+            "manager_user_id": "lijingli",
+            "assignee_node_id": "staff_agent_mvp_001",
+            "assignee_user_id": "zhangsan",
+            "task_description": "create task directly",
+            "source_summary_id": "SUM8426FDA43C2F4767BACE55",
+            "department_numeric_id": 2
+          },
+          "created_at": "2026-05-07T20:08:49.347372+00:00",
+          "updated_at": "2026-05-07T20:08:49.347372+00:00"
+        }
+      ]
+    },
+    "msg": "任务列表查询成功"
+  }
+}

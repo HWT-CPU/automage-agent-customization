@@ -1,0 +1,49 @@
+# 飞书知识库配置示例
+# 复制此文件为 feishu_knowledge.toml 并填入真实的 token
+
+[knowledge]
+# 知识库名称
+name = "AutoMage 企业知识库"
+
+# 知识库版本
+version = "1.0.0"
+
+# 知识库描述
+description = "AutoMage 项目相关的业务知识、流程规范、技术文档"
+
+# 知识库节点列表
+# 每个节点对应飞书中的一个文档或文件夹
+[[knowledge.sections]]
+id = "staff_report_template"
+topic = "Staff 日报模板"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["日报", "模板", "staff"]
+
+[[knowledge.sections]]
+id = "manager_summary_guide"
+topic = "Manager 汇总指南"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["汇总", "指南", "manager"]
+
+[[knowledge.sections]]
+id = "executive_decision_process"
+topic = "Executive 决策流程"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["决策", "流程", "executive"]
+
+[[knowledge.sections]]
+id = "business_glossary"
+topic = "业务术语表"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["术语", "词汇表"]
+
+[[knowledge.sections]]
+id = "project_overview"
+topic = "项目概览"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["项目", "概览"]
+
+# 如何获取飞书文档 token：
+# 1. 打开飞书文档
+# 2. 查看 URL，格式类似：https://example.feishu.cn/docx/xxxxxxxxxxxxx
+# 3. xxxxxxxxxxxxx 就是 node_token

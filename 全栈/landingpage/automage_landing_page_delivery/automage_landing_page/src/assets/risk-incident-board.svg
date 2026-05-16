@@ -1,0 +1,30 @@
+<svg width="760" height="460" viewBox="0 0 760 460" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="760" height="460" rx="24" fill="#0F172A"/>
+  <rect x="20" y="20" width="720" height="420" rx="18" fill="#111827" stroke="#334155"/>
+  <text x="42" y="56" fill="#E2E8F0" font-size="18" font-family="Inter">Risk &amp; Incident Board</text>
+  <text x="42" y="82" fill="#94A3B8" font-size="12" font-family="Inter">High risk from Staff + Manager merged to decision/task</text>
+
+  <rect x="42" y="104" width="330" height="134" rx="14" fill="#7F1D1D"/>
+  <text x="58" y="132" fill="#FECACA" font-size="14" font-family="Inter">INC-20260508-RBAC-001</text>
+  <text x="58" y="154" fill="#FCA5A5" font-size="12" font-family="Inter">manager_cross_dept not rejected</text>
+  <text x="58" y="174" fill="#FCA5A5" font-size="12" font-family="Inter">Severity: medium / Status: open</text>
+  <text x="58" y="194" fill="#FCA5A5" font-size="12" font-family="Inter">Next action: close before Milestone 3</text>
+
+  <rect x="388" y="104" width="330" height="134" rx="14" fill="#78350F"/>
+  <text x="404" y="132" fill="#FDE68A" font-size="14" font-family="Inter">RISK-MGR-ESC-001</text>
+  <text x="404" y="154" fill="#FCD34D" font-size="12" font-family="Inter">API and Skill regression stability gap</text>
+  <text x="404" y="174" fill="#FCD34D" font-size="12" font-family="Inter">Need escalation: true</text>
+  <text x="404" y="194" fill="#FCD34D" font-size="12" font-family="Inter">Related task: TASK-BE-001</text>
+
+  <rect x="42" y="258" width="676" height="152" rx="14" fill="#0B1327"/>
+  <text x="58" y="286" fill="#BFDBFE" font-size="14" font-family="Inter">Risk Conversion Flow</text>
+  <line x1="80" y1="330" x2="680" y2="330" stroke="#1D4ED8" stroke-width="3"/>
+  <circle cx="110" cy="330" r="8" fill="#F97316"/>
+  <circle cx="290" cy="330" r="8" fill="#A855F7"/>
+  <circle cx="470" cy="330" r="8" fill="#38BDF8"/>
+  <circle cx="650" cy="330" r="8" fill="#22C55E"/>
+  <text x="84" y="356" fill="#93C5FD" font-size="11" font-family="Inter">Staff risk</text>
+  <text x="258" y="356" fill="#93C5FD" font-size="11" font-family="Inter">Manager merge</text>
+  <text x="428" y="356" fill="#93C5FD" font-size="11" font-family="Inter">Executive decision</text>
+  <text x="620" y="356" fill="#93C5FD" font-size="11" font-family="Inter">Task issue</text>
+</svg>

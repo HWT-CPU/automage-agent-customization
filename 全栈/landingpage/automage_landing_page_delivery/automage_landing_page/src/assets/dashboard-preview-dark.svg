@@ -1,0 +1,53 @@
+<svg width="980" height="560" viewBox="0 0 980 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="980" height="560" rx="24" fill="#0B1120"/>
+  <rect x="24" y="24" width="932" height="512" rx="18" fill="#111827" stroke="#334155"/>
+  <rect x="24" y="24" width="932" height="42" rx="18" fill="#0F172A"/>
+  <text x="48" y="49" fill="#E2E8F0" font-size="13" font-family="Inter">AutoMage-2 / Boss Console P0</text>
+  <rect x="802" y="34" width="132" height="22" rx="11" fill="#065F46"/>
+  <text x="818" y="49" fill="#A7F3D0" font-size="11" font-family="Inter">MVP Real API Passed</text>
+
+  <rect x="44" y="86" width="210" height="104" rx="12" fill="#1E293B"/>
+  <text x="58" y="114" fill="#CBD5E1" font-size="12" font-family="Inter">Org health</text>
+  <text x="58" y="142" fill="#FBBF24" font-size="24" font-family="Inter">Yellow</text>
+  <text x="58" y="164" fill="#94A3B8" font-size="10" font-family="Inter">Manager summary + risk merge</text>
+
+  <rect x="274" y="86" width="210" height="104" rx="12" fill="#1E293B"/>
+  <text x="288" y="114" fill="#CBD5E1" font-size="12" font-family="Inter">Pending decisions</text>
+  <text x="288" y="142" fill="#E2E8F0" font-size="24" font-family="Inter">1</text>
+  <text x="288" y="164" fill="#94A3B8" font-size="10" font-family="Inter">A/B options ready</text>
+
+  <rect x="504" y="86" width="210" height="104" rx="12" fill="#1E293B"/>
+  <text x="518" y="114" fill="#CBD5E1" font-size="12" font-family="Inter">High risks</text>
+  <text x="518" y="142" fill="#F87171" font-size="24" font-family="Inter">2</text>
+  <text x="518" y="164" fill="#94A3B8" font-size="10" font-family="Inter">Includes RBAC non-blocking risk</text>
+
+  <rect x="734" y="86" width="202" height="104" rx="12" fill="#1E293B"/>
+  <text x="748" y="114" fill="#CBD5E1" font-size="12" font-family="Inter">Task status</text>
+  <text x="748" y="140" fill="#E2E8F0" font-size="11" font-family="Inter">Pending 1 / In progress 1 / Done 1 / Blocked 1</text>
+
+  <rect x="44" y="210" width="450" height="140" rx="12" fill="#0F172A"/>
+  <text x="58" y="234" fill="#E2E8F0" font-size="12" font-family="Inter">Integration matrix</text>
+  <text x="58" y="258" fill="#A7F3D0" font-size="11" font-family="Inter">[OK] backend started</text>
+  <text x="58" y="278" fill="#A7F3D0" font-size="11" font-family="Inter">[OK] /healthz c8</text>
+  <text x="58" y="298" fill="#A7F3D0" font-size="11" font-family="Inter">[OK] pytest 30 passed</text>
+  <text x="58" y="318" fill="#A7F3D0" font-size="11" font-family="Inter">[OK] main flow API passed</text>
+  <text x="58" y="338" fill="#FCA5A5" font-size="11" font-family="Inter">[RISK] manager_cross_dept not rejected</text>
+
+  <rect x="514" y="210" width="422" height="140" rx="12" fill="#0F172A"/>
+  <text x="528" y="234" fill="#E2E8F0" font-size="12" font-family="Inter">Trust pipeline</text>
+  <text x="528" y="258" fill="#93C5FD" font-size="11" font-family="Inter">Schema -> API -> Database -> Audit</text>
+  <rect x="528" y="276" width="92" height="22" rx="11" fill="#172554"/>
+  <text x="546" y="291" fill="#BFDBFE" font-size="10" font-family="Inter">Schema</text>
+  <rect x="632" y="276" width="92" height="22" rx="11" fill="#1E3A8A"/>
+  <text x="666" y="291" fill="#BFDBFE" font-size="10" font-family="Inter">API</text>
+  <rect x="736" y="276" width="92" height="22" rx="11" fill="#0F766E"/>
+  <text x="752" y="291" fill="#99F6E4" font-size="10" font-family="Inter">Database</text>
+  <rect x="840" y="276" width="80" height="22" rx="11" fill="#155E75"/>
+  <text x="858" y="291" fill="#A5F3FC" font-size="10" font-family="Inter">Audit</text>
+
+  <rect x="44" y="370" width="892" height="146" rx="12" fill="#0F172A"/>
+  <text x="58" y="396" fill="#E2E8F0" font-size="12" font-family="Inter">Task tracking</text>
+  <text x="58" y="420" fill="#CBD5E1" font-size="11" font-family="Inter">TASK-BE-001: API sample delivery (pending)</text>
+  <text x="58" y="440" fill="#CBD5E1" font-size="11" font-family="Inter">TASK-AG-001: real API integration (in_progress)</text>
+  <text x="58" y="460" fill="#CBD5E1" font-size="11" font-family="Inter">TASK-SEC-001: close RBAC risk (blocked)</text>
+</svg>

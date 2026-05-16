@@ -1,0 +1,131 @@
+﻿{
+  "identity": {
+    "node_id": "manager_agent_mvp_001",
+    "user_id": "lijingli",
+    "role": "manager",
+    "level": "l2_manager",
+    "department_id": "dept_mvp_core",
+    "manager_node_id": null,
+    "metadata": {
+      "source_mock_file": "mock_manager_summary_normal.json",
+      "mock_case": "normal",
+      "summary_type": "department_daily"
+    }
+  },
+  "report": {
+    "schema_id": "schema_v1_manager",
+    "schema_version": "1.0.0",
+    "timestamp": "2026-05-06T21:00:00+08:00",
+    "org_id": "org_automage_mvp",
+    "dept_id": "dept_mvp_core",
+    "manager_user_id": "lijingli",
+    "manager_node_id": "manager_agent_mvp_001",
+    "summary_date": "2026-05-06",
+    "staff_report_count": 1,
+    "missing_report_count": 0,
+    "missing_staff_ids": [],
+    "overall_health": "green",
+    "aggregated_summary": "Agent 渚ф湰鍦?Mock 閾捐矾杩涘睍姝ｅ父锛孲taff 鏃ユ姤妯℃澘瑙ｆ瀽銆丆ontext v0銆佷笁绾?Agent prompt 鍜屾湰鍦?Mock Workflow 宸插舰鎴愬彲鑱旇皟鍩虹銆傚綋鍓嶄富瑕佸伐浣滃彲缁х画鎸?5.7 璁″垝鎺ㄨ繘锛屽皢 mock 璋冪敤閫愭鏇挎崲涓烘暟鎹簱 Skill銆?,
+    "top_3_risks": [
+      {
+        "risk_id": "RISK-MGR-NORMAL-001",
+        "risk_title": "Mock 涓庣湡瀹炲簱瀛楁浠嶉渶瀵归綈",
+        "description": "涓嶅奖鍝嶆湰鍦?Mock 闂幆锛屼絾杩涘叆鐪熷疄 API 鑱旇皟鍓嶉渶瑕佸喕缁撳瓧娈垫槧灏勩€?,
+        "severity": "medium",
+        "source_type": "staff_report",
+        "source_id": "WR-20260506-STAFF-NORMAL-001",
+        "owner_user_id": "zhangsan",
+        "suggested_action": "鐢辨暟鎹簱 Agent 鐢熸垚鐪熷疄搴撳瓧娈垫槧灏勬姤鍛婂悗鍥炰慨 Mock 鍖呫€?,
+        "need_escalation": false
+      }
+    ],
+    "workforce_efficiency": {
+      "score": 86,
+      "level": "high",
+      "explanation": "Agent prompt銆丆ontext銆丮ock Demo 宸插舰鎴愰棴鐜紝鍚庣画閲嶇偣鏄浛鎹㈢湡瀹?API銆?
+    },
+    "pending_approvals": 0,
+    "highlight_staff": [
+      {
+        "user_id": "zhangsan",
+        "display_name": "鑳℃枃娑?,
+        "reason": "瀹屾垚涓夌骇 Agent prompt銆丆ontext v0 鍜屾湰鍦?Mock Demo 閾捐矾锛屼负閲岀▼纰戜簩鎻愪緵鍙繍琛屽熀纭€銆?,
+        "evidence_record_ids": [
+          "WR-20260506-STAFF-NORMAL-001"
+        ]
+      }
+    ],
+    "blocked_items": [],
+    "manager_decisions": [
+      {
+        "decision_id": "MDEC-20260506-001",
+        "decision_title": "缁х画鐢ㄦ湰鍦?Mock 鏁版嵁鎺ㄨ繘 Agent 缂栨帓楠岃瘉",
+        "decision_level": "L2",
+        "background": "褰撳墠 Mock 閾捐矾涓嶄緷璧栫湡瀹炴暟鎹簱锛屽彲鍏堥獙璇?Staff 鈫?Manager 鈫?Executive 鈫?Task 鐨勭粨鏋勬纭€с€?,
+        "handled_by": "lijingli",
+        "result": "鍚屾剰 5.7 涓婂崍缁х画浣跨敤 Mock 鏁版嵁鎺ㄨ繘锛屼笅鍗堣鏁版嵁搴?Skill 鐘舵€佹浛鎹㈢湡瀹?API銆?,
+        "status": "confirmed",
+        "source_record_ids": [
+          "WR-20260506-STAFF-NORMAL-001"
+        ]
+      }
+    ],
+    "need_executive_decision": [],
+    "next_day_adjustment": [
+      {
+        "adjustment_id": "ADJ-MGR-NORMAL-001",
+        "title": "浼樺厛鏇挎崲 Staff 鍐欏叆鍜屼换鍔℃煡璇袱涓?API",
+        "description": "Manager 姹囨€诲彲鏆傛椂鍩轰簬宸茶惤搴?Staff 鏁版嵁鎴?Mock 鏁版嵁鐢熸垚锛岄伩鍏嶅叏閾捐矾涓€娆℃€ф浛鎹㈠鑷村畾浣嶅洶闅俱€?,
+        "target_user_id": "zhangsan",
+        "target_role": "Agent 瀹㈠埗鍖?,
+        "priority": "high",
+        "expected_output": "Staff 鍐欏叆楠岃瘉鍜?Task 鏌ヨ楠岃瘉銆?
+      }
+    ],
+    "source_record_ids": [
+      "WR-20260506-STAFF-NORMAL-001"
+    ],
+    "source_task_ids": [
+      "TASK-20260506-AGENT-001",
+      "TASK-20260506-AGENT-002"
+    ],
+    "source_incident_ids": [],
+    "signature": {
+      "confirm_status": "confirmed",
+      "signed_by": "lijingli",
+      "signed_by_role": "manager",
+      "signed_at": "2026-05-06T21:00:00+08:00",
+      "signature_method": "manual_confirm",
+      "payload_hash": "sha256:ef34ad57b0b32834369555bbbb580b421a034d0c59fab3de040f9248882200b9",
+      "signature_value": "mock_signature_6b53491dee3c",
+      "comment": "MVP Mock 鏁版嵁纭"
+    },
+    "meta": {
+      "mock_case": "normal",
+      "milestone": "M2",
+      "api_endpoint": "POST /api/v1/report/manager",
+      "recommended_write_tables": [
+        "manager_reports",
+        "summaries",
+        "summary_source_links",
+        "audit_logs"
+      ],
+      "compatible_design_tables": [
+        "summaries",
+        "summary_source_links",
+        "audit_logs"
+      ],
+      "read_tables": [
+        "staff_reports",
+        "work_records",
+        "work_record_items",
+        "incidents",
+        "tasks"
+      ],
+      "summary_type": "department_daily",
+      "scope_type": "department",
+      "db_mapping_strategy": "Manager 姹囨€讳富钀?manager_reports锛涜法灞傛眹鎬荤储寮曞拰鍏煎璇诲彇钀?summaries锛涙潵婧愬叧绯昏惤 summary_source_links銆?
+    }
+  }
+}
+

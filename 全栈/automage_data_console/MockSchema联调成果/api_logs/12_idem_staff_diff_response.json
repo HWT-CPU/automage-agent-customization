@@ -1,0 +1,23 @@
+{
+  "status_code": 409,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:09:04 GMT",
+    "server": "uvicorn",
+    "content-length": "329",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-12_idem_staff_diff-930940c0",
+    "x-process-time-ms": "127.0"
+  },
+  "json": {
+    "code": 409,
+    "data": null,
+    "msg": "员工日报提交冲突",
+    "error": {
+      "error_type": "conflict",
+      "error_code": "staff_report_conflict",
+      "message": "同一员工同一日期的日报已存在，且内容不一致",
+      "conflict_target": "staff_report:org_id+user_id+record_date",
+      "request_id": "m2real-20260508040831-12_idem_staff_diff-930940c0"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "status_code": 200,
+  "headers": {
+    "date": "Thu, 07 May 2026 20:08:53 GMT",
+    "server": "uvicorn",
+    "content-length": "65",
+    "content-type": "application/json",
+    "x-request-id": "m2real-20260508040831-09_get_tasks_manager-71f33b68",
+    "x-process-time-ms": "90.44"
+  },
+  "json": {
+    "code": 200,
+    "data": {
+      "tasks": []
+    },
+    "msg": "任务列表查询成功"
+  }
+}
