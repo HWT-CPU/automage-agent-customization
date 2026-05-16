@@ -10,10 +10,6 @@ from automage_agents.core.enums import InternalEventType, RuntimeChannel
 from automage_agents.core.models import InternalEvent
 
 
-MANAGER_SUMMARY_ACTIONS = ("汇总", "总结", "summary", "summarize")
-MANAGER_SUMMARY_CONTEXTS = ("员工日报", "日报文件", "日报", "员工报告", "团队", "部门", "下属", "组内", "文件", "附件", "staff report", "team report", "daily report")
-
-
 @dataclass(slots=True)
 class FeishuEvent:
     event_type: str
@@ -103,18 +99,12 @@ class FeishuEventAdapter:
             return "executive_decision"
         if any(keyword in text for keyword in ["完成任务", "关闭任务", "开始任务", "更新任务", "任务完成", "任务开始"]):
             return "task_update"
-        if self._is_manager_summary_request(text):
-            return "manager_feedback"
         report_markers = ["今天完成了", "今日完成了", "完成了", "遇到的问题是", "遇到问题是", "明天", "明日", "下一步"]
         if any(marker in text for marker in report_markers):
             return "daily_report_submit"
         if any(keyword in text for keyword in ["查任务", "查询任务", "我的任务", "任务列表"]):
             return "task_query"
         return "daily_report_submit"
-
-    def _is_manager_summary_request(self, text: str) -> bool:
-        lowered = text.strip().lower()
-        return any(action in lowered for action in MANAGER_SUMMARY_ACTIONS) and any(context in lowered for context in MANAGER_SUMMARY_CONTEXTS)
 
     def _build_text_payload(self, text: str, message: dict[str, Any], timestamp: str) -> dict[str, Any]:
         payload = {

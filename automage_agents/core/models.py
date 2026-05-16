@@ -47,7 +47,7 @@ class RuntimeContextV0:
     run_date: str = ""
     workflow_name: str = "automage_mvp_dag"
     workflow_stage: str = ""
-    source_channel: RuntimeChannel = RuntimeChannel.MOCK
+    source_channel: RuntimeChannel = RuntimeChannel.OPENCLAW  # 默认使用 OpenClaw
     input_refs: dict[str, Any] = field(default_factory=dict)
     output_refs: dict[str, Any] = field(default_factory=dict)
 

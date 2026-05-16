@@ -1,65 +1,49 @@
+# 飞书知识库配置示例
+# 复制此文件为 feishu_knowledge.toml 并填入真实的 token
+
 [knowledge]
-enabled = true
-source = "feishu_wiki"
-entry_title = "00 Agent 入口与索引协议"
-fetch_command = "lark-cli docs +fetch --api-version v2 --doc {token}"
+# 知识库名称
+name = "AutoMage 企业知识库"
+
+# 知识库版本
+version = "1.0.0"
+
+# 知识库描述
+description = "AutoMage 项目相关的业务知识、流程规范、技术文档"
+
+# 知识库节点列表
+# 每个节点对应飞书中的一个文档或文件夹
+[[knowledge.sections]]
+id = "staff_report_template"
+topic = "Staff 日报模板"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["日报", "模板", "staff"]
 
 [[knowledge.sections]]
-id = "01"
-topic = "项目总览与边界"
-node_token = "BQzmwr3daiaKWUkd9OpcO7cXnXd"
-keywords = ["项目做什么", "边界", "MVP", "项目", "总览"]
+id = "manager_summary_guide"
+topic = "Manager 汇总指南"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["汇总", "指南", "manager"]
 
 [[knowledge.sections]]
-id = "02"
-topic = "里程碑与交付计划"
-node_token = "GuUiwZdewizUXdkmOiycYur2n0f"
-keywords = ["里程碑", "计划", "日程", "交付"]
+id = "executive_decision_process"
+topic = "Executive 决策流程"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["决策", "流程", "executive"]
 
 [[knowledge.sections]]
-id = "03"
-topic = "会议纪要与决策记录"
-node_token = "WJN9wLcP5i0t0dklMPXcph1Mnph"
-keywords = ["会议", "决策", "讨论记录", "纪要"]
+id = "business_glossary"
+topic = "业务术语表"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["术语", "词汇表"]
 
 [[knowledge.sections]]
-id = "04"
-topic = "架构设计"
-node_token = "VaJ1wbiV7invaxkXjpvcRy7Sn8e"
-keywords = ["架构", "设计", "技术方案", "新员工", "节点注册", "Gateway", "路由"]
+id = "project_overview"
+topic = "项目概览"
+node_token = "YOUR_FEISHU_DOC_TOKEN_HERE"  # 替换为真实的飞书文档 token
+labels = ["项目", "概览"]
 
-[[knowledge.sections]]
-id = "05"
-topic = "Agent 编排与 Skill"
-node_token = "At5EwO9p3izOW3kHTv6cOGzOnvg"
-keywords = ["Agent", "Skill", "Prompt", "编排"]
-
-[[knowledge.sections]]
-id = "06"
-topic = "Schema DAG Workflow"
-node_token = "McJpwyOzbi6Io9kcVS3c6049n9g"
-keywords = ["Schema", "DAG", "数据结构", "Workflow"]
-
-[[knowledge.sections]]
-id = "07"
-topic = "数据库与后端 API"
-node_token = "YeX0wA2NLiueeXktCLQcnKOTnMh"
-keywords = ["数据库", "DDL", "API", "接口", "后端"]
-
-[[knowledge.sections]]
-id = "08"
-topic = "日报模板与试点样例"
-node_token = "K78KwXVPMiEogvkv3vlccqBinOe"
-keywords = ["日报", "模板", "样例", "试点"]
-
-[[knowledge.sections]]
-id = "09"
-topic = "WebUI Landing Page 企业交付"
-node_token = "BIhywIyAsieabRkdYeTcaseXn8d"
-keywords = ["WebUI", "Landing Page", "企业交付", "页面"]
-
-[[knowledge.sections]]
-id = "99"
-topic = "原始资料归档"
-node_token = "NwZiwGHzVitmNYkWl3UcsBTGnWb"
-keywords = ["原始文件", "归档", "原始资料"]
+# 如何获取飞书文档 token：
+# 1. 打开飞书文档
+# 2. 查看 URL，格式类似：https://example.feishu.cn/docx/xxxxxxxxxxxxx
+# 3. xxxxxxxxxxxxx 就是 node_token

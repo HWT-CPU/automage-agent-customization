@@ -1,0 +1,70 @@
+# AutoMage 优化配置示例
+# 包含所有性能优化选项
+
+[runtime]
+environment = "production"
+backend_mode = "real"
+
+# 数据库连接池优化
+[database]
+driver = "postgresql"
+host = "localhost"
+port = 5432
+name = "automage"
+user = "automage_user"
+password = "your_password"
+
+# 连接池配置
+pool_size = 20  # 连接池大小（默认 5）
+max_overflow = 10  # 最大溢出连接数
+pool_timeout = 30  # 获取连接超时（秒）
+pool_recycle = 3600  # 连接回收时间（秒）
+pool_pre_ping = true  # 连接前检查可用性
+
+# Redis 缓存配置
+[redis]
+enabled = true
+url = "redis://localhost:6379/0"
+key_prefix = "automage:"
+ttl_seconds = 60  # 默认过期时间
+
+# 缓存配置
+[cache]
+enabled = true
+backend = "redis"  # 可选: "memory", "redis"
+ttl_seconds = 60
+max_size = 10000  # 内存缓存最大条目数
+
+# 异步执行配置
+[async]
+enabled = true
+default_timeout_seconds = 30.0
+max_concurrency = 10  # 最大并发数
+batch_size = 5  # 批处理大小
+
+# 性能监控配置
+[monitoring]
+slow_request_threshold_ms = 1000.0  # 慢请求阈值
+enable_metrics = true
+enable_tracing = true
+
+# 日志配置
+[logging]
+level = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+format = "json"  # json, text
+output = "stdout"  # stdout, file
+file_path = "logs/automage.log"
+
+# API 配置
+[api]
+max_batch_size = 50  # 批量请求最大数量
+request_timeout_seconds = 30.0
+enable_cors = true
+cors_origins = ["*"]  # 生产环境应限制具体域名
+
+# 健康检查配置
+[health]
+enable_detailed = true
+check_database = true
+check_redis = true
+check_skills = true

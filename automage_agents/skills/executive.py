@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from automage_agents.ai.analysis_service import get_analysis_service
 from automage_agents.core.models import SkillResult
 from automage_agents.knowledge.auto_context import ensure_feishu_knowledge_for_payload
 from automage_agents.knowledge.payload_enrichment import enrich_business_payload_with_knowledge
@@ -17,10 +18,36 @@ from automage_agents.skills.result import api_response_to_skill_result
 
 
 def dream_decision_engine(context: SkillContext, dream_input: DreamDecisionDraft | dict[str, Any]) -> SkillResult:
+    """生成 Executive 决策方案，使用 AI 生成 A/B 方案"""
     payload = _to_payload(dream_input)
     ensure_feishu_knowledge_for_payload(context.runtime, payload, "dream_decision_engine", context.identity.role.value)
     runtime_payload = context.runtime_payload()
     payload = enrich_business_payload_with_knowledge(payload, runtime_payload, "dream_input")
+    
+    # 使用 AI 生成决策方案
+    try:
+        knowledge_context = _extract_knowledge_context(context)
+        analysis_service = get_analysis_service()
+        
+        # 生成 A/B 决策方案
+        decision_result = analysis_service.generate_decision_options(
+            manager_summary=payload,
+            department=context.identity.department_id or "unknown",
+            date=payload.get("summary_date", "today"),
+            knowledge_context=knowledge_context,
+        )
+        
+        # 将 AI 生成的决策方案合并到 payload
+        if "decision_options" in decision_result:
+            payload["decision_options"] = decision_result["decision_options"]
+        if "recommendation" in decision_result:
+            payload["recommendation"] = decision_result["recommendation"]
+    except Exception as e:
+        # AI 生成失败，使用默认方案
+        payload.setdefault("meta", {})
+        if isinstance(payload["meta"], dict):
+            payload["meta"]["ai_generation_error"] = str(e)
+    
     summary_id = payload.get("summary_id") or payload.get("source_summary_id")
     if summary_id:
         response = context.api_client.run_dream(context.identity, str(summary_id))
@@ -33,7 +60,7 @@ def dream_decision_engine(context: SkillContext, dream_input: DreamDecisionDraft
     return SkillResult(
         ok=True,
         data=data,
-        message="Dream decision draft generated.",
+        message="Dream decision draft generated with AI.",
     )
 
 
@@ -105,3 +132,15 @@ def _generated_tasks_from_options(options: Any) -> list[dict[str, Any]]:
         if isinstance(option, dict):
             tasks.extend(task for task in option.get("task_candidates", []) if isinstance(task, dict))
     return tasks
+
+
+
+def _extract_knowledge_context(context: SkillContext) -> str:
+    """从 runtime context 中提取知识库上下文"""
+    try:
+        feishu_ref = context.runtime.input_refs.get("feishu_knowledge", {})
+        if isinstance(feishu_ref, dict):
+            return str(feishu_ref.get("context_text", ""))
+    except Exception:
+        pass
+    return ""

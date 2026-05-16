@@ -20,6 +20,8 @@ class RuntimeChannel(StrEnum):
     OPENCLAW = "openclaw"
     FEISHU = "feishu"
     CLI = "cli"
+    WECHAT = "wechat"
+    WEBCHAT = "webchat"
 
 
 class AuthStatus(StrEnum):
@@ -39,3 +41,4 @@ class InternalEventType(StrEnum):
     DREAM_DECISION_REQUESTED = "dream_decision_requested"
     EXECUTIVE_DECISION_SELECTED = "executive_decision_selected"
     AUTH_FAILED = "auth_failed"
+    TEXT_MESSAGE_RECEIVED = "text_message_received"

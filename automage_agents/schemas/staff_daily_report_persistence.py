@@ -390,7 +390,9 @@ def _hydrate_report_from_items(rows: list[WorkRecordItemModel]) -> dict[str, Any
             item.get("issue_description", "") for item in report["today_blockers"] if item.get("issue_description")
         ),
         "solution_attempt": "\n".join(
-            item.get("attempted_solution", "") for item in report["today_blockers"] if item.get("attempted_solution")
+            str(item.get("attempted_solution", "")) if not isinstance(item.get("attempted_solution"), list) 
+            else "\n".join(str(x) for x in item.get("attempted_solution", []))
+            for item in report["today_blockers"] if item.get("attempted_solution")
         ),
         "need_support": any(item.get("need_support") for item in report["support_requests"]),
         "next_day_plan": "\n".join(item.get("plan", "") for item in report["tomorrow_plans"] if item.get("plan")),

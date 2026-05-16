@@ -18,9 +18,19 @@ class OutboundMessage:
 
 
 class FeishuMessageAdapter:
+    def __init__(self, lark_client: Any | None = None):
+        """
+        Args:
+            lark_client: 飞书 SDK 客户端，如果为 None 则 send_message 返回 mock 响应
+        """
+        self.lark_client = lark_client
+    
     def send_message(self, message: OutboundMessage) -> dict[str, Any]:
-        # TODO(OpenClaw): Replace this mock response with real Feishu/Lark send API or OpenClaw Channel call.
-        # TODO(全栈/运维): Real app_id/app_secret must come from secure environment variables or secret manager.
+        """发送飞书消息（如果配置了 lark_client 则使用真实 API，否则返回 mock）"""
+        if self.lark_client is not None:
+            return self.send_lark_text(self.lark_client, message)
+        
+        # Fallback to mock if no lark_client configured
         return {
             "ok": True,
             "channel": "feishu_mock",

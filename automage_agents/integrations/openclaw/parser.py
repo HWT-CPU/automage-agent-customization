@@ -6,10 +6,6 @@ from typing import Any
 from automage_agents.integrations.openclaw.config import OpenClawCommandConfig, OpenClawConfig
 
 
-MANAGER_SUMMARY_ACTIONS = ("汇总", "总结", "summary", "summarize")
-MANAGER_SUMMARY_CONTEXTS = ("员工日报", "日报文件", "日报", "员工报告", "团队", "部门", "下属", "组内", "文件", "附件", "staff report", "team report", "daily report")
-
-
 @dataclass(slots=True)
 class ParsedOpenClawCommand:
     event_type: str
@@ -21,14 +17,7 @@ class OpenClawCommandParser:
     def __init__(self, config: OpenClawConfig):
         self.config = config
 
-    def parse(
-        self,
-        text: str,
-        *,
-        actor_user_id: str | None = None,
-        manager_user_id: str | None = None,
-        payload: dict[str, Any] | None = None,
-    ) -> ParsedOpenClawCommand:
+    def parse(self, text: str) -> ParsedOpenClawCommand:
         normalized = text.strip()
         commands = self.config.commands
         if self._contains_any(normalized, commands.task_query):
@@ -49,15 +38,11 @@ class OpenClawCommandParser:
                 skill_name="commit_decision",
                 payload={"decision_payload": self._build_decision_payload(normalized)},
             )
-        if self._contains_any(normalized, commands.manager_feedback) or self._is_manager_summary_request(normalized) or self._is_manager_file_event(
-            actor_user_id=actor_user_id,
-            manager_user_id=manager_user_id,
-            payload=payload,
-        ):
+        if self._contains_any(normalized, commands.manager_feedback):
             return ParsedOpenClawCommand(
                 event_type=self.config.routing.default_manager_feedback,
                 skill_name="generate_manager_report",
-                payload={"report": self._build_manager_payload(normalized, payload=payload)},
+                payload={"report": self._build_manager_payload(normalized)},
             )
         if self._contains_any(normalized, commands.markdown_import):
             return ParsedOpenClawCommand(
@@ -74,16 +59,6 @@ class OpenClawCommandParser:
     def _contains_any(self, text: str, keywords: list[str]) -> bool:
         return any(keyword and keyword in text for keyword in keywords)
 
-    def _is_manager_summary_request(self, text: str) -> bool:
-        lowered = text.lower()
-        return any(action in lowered for action in MANAGER_SUMMARY_ACTIONS) and any(context in lowered for context in MANAGER_SUMMARY_CONTEXTS)
-
-    def _is_manager_file_event(self, *, actor_user_id: str | None, manager_user_id: str | None, payload: dict[str, Any] | None) -> bool:
-        if not actor_user_id or not manager_user_id or actor_user_id != manager_user_id:
-            return False
-        feishu_file = payload.get("feishu_file") if isinstance(payload, dict) else None
-        return isinstance(feishu_file, dict) and bool(feishu_file.get("ok"))
-
     def _build_staff_payload(self, text: str) -> dict[str, Any]:
         return {
             "work_progress": self._extract_segment(text, ["今天完成了", "今日完成了", "完成了", "工作进展"], ["遇到的问题是", "遇到问题是", "问题是", "明天", "明日", "下一步"]) or text,
@@ -95,18 +70,15 @@ class OpenClawCommandParser:
             "raw_text": text,
         }
 
-    def _build_manager_payload(self, text: str, *, payload: dict[str, Any] | None = None) -> dict[str, Any]:
-        report = {
+    def _build_manager_payload(self, text: str) -> dict[str, Any]:
+        return {
+            "dept_id": "dept-sales",
             "overall_health": "yellow" if any(keyword in text for keyword in ["风险", "阻塞", "问题"] ) else "green",
             "aggregated_summary": text,
             "top_3_risks": [text] if any(keyword in text for keyword in ["风险", "阻塞", "问题"]) else [],
             "workforce_efficiency": 0.8,
             "pending_approvals": 0,
         }
-        feishu_file = payload.get("feishu_file") if isinstance(payload, dict) else None
-        if isinstance(feishu_file, dict):
-            report["feishu_file"] = dict(feishu_file)
-        return report
 
     def _build_decision_payload(self, text: str) -> dict[str, Any]:
         selected_option_id = "B" if any(keyword in text for keyword in ["决策B", "决策 B", "选择B", "选择 B", "方案B", "方案 B"]) else "A"

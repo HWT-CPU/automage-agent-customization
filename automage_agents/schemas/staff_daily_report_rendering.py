@@ -232,31 +232,31 @@ def _basic_info_rows(basic_info: dict[str, Any]) -> list[list[Any]]:
 
 def _risk_rows(risk: dict[str, Any]) -> list[list[Any]]:
     return [
-        ["今日整体风险等级", risk["overall_risk_level"]],
-        ["主要风险来源", " / ".join(risk["primary_risk_sources"])],
-        ["可能影响的交付物", " / ".join(risk["impacted_deliverables"])],
-        ["可能影响的流程节点", " / ".join(risk["impacted_workflow_nodes"])],
-        ["建议处理方式", risk["suggested_mitigation"] or ""],
-        ["是否需要上推", _bool_text(risk["needs_escalation"])],
-        ["上推对象", " / ".join(risk["escalation_targets"])],
+        ["今日整体风险等级", risk.get("overall_risk_level", "low")],
+        ["主要风险来源", " / ".join(risk.get("primary_risk_sources", []))],
+        ["可能影响的交付物", " / ".join(risk.get("impacted_deliverables", []))],
+        ["可能影响的流程节点", " / ".join(risk.get("impacted_workflow_nodes", []))],
+        ["建议处理方式", risk.get("suggested_mitigation") or ""],
+        ["是否需要上推", _bool_text(risk.get("needs_escalation", False))],
+        ["上推对象", " / ".join(risk.get("escalation_targets", []))],
     ]
 
 
 def _summary_rows(summary: dict[str, Any]) -> list[list[Any]]:
     return [
-        ["今日最重要进展", summary["most_important_progress"]],
-        ["今日最大问题", summary["biggest_issue"]],
-        ["明日最优先事项", summary["top_priority_tomorrow"]],
-        ["需要团队注意的事项", summary["team_attention_items"]],
+        ["今日最重要进展", summary.get("most_important_progress", "")],
+        ["今日最大问题", summary.get("biggest_issue", "")],
+        ["明日最优先事项", summary.get("top_priority_tomorrow", "")],
+        ["需要团队注意的事项", summary.get("team_attention_items", "")],
     ]
 
 
 def _sign_off_rows(sign_off: dict[str, Any]) -> list[list[Any]]:
     return [
-        ["提交人确认", sign_off["submitter_confirmation_text"]],
-        ["确认状态", sign_off["confirmation_status"]],
-        ["确认人", sign_off["confirmed_by"] or ""],
-        ["确认时间", sign_off["confirmed_at"] or ""],
+        ["提交人确认", sign_off.get("submitter_confirmation_text", "")],
+        ["确认状态", sign_off.get("confirmation_status", "")],
+        ["确认人", sign_off.get("confirmed_by") or ""],
+        ["确认时间", sign_off.get("confirmed_at") or ""],
     ]
 
 

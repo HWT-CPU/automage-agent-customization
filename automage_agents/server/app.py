@@ -33,9 +33,7 @@ from automage_agents.server.crud import (
 )
 from automage_agents.server.daily_report_api import router as daily_report_router
 from automage_agents.server.deps import get_db_session
-from automage_agents.server.hermes_skills_api import router as hermes_skills_router
 from automage_agents.server.middleware import AbuseProtectionMiddleware, RequestTrackingMiddleware
-from automage_agents.server.openclaw_bridge_api import router as openclaw_bridge_router
 from automage_agents.server.schemas import (
     AgentInitRequest,
     ApiConflictEnvelope,
@@ -275,8 +273,6 @@ app = FastAPI(
 app.add_middleware(RequestTrackingMiddleware)
 app.add_middleware(AbuseProtectionMiddleware)
 app.include_router(daily_report_router)
-app.include_router(hermes_skills_router)
-app.include_router(openclaw_bridge_router)
 _settings = load_runtime_settings("configs/automage.local.toml")
 
 REPORT_READ_ROLES = require_roles(AgentRole.STAFF, AgentRole.MANAGER, AgentRole.EXECUTIVE)

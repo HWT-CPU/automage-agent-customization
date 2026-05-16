@@ -5,7 +5,7 @@
 - **ok**: `true`
 - **strict_ok**: `true`
 - **scope**: `yang-mock-to-current-skill-field-alignment`
-- **yang_mock_dir**: `D:\Auto-mage2\里程碑二_杨卓_交付推进与联调v1.0.0`
+- **yang_mock_dir**: `D:\AutoMage-manager-sync\客制化\里程碑二_杨卓_交付推进与联调v1.0.0`
 
 ## Comparison results
 

@@ -20,7 +20,7 @@ class HermesContextConfig:
     org_id: str = "org-001"
     run_date: str = ""
     workflow_name: str = "automage_mvp_dag"
-    source_channel: RuntimeChannel = RuntimeChannel.MOCK
+    source_channel: RuntimeChannel = RuntimeChannel.OPENCLAW  # 默认使用 OpenClaw
 
 
 @dataclass(slots=True)
@@ -45,7 +45,7 @@ def load_hermes_config(path: str | Path = "configs/hermes.example.toml") -> Herm
         runtime_name=str(raw.get("runtime_name", "automage-hermes-local")),
         mode=str(raw.get("mode", "local")),
         settings_path=str(raw.get("settings_path", "configs/automage.example.toml")),
-        use_mock_api=bool(raw.get("use_mock_api", True)),
+        use_mock_api=bool(raw.get("use_mock_api", False)),  # 默认使用真实 API
         skill_registry=str(raw.get("skill_registry", "automage_agents.skills.registry.SKILL_REGISTRY")),
         context=_build_context_config(raw.get("context", {})),
         staff=_build_agent_config(agents.get("staff", {}), "examples/user.staff.example.toml", "staff_daily_report"),

@@ -1834,6 +1834,17 @@ def _try_resolve_department(
 def _resolve_user(db: Session, user_ref: str) -> UserModel:
     user = _try_resolve_user(db, user_ref)
     if user is None:
+        # 自动创建不存在的用户（用于飞书等外部系统）
+        if user_ref.startswith("ou_"):  # 飞书 open_id
+            user = UserModel(
+                username=user_ref,
+                display_name=f"飞书用户_{user_ref[:8]}",
+                meta={"role": "staff", "feishu_open_id": user_ref, "auto_created": True},
+            )
+            db.add(user)
+            db.commit()
+            db.refresh(user)
+            return user
         raise ValueError(f"User not found: {user_ref}")
     return user
 

@@ -28,6 +28,42 @@ class HermesOpenClawRuntime:
     hermes_client: LocalHermesClient | None = None
     openclaw_client: LocalOpenClawClient | None = None
 
+    @property
+    def staff_context(self):
+        """获取 Staff Context - 用于 Agent Runtime API"""
+        return self.contexts.staff
+
+    @property
+    def manager_context(self):
+        """获取 Manager Context - 用于 Agent Runtime API"""
+        return self.contexts.manager
+
+    @property
+    def executive_context(self):
+        """获取 Executive Context - 用于 Agent Runtime API"""
+        return self.contexts.executive
+
+    @classmethod
+    def from_settings(cls, settings: Any, user_mapping: dict[str, str] | None = None, auto_initialize: bool = True) -> "HermesOpenClawRuntime":
+        """
+        从 Settings 对象创建 Runtime
+        
+        Args:
+            settings: 配置对象
+            user_mapping: 用户映射
+            auto_initialize: 是否自动初始化
+        
+        Returns:
+            HermesOpenClawRuntime: Runtime 实例
+        """
+        # 使用默认配置路径
+        return cls.from_config_files(
+            hermes_config_path="configs/hermes.example.toml",
+            openclaw_config_path="configs/openclaw.example.toml",
+            user_mapping=user_mapping,
+            auto_initialize=auto_initialize,
+        )
+
     @classmethod
     def from_demo_configs(
         cls,

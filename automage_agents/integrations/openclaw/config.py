@@ -10,7 +10,7 @@ from automage_agents.config.loader import load_toml
 @dataclass(slots=True)
 class OpenClawChannelConfig:
     enabled: bool = True
-    event_mode: str = "mock"
+    event_mode: str = "real"  # 默认使用真实模式
     reply_enabled: bool = True
 
 
@@ -55,7 +55,7 @@ def load_openclaw_config(path: str | Path = "configs/openclaw.example.toml") -> 
         runtime_name=str(raw.get("runtime_name", "automage-openclaw-local")),
         default_channel=str(raw.get("default_channel", "cli")),
         reply_enabled=bool(raw.get("reply_enabled", True)),
-        cli=_build_channel_config(channels.get("cli", {}), "mock"),
+        cli=_build_channel_config(channels.get("cli", {}), "real"),  # CLI 默认真实模式
         feishu=_build_channel_config(channels.get("feishu", {}), "websocket"),
         routing=_build_routing_config(raw.get("routing", {})),
         commands=OpenClawCommandConfig(
